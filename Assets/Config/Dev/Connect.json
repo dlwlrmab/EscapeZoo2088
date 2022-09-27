@@ -1,0 +1,6 @@
+{
+    "GameServer": {
+      "Address": "http://Prototyping-ALB-610553215.ap-northeast-2.elb.amazonaws.com:50405/"
+    }
+  }
+  
