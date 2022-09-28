@@ -66,7 +66,8 @@ public class PlayerControllerNonPhysics : MonoBehaviour
     private void OnTriggerStay2D(Collider2D collision)
     {
         Debug.Log("TriggerStay: " + collision.name);
-        isGrounded = true;
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
+            isGrounded = true;
     }
 
     private void OnTriggerExit2D(Collider2D other)
