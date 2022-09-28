@@ -31,7 +31,7 @@ public class SceneLoadManager : MonoBehaviour
 
     [SerializeField] Image _dim;  // 씬이동 or 맵 이동시 fadein/out 을 위한 이미지
 
-    float _animTime = 2f;
+    float _animTime = 1f;
     float _start = 0f;
     float _end = 1f;
     float _time = 0f;
@@ -39,7 +39,6 @@ public class SceneLoadManager : MonoBehaviour
     // 점점 점점 어두워짐
     public void PlayFadeout(Action a = null, string sceneName = null)
     {
-        _dim.transform.parent.gameObject.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(CoFadeOut(a, sceneName));
     }
@@ -47,17 +46,15 @@ public class SceneLoadManager : MonoBehaviour
     // 점점 밝아짐
     public void PlayFadeIn(Action a = null, string sceneName = null)
     {
-        _dim.transform.parent.gameObject.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(CoFadeIn(a, sceneName));
     }
 
     private IEnumerator CoFadeOut(Action a, string sceneName)
     {
-        
         Color color = _dim.color;
         _time = 0f;
-        color.a = Mathf.Lerp(_start, _end, _time);
+        color.a = 0f;
 
         while (color.a < 1f)
         {
@@ -71,14 +68,14 @@ public class SceneLoadManager : MonoBehaviour
             a.Invoke();
         else if (sceneName != "" && sceneName != null)
             MoveScene(sceneName);
-        _dim.transform.parent.gameObject.SetActive(false);
+
     }
 
     private IEnumerator CoFadeIn(Action a, string sceneName)
     {
         Color color = _dim.color;
         _time = 0f;
-        color.a = Mathf.Lerp(_end, _start, _time);
+        color.a = 1f;
 
         while (color.a > 0f)
         {
@@ -92,7 +89,6 @@ public class SceneLoadManager : MonoBehaviour
             a.Invoke();
         else if (sceneName != "" && sceneName != null)
             MoveScene(sceneName);
-        _dim.transform.parent.gameObject.SetActive(false);
     }
 
     void MoveScene(string sceneName)

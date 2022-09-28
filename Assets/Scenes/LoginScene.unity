@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 1415756267}
   - component: {fileID: 1415756266}
   m_Layer: 5
-  m_Name: PlayGame
+  m_Name: LoginButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -511,7 +511,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1854324107}
         m_TargetAssemblyTypeName: LoginScene, Assembly-CSharp
-        m_MethodName: OnClickPlayButton
+        m_MethodName: OnClickLoginButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -654,7 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc2ca4b9c7f4fa4aaf34db5e859e3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loginPopup: {fileID: 498644350354838719}
+  _loginButton: {fileID: 1415756264}
   _inputId: {fileID: 498644350723848107}
   _notiText: {fileID: 8160458410942761825}
 --- !u!4 &1854324108
