@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class IngameLoadingController : MonoBehaviour
 {
-    [SerializeField] IngameScene _gameScene;
     [SerializeField] GameObject _loading;
     [SerializeField] Image _loadingBar;
 
@@ -13,12 +12,6 @@ public class IngameLoadingController : MonoBehaviour
     {
         // 스토리 설명 로딩 시작
         StartCoroutine(ShowStartLoading());
-    }
-
-    public void OnLoadRoundLoading()
-    {
-        // 라운드 설명 로딩 시작
-        StartCoroutine(ShowRoundLoading());
     }
 
     private IEnumerator ShowStartLoading()
@@ -40,14 +33,15 @@ public class IngameLoadingController : MonoBehaviour
             _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, _time);
         }
 
-        // 플레이어 입장 체크
-        while (true)
-        {
-            break;
-        }
-
         _loading.SetActive(false);
-        _gameScene.CompleteStartLoading();
+        IngameScene.Instance.CompleteStartLoading();
+    }
+
+    public void OnLoadRoundLoading()
+    {
+        // 맵 컨트롤러한테 맵 라운드 설명 받아오기
+        // 라운드 설명 로딩 시작
+        StartCoroutine(ShowRoundLoading());
     }
 
     private IEnumerator ShowRoundLoading()
@@ -69,13 +63,7 @@ public class IngameLoadingController : MonoBehaviour
             _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, _time);
         }
 
-        // 맵 로딩 체크
-        while (true)
-        {
-            break;
-        }
-
         _loading.SetActive(false);
-        _gameScene.CompleteRoundLoading();
+        IngameScene.Instance.StartRound();
     }
 }

@@ -12,16 +12,36 @@ public class IngameScene : MonoBehaviour
         ENDING
     }
 
+    public static IngameScene _instance = null;
+
+    public static IngameScene Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                System.Type tType = typeof(IngameScene);
+                _instance = FindObjectOfType(tType) as IngameScene;
+
+                if (_instance == null)
+                {
+                    _instance = new GameObject().AddComponent<IngameScene>();
+                    _instance.gameObject.name = tType.Name;
+                }
+            }
+            return _instance;
+        }
+    }
+
     [Header("Controller")]
+    [SerializeField] IngamePacketHandler _packetHandler;
+    [SerializeField] IngameMapController _mapController;
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
-    [SerializeField] IngameMapController _mapController; // 맵, 오브젝트의 스킨을 결정하는 컨트롤러
-    [SerializeField] IngameRoundController _roundController; // 라운드를 관리하는 컨트롤러
 
     SceneLoadManager _scenemanager = null;
 
     STATE _state = STATE.LOADING;
-    List<Player> _playerList;
 
     private void Awake()
     {
@@ -34,57 +54,58 @@ public class IngameScene : MonoBehaviour
 
     public void CompleteStartLoading()
     {
-        _state = STATE.PLAYING;
-        _loadingController.OnLoadRoundLoading();
-        _roundController.OnLoadNextRound();
+        StartCoroutine(WaitLoadingComplete());
     }
 
-    public void CompleteRoundLoading()
+    private IEnumerator WaitLoadingComplete()
     {
-        // 게임 시작
+        while (true)
+        {
+            // 맵, 라운드들, 플레이어 등 생성 완료
+            if (_mapController.CreateComplete)
+                break;
+
+            yield return null;
+        }
+
+        _packetHandler.SendGameLoadingComplete();
+    }
+
+    public void StartRound()
+    {
+        // 진짜 게임 시작
+
+        Invoke("ClearRound", 3);
     }
 
     public void ClearRound()
     {
-        // 서버로 해당맵 클리어를 알림
-        // 서버로 _currentMapCnt 주면될듯?
-
-        // 서버에게 클리어 알림 후 바로 받았다고 가정
-        RecvClearMap();
+        _packetHandler.SendRoundClear();
     }
 
-    public void RecvClearMap()
-    {
-        // 서버로부터 클리어알림에대한 응답을 받음
-        // 다음맵으로 이동
-
-        _loadingController.OnLoadRoundLoading();
-        _roundController.OnLoadNextRound();
-    }
-
-    public void ClearAllRound()
-    {
-        _state = STATE.ENDING;
-        _endingController.OnLoadEnding();
-    }
-
-    void OnLoadLobbyScene()
+    public void OnLoadLobbyScene()
     {
         _scenemanager.PlayFadeout(null, "LobbyScene");
     }
 
-    #region Test
+    #region IngamePacketHandler
 
-    private void Update()
+    public void RecvEnterGame(int[] roundList)
     {
-        if (Input.GetKeyDown(KeyCode.A) && _state == STATE.PLAYING)
-        {
-            ClearRound();
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && _state == STATE.ENDING)
-        {
-            OnLoadLobbyScene();
-        }
+        _mapController.CreateMapAndRound(roundList);
+    }
+
+    public void RecvRoundStart(int nextRound)
+    {
+        _state = STATE.PLAYING;
+        _mapController.OnLoadNextRound(nextRound);
+        _loadingController.OnLoadRoundLoading();
+    }
+
+    public void RecvGameResult(int rank)
+    {
+        _state = STATE.ENDING;
+        _endingController.OnLoadEnding(rank);
     }
 
     #endregion

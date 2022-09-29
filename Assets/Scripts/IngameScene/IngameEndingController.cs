@@ -4,21 +4,38 @@ using UnityEngine;
 
 public class IngameEndingController : MonoBehaviour
 {
-    [SerializeField] GameObject _ending;
     [SerializeField] GameObject _win;
     [SerializeField] GameObject _lose;
 
-    public void OnLoadEnding()
+    public void OnLoadEnding(int rank)
     {
-        int a = Random.Range(0, 3);
-
-        if (a == 0)
+        if (rank == 1)
         {
             _win.SetActive(true);
+            _lose.SetActive(false);
         }
         else
         {
+            _win.SetActive(false);
             _lose.SetActive(true);
         }
     }
+
+    public void OnClickLobby()
+    {
+        IngameScene.Instance.OnLoadLobbyScene();
+    }
+
+    #region Test
+
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            OnClickLobby();
+        }
+    }
+
+    #endregion
 }
