@@ -5,36 +5,42 @@
 
 ## Scene FlowChart
 
+> 서버에 연결하지 않고 테스트 진행하기 위해 서버 요청/응답이 필요한 모든 함수는 성공으로 간주하고 실행되도록 되어있음
+
 1. LoginScene
    * ID 입력 후 로그인 버튼 클릭하면 **서버로 요청**
    * 로그인 응답 성공 시 LobbyScene 이동
 2. LobbyScene
    * 캐릭터(동물) 및 맵 선택 후 준비 버튼 클릭하면 **서버로 요청**
-   * 준비 응답 성공 시 팀(5명) 매칭을 기다리며, 팀 구성이 완료되면 호스트가 시작 버튼 클릭하여 **서버로 요청**
-   * 시작 응답 성공 시 IngameScene 이동
+   * 준비 응답 성공 시 매칭 대기 화면으로 넘어가며 팀 구성을 기다림
+   * 팀 구성이 완료되어 **서버에서 시작 요청**을 받으면 IngameScene 이동
 3. IngameScene
-   * 로딩(스토리) > 인게임 > 엔딩
-   * 엔딩까지 완료되면 LobbyScene으로 돌아감
+   * 로딩(스토리) > 인게임 > 엔딩 > LobbyScene
+   * 로딩(스토리)가 진행될 동안 인게임 로딩 및 입장을 완료하면 **서버로 요청**
+   * 모든 플레이어들이 입장 완료될 때까지 로딩 마지막 화면에서 인게임으로 넘어가지 않고 대기
+   * 준비가 완료되어 **서버에서 시작 요청을** 받으면 인게임 시작
 
 ## Asset
 
 > 샘플 프로젝트에 있던 Script, prefab 등 파일은 **script(prefab)\Legacy** 파일로 옮겨 놓음
 
-> 서버에 연결하지않고 테스트 진행하기위해 서버 요청/응답이 필요한 모든 함수는 성공으로 간주하고 바로 실행되도록 되어있음
-
-### Script
-
-* GlobalData.cs: 게임에 필요한 데이터들 임시 저장
-* SceneLoadManager.cs(Singleton): 씬 이동, fadeout/in 효과
-* LoginScene.cs: 로그인
-* LobbyScene.cs: 캐릭터 및 맵 선택, 매치메이킹
-* IngameScene.cs: 로딩(스토리), 맵, 엔딩
-
-### prefab
-* player.prefab: 플레이어 프리팹
-
 ### Scene
-* IngameScene 안의 Map의 자식오브젝트로 설정(프리팹 생성 시 자식 오브젝트 설정)
+* DontDestroyOnLoad
+   * GlobalData.cs: 게임에 필요한 데이터들 임시 저장
+   * SceneLoadManager.cs: 씬 이동, fadeout/in 기능, 로딩 기능
+* LoginScene
+   * 로그인
+* LobbyScene
+   * 캐릭터 및 맵 선택
+   * 매칭 대기 화면
+* IngameScene
+  * 컨트롤러: 오브젝트 스포너, 리소스 관리(맵, 오브젝트)
+  * 맵: 배경
+  * 캐릭터
+  * 오브젝트(기믹)
+  * 로딩(스토리)
+  * 엔딩(결과)
+  * UI
 
 ## Git Commit Message
 
