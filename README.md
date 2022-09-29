@@ -6,7 +6,7 @@
 ## Scene FlowChart
 
 1. LoginScene
-   * ID, PW 입력 후 로그인 버튼 클릭하면 **서버로 요청**
+   * ID 입력 후 로그인 버튼 클릭하면 **서버로 요청**
    * 로그인 응답 성공 시 LobbyScene 이동
 2. LobbyScene
    * 캐릭터(동물) 및 맵 선택 후 준비 버튼 클릭하면 **서버로 요청**
