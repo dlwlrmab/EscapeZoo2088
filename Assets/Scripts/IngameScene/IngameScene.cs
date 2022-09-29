@@ -40,6 +40,8 @@ public class IngameScene : MonoBehaviour
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
 
+    public IngameMapController MapController {get { return _mapController; } }
+
     SceneLoadManager _scenemanager = null;
 
     STATE _state = STATE.LOADING;
@@ -50,15 +52,15 @@ public class IngameScene : MonoBehaviour
         _scenemanager.PlayFadeIn();
 
         _state = STATE.LOADING;
-        _loadingController.OnLoadStartLoading();
+        _loadingController.LoadStartLoading();
     }
 
     public void CompleteStartLoading()
     {
-        StartCoroutine(WaitLoadingComplete());
+        StartCoroutine(WaitCreation());
     }
 
-    private IEnumerator WaitLoadingComplete()
+    private IEnumerator WaitCreation()
     {
         while (true)
         {
@@ -72,7 +74,7 @@ public class IngameScene : MonoBehaviour
 
     public void StartRound()
     {
-        // 진짜 게임 시작
+        _playerController.StartRound();
 
         // 라운드 테스트 시 활성화
         //Invoke("ClearRound", 3);
@@ -83,7 +85,7 @@ public class IngameScene : MonoBehaviour
         _packetHandler.SendRoundClear();
     }
 
-    public void OnLoadLobbyScene()
+    public void MoveLobbyScene()
     {
         _scenemanager.PlayFadeout(null, "LobbyScene");
     }
@@ -99,15 +101,15 @@ public class IngameScene : MonoBehaviour
     public void RecvRoundStart(int nextRound)
     {
         _state = STATE.PLAYING;
-        _mapController.OnLoadNextRound(nextRound);
-        _playerController.OnLoadRoundLoading();
-        _loadingController.OnLoadRoundLoading();
+        _mapController.LoadRound(nextRound); // 맵 세팅 먼저
+        _playerController.LoadRound();
+        _loadingController.LoadRoundLoading();
     }
 
     public void RecvGameResult(int rank)
     {
         _state = STATE.ENDING;
-        _endingController.OnLoadEnding(rank);
+        _endingController.LoadEnding(rank);
     }
 
     #endregion

@@ -6,9 +6,10 @@ using UnityEngine.UI;
 public class IngameLoadingController : MonoBehaviour
 {
     [SerializeField] GameObject _loading;
+    [SerializeField] Text _text;
     [SerializeField] Image _loadingBar;
 
-    public void OnLoadStartLoading()
+    public void LoadStartLoading()
     {
         // 스토리 설명 로딩 시작
         StartCoroutine(ShowStartLoading());
@@ -19,6 +20,7 @@ public class IngameLoadingController : MonoBehaviour
         _loading.SetActive(true);
 
         // 스토리 설명 추가
+        _text.text = "로딩중";
 
         var _time = 0f;
         _loadingBar.fillAmount = 0f;
@@ -37,7 +39,7 @@ public class IngameLoadingController : MonoBehaviour
         IngameScene.Instance.CompleteStartLoading();
     }
 
-    public void OnLoadRoundLoading()
+    public void LoadRoundLoading()
     {
         // 맵 컨트롤러한테 맵 라운드 설명 받아오기
         // 라운드 설명 로딩 시작
@@ -49,6 +51,7 @@ public class IngameLoadingController : MonoBehaviour
         _loading.SetActive(true);
 
         // 라운드 설명 추가
+        _text.text = "라운드 시작";
 
         var _time = 0f;
         _loadingBar.fillAmount = 0f;

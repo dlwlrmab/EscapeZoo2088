@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class IngameMapController : MonoBehaviour
 {
-    private List<GameObject> _roundList;
+    private List<Round> _roundList;
+    private int _roundIndex = 0;
 
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
@@ -15,25 +16,33 @@ public class IngameMapController : MonoBehaviour
         if (mapIndex == -1)
             mapIndex = 1;
 
-        // 맵 로딩
+        // 맵 생성
         GameObject map = Instantiate(Resources.Load<GameObject>("Map/Map_" + mapIndex), transform);
         map.transform.localPosition = new Vector3(0, 0, 2);
 
         // 라운드 생성
-        _roundList = new List<GameObject>();
-        foreach (int round in roundList)
+        _roundList = new List<Round>();
+        foreach (int roundIndex in roundList)
         {
-            _roundList.Add(Instantiate(Resources.Load<GameObject>("Round/Round_" + round), transform));
-            // 라운드 맵 셋팅 필요
+            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + roundIndex), transform);
+            _roundList.Add(round.GetComponent<Round>());
+            _roundList[_roundList.Count - 1].SetMap(mapIndex);
         }
 
         _isCreateComplete = true;
     }
 
-    public void OnLoadNextRound(int nextRound)
+    public void LoadRound(int nextRound)
     {
+        _roundIndex = nextRound;
+
         foreach (var round in _roundList)
-            round.SetActive(false);
-        _roundList[nextRound].SetActive(true);
+            round.gameObject.SetActive(false);
+        _roundList[nextRound].gameObject.SetActive(true);
+    }
+
+    public Vector3 GetPlayerSpawn()
+    {
+        return _roundList[_roundIndex].GetPlayerSpawn();
     }
 }
