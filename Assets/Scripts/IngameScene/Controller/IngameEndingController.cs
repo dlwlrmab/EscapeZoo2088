@@ -7,7 +7,7 @@ public class IngameEndingController : MonoBehaviour
     [SerializeField] GameObject _win;
     [SerializeField] GameObject _lose;
 
-    public void OnLoadEnding(int rank)
+    public void LoadEnding(int rank)
     {
         if (rank == 1)
         {
@@ -23,7 +23,7 @@ public class IngameEndingController : MonoBehaviour
 
     public void OnClickLobby()
     {
-        IngameScene.Instance.OnLoadLobbyScene();
+        IngameScene.Instance.MoveLobbyScene();
     }
 
     #region Test

@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6229757935380672633}
   - component: {fileID: 6229757935380672632}
+  - component: {fileID: 6326742817650103210}
   - component: {fileID: 6229757935380672634}
   - component: {fileID: 6229757935380672639}
   - component: {fileID: 6229757935380672638}
@@ -131,6 +132,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   jumpHeight: 1
+--- !u!114 &6326742817650103210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229757935380672635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb5d5b9e0c5824d418f342d363bdf44a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!70 &6229757935380672634
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

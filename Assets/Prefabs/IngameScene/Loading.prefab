@@ -226,6 +226,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _loading: {fileID: 1974848597858956737}
+  _text: {fileID: 543367893554295847}
   _loadingBar: {fileID: 543367892113324015}
 --- !u!1 &543367893554295845
 GameObject:
