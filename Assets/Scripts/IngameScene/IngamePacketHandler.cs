@@ -32,7 +32,6 @@ public class IngamePacketHandler : MonoBehaviour
         // 인게임 씬 입장한 후 보냄
 
         int[] roundList = new int[] { 1, 2, 3, 4, 5, 6, 7 };
-        // 플레이어 리스트 추가 필요
         IngameScene.Instance.RecvEnterGame(roundList);
     }
 
