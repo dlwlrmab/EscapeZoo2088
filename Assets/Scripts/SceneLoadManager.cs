@@ -29,12 +29,29 @@ public class SceneLoadManager : MonoBehaviour
     }
 
 
-    [SerializeField] Image _dim;  // 씬이동 or 맵 이동시 fadein/out 을 위한 이미지
+    [SerializeField] private Image _dim;  // 씬이동 or 맵 이동시 fadein/out 을 위한 이미지
+    [SerializeField] private GameObject _loading;
 
-    float _animTime = 1f;
-    float _start = 0f;
-    float _end = 1f;
-    float _time = 0f;
+    private float _fadeAnimTime = 1f;
+    private float _fadeStart = 0f;
+    private float _fadeEnd = 1f;
+    private float _fadeTime = 0f;
+
+    void MoveScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
+    #region Loading
+
+    private void SetLoading(bool isActive)
+    {
+        _loading.SetActive(isActive);
+    }
+
+    #endregion
+
+    #region Fade In/Out
 
     // 점점 점점 어두워짐
     public void PlayFadeout(Action a = null, string sceneName = null)
@@ -53,13 +70,13 @@ public class SceneLoadManager : MonoBehaviour
     private IEnumerator CoFadeOut(Action a, string sceneName)
     {
         Color color = _dim.color;
-        _time = 0f;
+        _fadeTime = 0f;
         color.a = 0f;
 
         while (color.a < 1f)
         {
-            _time += Time.deltaTime / _animTime;
-            color.a = Mathf.Lerp(_start, _end, _time);
+            _fadeTime += Time.deltaTime / _fadeAnimTime;
+            color.a = Mathf.Lerp(_fadeStart, _fadeEnd, _fadeTime);
             _dim.color = color;
             yield return null;
         }
@@ -74,13 +91,13 @@ public class SceneLoadManager : MonoBehaviour
     private IEnumerator CoFadeIn(Action a, string sceneName)
     {
         Color color = _dim.color;
-        _time = 0f;
+        _fadeTime = 0f;
         color.a = 1f;
 
         while (color.a > 0f)
         {
-            _time += Time.deltaTime / _animTime;
-            color.a = Mathf.Lerp(_end, _start, _time);
+            _fadeTime += Time.deltaTime / _fadeAnimTime;
+            color.a = Mathf.Lerp(_fadeEnd, _fadeStart, _fadeTime);
             _dim.color = color;
             yield return null;
         }
@@ -91,8 +108,5 @@ public class SceneLoadManager : MonoBehaviour
             MoveScene(sceneName);
     }
 
-    void MoveScene(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
+    #endregion
 }

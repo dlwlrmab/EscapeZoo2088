@@ -10,28 +10,46 @@ public class LobbyScene : MonoBehaviour
     [SerializeField] GameObject _readyButton;
 
     SceneLoadManager _scenemanager = null;
-    GameObject _exButton = null;
+    GameObject _exMapButton = null;
+    GameObject _exAnimalButton = null;
 
     private void Awake()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
+        GlobalData.mapIndex = -1;
         GlobalData.animalIndex = -1;
+    }
+
+    public void ChoiceMap(GameObject obj)
+    {
+        if (_exMapButton != null)
+        {
+            _exMapButton.GetComponent<Image>().color = Color.white;
+        }
+        _exMapButton = obj;
+        GlobalData.mapIndex = int.Parse(obj.name);
+        obj.GetComponent<Image>().color = Color.green;
     }
 
     public void ChoiceAnimal(GameObject obj)
     {
-        if (_exButton != null)
+        if (_exAnimalButton != null)
         {
-            _exButton.GetComponent<Image>().color = Color.white;
+            _exAnimalButton.GetComponent<Image>().color = Color.white;
         }
-        _exButton = obj;
+        _exAnimalButton = obj;
         GlobalData.animalIndex = int.Parse(obj.name);
         obj.GetComponent<Image>().color = Color.green;
     }
 
     public void OnClickReadyGame()
     {
+        if (GlobalData.mapIndex == -1)
+        {
+            _notiText.text = "맵을 선택하지 않았습니다.";
+            return;
+        }
         if (GlobalData.animalIndex == -1)
         {
             _notiText.text = "캐릭터를 선택하지 않았습니다.";
