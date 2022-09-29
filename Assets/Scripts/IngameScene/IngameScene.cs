@@ -36,6 +36,7 @@ public class IngameScene : MonoBehaviour
     [Header("Controller")]
     [SerializeField] IngamePacketHandler _packetHandler;
     [SerializeField] IngameMapController _mapController;
+    [SerializeField] IngamePlayerController _playerController;
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
 
@@ -61,10 +62,8 @@ public class IngameScene : MonoBehaviour
     {
         while (true)
         {
-            // 맵, 라운드들, 플레이어 등 생성 완료
-            if (_mapController.CreateComplete)
+            if (_mapController.CreateComplete && _playerController.CreateComplete)
                 break;
-
             yield return null;
         }
 
@@ -75,7 +74,8 @@ public class IngameScene : MonoBehaviour
     {
         // 진짜 게임 시작
 
-        Invoke("ClearRound", 3);
+        // 라운드 테스트 시 활성화
+        //Invoke("ClearRound", 3);
     }
 
     public void ClearRound()
@@ -93,12 +93,14 @@ public class IngameScene : MonoBehaviour
     public void RecvEnterGame(int[] roundList)
     {
         _mapController.CreateMapAndRound(roundList);
+        _playerController.CreatePlayer();
     }
 
     public void RecvRoundStart(int nextRound)
     {
         _state = STATE.PLAYING;
         _mapController.OnLoadNextRound(nextRound);
+        _playerController.OnLoadRoundLoading();
         _loadingController.OnLoadRoundLoading();
     }
 

@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class IngameMapController : MonoBehaviour
 {
-    [SerializeField] Transform _parent;
-
     private List<GameObject> _roundList;
 
     private bool _isCreateComplete = false;
@@ -14,15 +12,18 @@ public class IngameMapController : MonoBehaviour
     public void CreateMapAndRound(int[] roundList)
     {
         int mapIndex = GlobalData.mapIndex;
+        if (mapIndex == -1)
+            mapIndex = 1;
 
         // 맵 로딩
-        Instantiate(Resources.Load<GameObject>("Map/Map_" + mapIndex), _parent);
+        GameObject map = Instantiate(Resources.Load<GameObject>("Map/Map_" + mapIndex), transform);
+        map.transform.localPosition = new Vector3(0, 0, 2);
 
         // 라운드 생성
         _roundList = new List<GameObject>();
         foreach (int round in roundList)
         {
-            _roundList.Add(Instantiate(Resources.Load<GameObject>("Round/Round_" + round), _parent));
+            _roundList.Add(Instantiate(Resources.Load<GameObject>("Round/Round_" + round), transform));
             // 라운드 맵 셋팅 필요
         }
 
