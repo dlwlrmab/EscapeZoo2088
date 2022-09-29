@@ -5,100 +5,67 @@ using UnityEngine.UI;
 
 public class IngameScene : MonoBehaviour
 {
-    enum SceneState
+    enum STATE
     {
-        loading = 0,
-        playing = 1,
-        ending = 2,
+        LOADING = 0,
+        PLAYING,
+        ENDING
     }
 
-    [SerializeField] Image _loadingBar;
-    [SerializeField] GameObject _loadingScene;
-    [SerializeField] List<GameObject> _mapList; // 추후 맵 생성방식에따라 변경
-    [SerializeField] List<Player> _playerList;
-    [SerializeField] GameObject _ending;
-    [SerializeField] GameObject _win;
-    [SerializeField] GameObject _lose;
+    [Header("Controller")]
+    [SerializeField] IngameLoadingController _loadingController;
+    [SerializeField] IngameEndingController _endingController;
+    [SerializeField] IngameMapController _mapController; // 맵, 오브젝트의 스킨을 결정하는 컨트롤러
+    [SerializeField] IngameRoundController _roundController; // 라운드를 관리하는 컨트롤러
 
     SceneLoadManager _scenemanager = null;
-    SceneState _state = SceneState.loading;
-    int _currentRound = 1;
-    int _currentMapCnt = -1; // 현재 맵 index
-    int _maxStage = 2; // 테스트를 위해 2개로 설정 , 최대 맵 갯수를 서버에서 내려줄지, 클라에서 고정으로 할지?
+
+    STATE _state = STATE.LOADING;
+    List<Player> _playerList;
 
     private void Awake()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
-        OnLoadingScene();
+
+        _state = STATE.LOADING;
+        _loadingController.OnLoadStartLoading();
     }
 
-    private void Update()
+    public void CompleteStartLoading()
     {
-        // 테스트용 코드
-        if (Input.GetKeyDown(KeyCode.A) && _state == SceneState.playing)
-        {
-            NextMap();
-        }
-        else if (Input.GetKeyDown(KeyCode.S) && _state == SceneState.ending)
-        {
-            OnLoadLobbyScene();
-        }
+        _state = STATE.PLAYING;
+        _loadingController.OnLoadRoundLoading();
+        _roundController.OnLoadNextRound();
     }
 
-    // 서버로 해당맵 클리어를 알림
-    public void ClearMap()
+    public void CompleteRoundLoading()
     {
+        // 게임 시작
+    }
+
+    public void ClearRound()
+    {
+        // 서버로 해당맵 클리어를 알림
         // 서버로 _currentMapCnt 주면될듯?
+
+        // 서버에게 클리어 알림 후 바로 받았다고 가정
+        RecvClearMap();
     }
 
-    // 서버로부터 클리어알림에대한 응답을 받음
     public void RecvClearMap()
     {
+        // 서버로부터 클리어알림에대한 응답을 받음
         // 다음맵으로 이동
-        NextMap();
+
+        _loadingController.OnLoadRoundLoading();
+        _roundController.OnLoadNextRound();
     }
 
-    // 게임 진입시 로딩화면
-    void OnLoadingScene()
+    public void ClearAllRound()
     {
-        StartCoroutine(CoMapLoading());
-    }
-
-    void OnLoadingNextMap()
-    {
-        if (_currentMapCnt >= _maxStage - 1)
-        {
-            OnLoadEndingScene();
-        }
-        else
-        {
-            if (_currentMapCnt != -1)
-            {
-                _mapList[_currentMapCnt++].SetActive(false);
-                _mapList[_currentMapCnt].SetActive(true);
-            }
-            else
-                _mapList[++_currentMapCnt].SetActive(true);
-        }
-    }
-
-    void OnLoadEndingScene()
-    {
-        int a = Random.Range(0, 3);
-        // 승리
-        if (a == 0)
-        {
-            _win.SetActive(true);
-        }
-        // 패배
-        else
-        {
-            _lose.SetActive(true);
-        }
-
-        _state = SceneState.ending;
-        _mapList[_currentMapCnt].transform.parent.gameObject.SetActive(false);
+        _state = STATE.ENDING;
+        _endingController.OnLoadEnding();
     }
 
     void OnLoadLobbyScene()
@@ -106,40 +73,19 @@ public class IngameScene : MonoBehaviour
         _scenemanager.PlayFadeout(null, "LobbyScene");
     }
 
-    // 이때 사용할 맵 프리팹 모두 받아두기
-    private IEnumerator CoMapLoading()
+    #region Test
+
+    private void Update()
     {
-        _state = SceneState.loading;
-        _loadingScene.SetActive(true);
-
-        _loadingBar.fillAmount = 0f;
-        var _time = 0f;
-
-        while (true)
+        if (Input.GetKeyDown(KeyCode.A) && _state == STATE.PLAYING)
         {
-            yield return null;
-            if (_loadingBar.fillAmount >= 1)
-                break;
-
-            _time += Time.deltaTime / 1;
-            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, _time);
+            ClearRound();
         }
-
-        NextMap();
-    }
-
-    void NextMap()
-    {
-        _scenemanager.PlayFadeout(() =>
+        else if (Input.GetKeyDown(KeyCode.S) && _state == STATE.ENDING)
         {
-            _state = SceneState.playing;
-            _loadingScene.SetActive(false);
-            OnLoadingNextMap();
-
-            _scenemanager.PlayFadeIn();
-        });
+            OnLoadLobbyScene();
+        }
     }
 
-
-
+    #endregion
 }
