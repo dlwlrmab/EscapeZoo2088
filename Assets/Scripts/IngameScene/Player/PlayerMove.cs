@@ -44,7 +44,7 @@ public class PlayerMove : MonoBehaviour
     }
 
     #region ##### Ground Check Trigger #####
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {   // 땅이나 플레이어 위에 있는 경우는 점프 가능
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Player"))
