@@ -8,8 +8,9 @@ public class Round : MonoBehaviour
     [Header("Base Round")]
     [SerializeField] private Transform _playerSpawn;
     [SerializeField] protected string _explanation = "";
-
     [SerializeField] ROUNDTYPE _roundType;
+
+    protected IngamePlayerController _playerController = null;
 
     public void SetMap(int mapIndex)
     {
@@ -23,6 +24,8 @@ public class Round : MonoBehaviour
     public virtual void StartRound()
     {
         Debug.Log("Round : StartRound");
+
+        _playerController = IngameScene.Instance.PlayerController;
     }
 
     public virtual void ClearRound()
@@ -35,6 +38,8 @@ public class Round : MonoBehaviour
     public virtual void ReStartRound()
     {
         Debug.Log("Round : ReStartRound");
+
+        _playerController.LoadRound();
     }
 
     public string GetExplanation()
