@@ -41,6 +41,16 @@ public class IngameMapController : MonoBehaviour
         _roundList[nextRound].gameObject.SetActive(true);
     }
 
+    public void StartRound()
+    {
+        _roundList[_roundIndex].StartRound();
+    }
+
+    public string GetExplanation()
+    {
+        return _roundList[_roundIndex].GetExplanation();
+    }
+
     public Vector3 GetPlayerSpawn()
     {
         return _roundList[_roundIndex].GetPlayerSpawn();

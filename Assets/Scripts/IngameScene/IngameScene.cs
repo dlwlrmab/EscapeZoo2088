@@ -75,6 +75,7 @@ public class IngameScene : MonoBehaviour
     public void StartRound()
     {
         _playerController.StartRound();
+        _mapController.StartRound();
 
         // 라운드 테스트 시 활성화
         //Invoke("ClearRound", 3);
