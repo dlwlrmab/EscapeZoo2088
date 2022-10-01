@@ -25,7 +25,7 @@ public class IngameMapController : MonoBehaviour
         _roundList = new List<Round>();
         foreach (int roundIndex in roundList)
         {
-            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "0"), transform);
+            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "1"), transform);
             _roundList.Add(round.GetComponent<Round>());
             _roundList[_roundList.Count - 1].SetMap(mapIndex);
         }

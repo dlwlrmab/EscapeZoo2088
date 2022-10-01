@@ -9,9 +9,8 @@ public class Round0 : Round
     [SerializeField] SpriteRenderer _sun;
     [SerializeField] RoundClear _clear;
 
-    private IngamePlayerController _playerController = null;
-    private List<Vector3> _prePlayerPos;
 
+    private List<Vector3> _prePlayerPos;
     private IEnumerator _coCheckPlayerMoving = null;
 
     #region Base Round
@@ -20,7 +19,6 @@ public class Round0 : Round
     {
         base.StartRound();
 
-        _playerController = IngameScene.Instance.PlayerController;
         _prePlayerPos = new List<Vector3>();
         _clear.SetRound(this);
 
@@ -38,7 +36,6 @@ public class Round0 : Round
     {
         base.ReStartRound();
 
-        _playerController.LoadRound();
         StopAllCoroutines();
         StartCoroutine(ShowSun());
     }
