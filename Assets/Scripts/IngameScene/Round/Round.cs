@@ -22,10 +22,13 @@ public class Round : MonoBehaviour
 
     public virtual void StartRound()
     {
+        Debug.Log("Round : StartRound");
     }
 
     public virtual void ClearRound()
     {
+        Debug.Log("Round : ClearRound");
+
         IngameScene.Instance.ClearRound();
     }
 

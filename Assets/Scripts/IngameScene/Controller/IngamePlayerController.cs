@@ -32,8 +32,8 @@ public class IngamePlayerController : MonoBehaviour
 
         for (int i = 0; i < _playerList.Count; ++i)
         {
-            startPos.x += 5;
             _playerList[i].SetRround(startPos);
+            startPos.x += 1;
         }
     }
 
