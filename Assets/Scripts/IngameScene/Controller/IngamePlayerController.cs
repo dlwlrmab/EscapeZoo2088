@@ -42,6 +42,11 @@ public class IngamePlayerController : MonoBehaviour
         // 플레이어 움직이기 시작
     }
 
+    public List<Player> GetPlayerList()
+    {
+        return _playerList;
+    }
+
     public void SetPlayerData(ROUNDTYPE type)
     {
         foreach (var player in _playerList)
