@@ -14,6 +14,8 @@ public class Round0 : Round
 
     private IEnumerator _coCheckPlayerMoving = null;
 
+    #region Base Round
+
     public override void StartRound()
     {
         base.StartRound();
@@ -32,14 +34,16 @@ public class Round0 : Round
         StopAllCoroutines();
     }
 
-    private void ReStartRound()
+    public override void ReStartRound()
     {
-        Debug.Log("Round 0 : ReStartRound");
+        base.ReStartRound();
 
         _playerController.LoadRound();
         StopAllCoroutines();
         StartCoroutine(ShowSun());
     }
+
+    #endregion
 
     private IEnumerator ShowSun()
     {

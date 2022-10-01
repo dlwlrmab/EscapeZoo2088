@@ -25,7 +25,7 @@ public class IngameMapController : MonoBehaviour
         _roundList = new List<Round>();
         foreach (int roundIndex in roundList)
         {
-            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "5"), transform);
+            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "0"), transform);
             _roundList.Add(round.GetComponent<Round>());
             _roundList[_roundList.Count - 1].SetMap(mapIndex);
         }
@@ -59,6 +59,6 @@ public class IngameMapController : MonoBehaviour
 
     public ROUNDTYPE GetCurrentRoundType()
     {
-        return _roundList[_roundIndex].GetComponent<Round>().GetRoundType(); 
+        return _roundList[_roundIndex].GetRoundType(); 
     }
 }

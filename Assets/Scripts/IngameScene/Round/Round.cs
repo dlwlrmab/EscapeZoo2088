@@ -32,6 +32,11 @@ public class Round : MonoBehaviour
         IngameScene.Instance.ClearRound();
     }
 
+    public virtual void ReStartRound()
+    {
+        Debug.Log("Round : ReStartRound");
+    }
+
     public string GetExplanation()
     {
         return _explanation;

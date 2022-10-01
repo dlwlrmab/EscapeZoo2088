@@ -2,17 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Round1 : MonoBehaviour
+public class Round1 : Round
 {
-    // Start is called before the first frame update
-    void Start()
+    #region Base Round
+
+    public override void StartRound()
     {
-        
+        base.StartRound();
     }
 
-    // Update is called once per frame
-    void Update()
+    public override void ClearRound()
     {
-        
+        base.ClearRound();
     }
+
+    public override void ReStartRound()
+    {
+        base.ReStartRound();
+    }
+
+    #endregion
 }
