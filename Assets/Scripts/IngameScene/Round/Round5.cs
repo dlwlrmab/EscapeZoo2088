@@ -4,9 +4,28 @@ using UnityEngine;
 
 public class Round5 : Round
 {
-    // Start is called before the first frame update
-    void Start()
-    {
+    [SerializeField] RoundClear _clear;
 
+    public override void StartRound()
+    {
+        base.StartRound();
+        _clear.SetRound(this);
+    }
+
+
+    public override void ClearRound(GameObject player)
+    {
+        if (player != null)
+        {
+            var p = player.GetComponent<Player>();
+
+            if (p != null)
+            { 
+                if (p.HasKey)
+                {
+                    base.ClearRound(player);
+                }
+            }
+        }
     }
 }

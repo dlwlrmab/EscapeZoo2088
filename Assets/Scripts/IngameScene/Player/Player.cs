@@ -40,15 +40,6 @@ public class Player : MonoBehaviour
                     other.transform.SetParent(transform);
                     other.transform.localPosition = new Vector3(-0.2f, 0.2f, 0);
                 }
-
-                if (type == BLOCKTYPE.DOOR)
-                {
-                    if(HasKey)
-                    {
-                        // 문열림
-                        Debug.Log("문열림");
-                    }
-                }
             }
         }
     }

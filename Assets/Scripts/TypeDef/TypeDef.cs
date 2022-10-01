@@ -21,8 +21,8 @@ namespace EnumDef
         NONE,
         MOVEX,
         MOVEY,
-        DOOR,
         KEY,
+        BALL,
     }
 }
 

@@ -25,9 +25,9 @@ public class Round0 : Round
         StartCoroutine(ShowSun());
     }
 
-    public override void ClearRound()
+    public override void ClearRound(GameObject player)
     {
-        base.ClearRound();
+        base.ClearRound(player);
 
         StopAllCoroutines();
     }

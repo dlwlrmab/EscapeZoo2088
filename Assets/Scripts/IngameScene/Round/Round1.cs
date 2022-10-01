@@ -26,9 +26,9 @@ public class Round1 : Round
         StartCoroutine(Drop());
     }
 
-    public override void ClearRound()
+    public override void ClearRound(GameObject player)
     {
-        base.ClearRound();
+        base.ClearRound(player);
 
         StopAllCoroutines();
     }

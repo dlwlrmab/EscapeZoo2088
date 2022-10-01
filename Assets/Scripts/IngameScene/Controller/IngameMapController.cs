@@ -25,7 +25,7 @@ public class IngameMapController : MonoBehaviour
         _roundList = new List<Round>();
         foreach (int roundIndex in roundList)
         {
-            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "1"), transform);
+            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + roundIndex), transform);
             _roundList.Add(round.GetComponent<Round>());
             _roundList[_roundList.Count - 1].SetMap(mapIndex);
         }
@@ -55,6 +55,11 @@ public class IngameMapController : MonoBehaviour
     public Vector3 GetPlayerSpawn()
     {
         return _roundList[_roundIndex].GetPlayerSpawn();
+    }
+
+    public Round GetCurrentRound()
+    {
+        return _roundList[_roundIndex];
     }
 
     public ROUNDTYPE GetCurrentRoundType()

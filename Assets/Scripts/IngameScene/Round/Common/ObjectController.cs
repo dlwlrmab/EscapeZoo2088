@@ -13,13 +13,21 @@ public class ObjectController : MonoBehaviour
     [SerializeField] float _startPosY;
     [SerializeField] float _destPosY;
 
-    private bool _isReverse = true;
+    [SerializeField] bool _isReverse = true;  // true = 왼쪽에서 오른족
+
+    private Transform _parentObj;
 
     private void Awake()
     {
-   
+        _parentObj = transform.parent;
     }
+    public void Init()
+    {
+        if(_parentObj != null)
+            transform.SetParent(_parentObj);
 
+        transform.localPosition = new Vector3(_startPosX, _startPosY, 0);
+    }
 
     private void FixedUpdate()
     {
@@ -52,6 +60,23 @@ public class ObjectController : MonoBehaviour
                 if (transform.localPosition.y <= _startPosY)
                     _isReverse = false;
             }
+        }
+        else if(_type == BLOCKTYPE.BALL)
+        {
+            
+            if (_isReverse)
+            {
+                transform.localPosition = new Vector3(transform.localPosition.x + 0.1f * _speed, transform.localPosition.y, 0);
+                if (transform.localPosition.x  > _destPosX)
+                    transform.localPosition = new Vector3(_startPosX, transform.localPosition.y, 0);
+            }
+            else
+            {
+                transform.localPosition = new Vector3(transform.localPosition.x + -0.1f * _speed, transform.localPosition.y, 0);
+                if (transform.localPosition.x < _destPosX)
+                    transform.localPosition = new Vector3(_startPosX, transform.localPosition.y, 0);
+            }
+                
         }
     }
 

@@ -23,21 +23,21 @@ public class Round : MonoBehaviour
 
     public virtual void StartRound()
     {
-        Debug.Log("Round : StartRound");
+        Debug.Log($"Round : Start  {gameObject.name}");
 
         _playerController = IngameScene.Instance.PlayerController;
     }
 
-    public virtual void ClearRound()
+    public virtual void ClearRound(GameObject player)
     {
-        Debug.Log("Round : ClearRound");
+        Debug.Log($"Round : Clear {gameObject.name}");
 
         IngameScene.Instance.ClearRound();
     }
 
     public virtual void ReStartRound()
     {
-        Debug.Log("Round : ReStartRound");
+        Debug.Log("Round : ReStart  {gameObject.name}");
 
         _playerController.LoadRound();
     }
