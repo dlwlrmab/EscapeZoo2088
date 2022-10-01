@@ -44,6 +44,7 @@
      * IngamePlayerController: 플레이어 생성, 라운드 준비(스폰), 라운드 시작 등 모든 플레이어 관리
      * IngameLoadingController: 스토리 로딩 화면, 라운드 로딩 화면
      * IngameEndingController: 엔딩(결과) 화면, 로비 이동
+     * BlockController : 맵제작에 필요한 블럭들의 기능을 구현
   * Player
      * Player: IngamePlayerController에서 사용되는 Base 스크립트, 모든 캐릭터가 공통 사용
      * PlayerMe: 내 플레이어를 관리, 키보드 이동
