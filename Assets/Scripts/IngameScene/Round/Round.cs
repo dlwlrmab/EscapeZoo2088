@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Round : MonoBehaviour
 {
+    [Header("Base Round")]
     [SerializeField] private Transform _playerSpawn;
     [SerializeField] protected string _explanation = "";
 
@@ -18,6 +19,11 @@ public class Round : MonoBehaviour
 
     public virtual void StartRound()
     {
+    }
+
+    public virtual void ClearRound()
+    {
+        IngameScene.Instance.ClearRound();
     }
 
     public string GetExplanation()
