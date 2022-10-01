@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class Round0 : Round
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] SpriteRenderer _trafficLight;
 
-    // Update is called once per frame
-    void Update()
+    public override void StartRound()
     {
-        
+        base.StartRound();
     }
 }

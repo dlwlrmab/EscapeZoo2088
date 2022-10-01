@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class IngameLoadingController : MonoBehaviour
 {
     [SerializeField] GameObject _loading;
-    [SerializeField] Text _text;
+    [SerializeField] Text _explanation;
     [SerializeField] Image _loadingBar;
 
     public void LoadStartLoading()
@@ -18,30 +18,29 @@ public class IngameLoadingController : MonoBehaviour
     private IEnumerator ShowStartLoading()
     {
         _loading.SetActive(true);
+        _loadingBar.transform.parent.gameObject.SetActive(true);
 
-        // 스토리 설명 추가
-        _text.text = "로딩중";
-
-        var _time = 0f;
+        _explanation.text = "스토리 설명 및 플레이어 입장중";
         _loadingBar.fillAmount = 0f;
 
+        var time = 0f;
         while (true)
         {
-            yield return null;
+            time += Time.deltaTime;
+            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, time);
             if (_loadingBar.fillAmount >= 1)
                 break;
 
-            _time += Time.deltaTime / 1;
-            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, _time);
+            yield return null;
         }
 
         _loading.SetActive(false);
+        _loadingBar.transform.parent.gameObject.SetActive(false);
         IngameScene.Instance.CompleteStartLoading();
     }
 
     public void LoadRoundLoading()
     {
-        // 맵 컨트롤러한테 맵 라운드 설명 받아오기
         // 라운드 설명 로딩 시작
         StartCoroutine(ShowRoundLoading());
     }
@@ -49,21 +48,18 @@ public class IngameLoadingController : MonoBehaviour
     private IEnumerator ShowRoundLoading()
     {
         _loading.SetActive(true);
+        _loadingBar.transform.parent.gameObject.SetActive(false);
 
-        // 라운드 설명 추가
-        _text.text = "라운드 시작";
+        _explanation.text = IngameScene.Instance.MapController.GetExplanation();
 
-        var _time = 0f;
-        _loadingBar.fillAmount = 0f;
-
+        var time = 0f;
         while (true)
         {
-            yield return null;
-            if (_loadingBar.fillAmount >= 1)
+            time += Time.deltaTime;
+            if (time >= 3)
                 break;
 
-            _time += Time.deltaTime / 1;
-            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, _time);
+            yield return null;
         }
 
         _loading.SetActive(false);
