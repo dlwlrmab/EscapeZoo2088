@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EnumDef;
 
 public class IngameMapController : MonoBehaviour
 {
@@ -24,7 +25,7 @@ public class IngameMapController : MonoBehaviour
         _roundList = new List<Round>();
         foreach (int roundIndex in roundList)
         {
-            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + roundIndex), transform);
+            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + "5"), transform);
             _roundList.Add(round.GetComponent<Round>());
             _roundList[_roundList.Count - 1].SetMap(mapIndex);
         }
@@ -54,5 +55,10 @@ public class IngameMapController : MonoBehaviour
     public Vector3 GetPlayerSpawn()
     {
         return _roundList[_roundIndex].GetPlayerSpawn();
+    }
+
+    public ROUNDTYPE GetCurrentRoundType()
+    {
+        return _roundList[_roundIndex].GetComponent<Round>().GetRoundType(); 
     }
 }

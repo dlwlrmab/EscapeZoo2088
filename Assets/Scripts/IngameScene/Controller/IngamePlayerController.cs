@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EnumDef;
 
 public class IngamePlayerController : MonoBehaviour
 {
@@ -39,5 +40,15 @@ public class IngamePlayerController : MonoBehaviour
     public void StartRound()
     {
         // 플레이어 움직이기 시작
+    }
+
+    public void SetPlayerData(ROUNDTYPE type)
+    {
+        foreach (var player in _playerList)
+        {
+            var playerMove = player.GetComponent<PlayerMove>();
+            if (playerMove != null)
+                playerMove.Init(type);
+        }
     }
 }

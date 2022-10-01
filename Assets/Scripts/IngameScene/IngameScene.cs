@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using EnumDef;
 
 public class IngameScene : MonoBehaviour
 {
-    enum STATE
-    {
-        LOADING = 0,
-        PLAYING,
-        ENDING
-    }
-
     public static IngameScene _instance = null;
 
     public static IngameScene Instance
@@ -75,6 +69,7 @@ public class IngameScene : MonoBehaviour
     public void StartRound()
     {
         _playerController.StartRound();
+        _playerController.SetPlayerData(_mapController.GetCurrentRoundType());
         _mapController.StartRound();
     }
 

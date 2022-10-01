@@ -1,16 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EnumDef;
 
-public class BlockController : MonoBehaviour
+public class ObjectController : MonoBehaviour
 {
-   enum BLOCKTYPE
-    {
-        NONE,
-        MOVEX,
-        MOVEY,
-    }
-
     [SerializeField] BLOCKTYPE _type;
     [SerializeField] float _speed = 0;
 
@@ -59,5 +53,10 @@ public class BlockController : MonoBehaviour
                     _isReverse = false;
             }
         }
+    }
+
+    public BLOCKTYPE GetObjectType()
+    {
+        return _type;
     }
 }
