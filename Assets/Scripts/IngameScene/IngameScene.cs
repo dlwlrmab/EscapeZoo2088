@@ -40,7 +40,8 @@ public class IngameScene : MonoBehaviour
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
 
-    public IngameMapController MapController {get { return _mapController; } }
+    public IngameMapController MapController { get { return _mapController; } }
+    public IngamePlayerController PlayerController { get { return _playerController; } }
 
     SceneLoadManager _scenemanager = null;
 

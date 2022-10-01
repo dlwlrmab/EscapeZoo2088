@@ -31,13 +31,18 @@ public class IngamePlayerController : MonoBehaviour
 
         for (int i = 0; i < _playerList.Count; ++i)
         {
-            startPos.x += 5;
             _playerList[i].SetRround(startPos);
+            startPos.x += 1;
         }
     }
 
     public void StartRound()
     {
         // 플레이어 움직이기 시작
+    }
+
+    public List<Player> GetPlayerList()
+    {
+        return _playerList;
     }
 }
