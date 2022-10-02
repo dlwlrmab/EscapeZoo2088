@@ -49,7 +49,7 @@ public class Round : MonoBehaviour
 
     public Vector3 GetPlayerSpawn()
     {
-        return _playerSpawn.localPosition;
+        return _playerSpawn.position;
     }
 
     public ROUNDTYPE GetRoundType()
