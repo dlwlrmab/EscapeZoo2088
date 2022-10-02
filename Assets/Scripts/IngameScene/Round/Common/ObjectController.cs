@@ -27,6 +27,7 @@ public class ObjectController : MonoBehaviour
             transform.SetParent(_parentObj);
 
         transform.localPosition = new Vector3(_startPosX, _startPosY, 0);
+        gameObject.SetActive(true);
     }
 
     private void FixedUpdate()
