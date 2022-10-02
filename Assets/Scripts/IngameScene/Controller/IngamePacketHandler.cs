@@ -31,7 +31,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         // 인게임 씬 입장한 후 보냄
 
-        int[] roundList = new int[7] { 0, 0, 0, 0, 0, 0, 0 };
+        int[] roundList = new int[6] { 0, 1, 2, 3, 4, 5 };
         IngameScene.Instance.RecvEnterGame(roundList);
     }
 
@@ -64,11 +64,11 @@ public class IngamePacketHandler : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A) )
+        if (Input.GetKeyDown(KeyCode.A))
         {
             RecvRoundStart();
         }
-        else if (Input.GetKeyDown(KeyCode.R) )
+        else if (Input.GetKeyDown(KeyCode.R))
         {
             RecvGameResult();
         }
