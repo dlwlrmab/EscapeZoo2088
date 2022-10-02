@@ -7,10 +7,10 @@ public class Round4 : Round
     [Header("Round 4")]
     [Space(10)]
     [SerializeField] Transform _balls;
-    [SerializeField] RoundClear _clear;
-    [SerializeField] ObjectController _key;
+    [SerializeField] RoundObjClear _clear;
+    [SerializeField] RoundObj _key;
 
-    private RoundDead[] _roundDeads = null;
+    private RoundObjDead[] _roundDeads = null;
 
     #region Base Round
 
@@ -20,8 +20,8 @@ public class Round4 : Round
 
         _balls.gameObject.SetActive(true);
 
-        _roundDeads = _balls.GetComponentsInChildren<RoundDead>();
-        foreach (RoundDead child in _roundDeads)
+        _roundDeads = _balls.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in _roundDeads)
             child.SetRound(this);
         _clear.SetRound(this);
     }
@@ -30,9 +30,9 @@ public class Round4 : Round
     {
         base.ReStartRound();
 
-        foreach (RoundDead child in _roundDeads)
+        foreach (RoundObjDead child in _roundDeads)
         {
-            var objCon = child.GetComponent<ObjectController>();
+            var objCon = child.GetComponent<RoundObj>();
             if (objCon != null)
                 objCon.Init();
         }

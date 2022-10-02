@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObjectMovingwork : MonoBehaviour
+public class RoundObjMovingwork : MonoBehaviour
 {
     [SerializeField] private bool _front = false;
     [SerializeField] private Transform _autoMove;

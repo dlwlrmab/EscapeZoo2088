@@ -7,7 +7,7 @@ public class Round0 : Round
     [Header("Round 0")]
     [Space(10)]
     [SerializeField] SpriteRenderer _sun;
-    [SerializeField] RoundClear _clear;
+    [SerializeField] RoundObjClear _clear;
 
     private List<Vector3> _prePlayerPos;
     private IEnumerator _coCheckPlayerMoving = null;

@@ -7,8 +7,8 @@ public class Round5 : Round
 {
     [Header("Round 5")]
     [Space(10)]
-    [SerializeField] RoundClear _clear;
-    [SerializeField] ButtonObj[] _buttonList = new ButtonObj[3];
+    [SerializeField] RoundObjClear _clear;
+    [SerializeField] RoundObjButton[] _buttonList = new RoundObjButton[3];
     [SerializeField] Sprite _offFireImage;
     [SerializeField] Sprite _offButtonImage;
 
@@ -31,7 +31,7 @@ public class Round5 : Round
     {
         base.ReStartRound();
 
-        foreach (ButtonObj button in _buttonList)
+        foreach (RoundObjButton button in _buttonList)
             button.Init();
     }
 

@@ -6,7 +6,7 @@ public class Round3 : Round
 {
     [Header("Round 3")]
     [Space(10)]
-    [SerializeField] RoundClear _clear;
+    [SerializeField] RoundObjClear _clear;
 
     #region Base Round
 

@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     {
         if (other != null)
         {
-            var obj = other.gameObject.GetComponent<ObjectController>();
+            var obj = other.gameObject.GetComponent<RoundObj>();
 
             if(obj != null)
             {

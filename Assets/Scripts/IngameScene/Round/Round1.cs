@@ -8,9 +8,9 @@ public class Round1 : Round
     [Space(10)]
     [SerializeField] Transform _dropMap;
     [SerializeField] GameObject _emptyGound;
-    [SerializeField] RoundClear _clear;
+    [SerializeField] RoundObjClear _clear;
 
-    private RoundDead[] _roundDeads = null;
+    private RoundObjDead[] _roundDeads = null;
 
     #region Base Round
 
@@ -18,8 +18,8 @@ public class Round1 : Round
     {
         base.StartRound();
 
-        _roundDeads = _dropMap.GetComponentsInChildren<RoundDead>();
-        foreach (RoundDead child in _roundDeads)
+        _roundDeads = _dropMap.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in _roundDeads)
             child.SetRound(this);
         _clear.SetRound(this);
 

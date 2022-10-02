@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireButton : ButtonObj
+public class RoundObjFireButton : RoundObjButton
 {
     [SerializeField] Transform _offFireObj;
 

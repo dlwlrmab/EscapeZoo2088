@@ -4,9 +4,9 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 
-public class ButtonObj : MonoBehaviour
+public class RoundObjButton : MonoBehaviour
 {
-    [SerializeField] protected RoundDead _linkedObj; // 버튼을 눌렀을때 영향을 받는 obj
+    [SerializeField] protected RoundObjDead _linkedObj; // 버튼을 눌렀을때 영향을 받는 obj
 
     protected Action _action; // 버튼을 눌렀을때 진행될 동작 
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumDef;
 
-public class ObjectController : MonoBehaviour
+public class RoundObj : MonoBehaviour
 {
     [SerializeField] BLOCKTYPE _type;
     [SerializeField] float _speed = 0;

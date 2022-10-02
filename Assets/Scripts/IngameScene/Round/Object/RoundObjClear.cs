@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundClear : MonoBehaviour
+public class RoundObjClear : MonoBehaviour
 {
     private Round _round;
 

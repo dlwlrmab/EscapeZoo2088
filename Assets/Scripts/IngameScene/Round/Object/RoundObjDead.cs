@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RoundDead : MonoBehaviour
+public class RoundObjDead : MonoBehaviour
 {
     private Round _round;
 

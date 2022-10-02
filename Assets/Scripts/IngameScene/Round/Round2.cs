@@ -7,9 +7,9 @@ public class Round2 : Round
     [Header("Round 2")]
     [Space(10)]
     [SerializeField] Transform _deadMap;
-    [SerializeField] RoundClear _clear;
+    [SerializeField] RoundObjClear _clear;
 
-    private RoundDead[] _roundDeads = null;
+    private RoundObjDead[] _roundDeads = null;
 
     #region Base Round
 
@@ -17,8 +17,8 @@ public class Round2 : Round
     {
         base.StartRound();
 
-        _roundDeads = _deadMap.GetComponentsInChildren<RoundDead>();
-        foreach (RoundDead child in _roundDeads)
+        _roundDeads = _deadMap.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in _roundDeads)
             child.SetRound(this);
         _clear.SetRound(this);
     }
