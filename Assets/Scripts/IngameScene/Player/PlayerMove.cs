@@ -76,10 +76,10 @@ public class PlayerMove : MonoBehaviour
                 else if (Input.GetKeyDown(KeyCode.LeftArrow))
                     _direction = -1;
             }
-            
+
             if (_jumpKeyDown)
             {
-                if(jumpHeight < 2f)
+                if (jumpHeight < 2f)
                 {
                     jumpHeight += 0.01f;
                     _jumpX += 0.03f;
@@ -92,7 +92,7 @@ public class PlayerMove : MonoBehaviour
     {
         // 물리 작용 처리
         float jumpSpeed = rb.velocity.y;
-        
+
         if (_type != ROUNDTYPE.LONGJUMP)
         {
             if (jump)
@@ -116,12 +116,13 @@ public class PlayerMove : MonoBehaviour
             if (!isGrounded)
                 rb.velocity = new Vector2(_direction * _jumpX, jumpSpeed);
         }
-            
     }
 
     #region ##### Ground Check Trigger #####
+
     private void OnTriggerStay2D(Collider2D other)
-    {   // 땅이나 플레이어 위에 있는 경우는 점프 가능
+    {
+        // 땅이나 플레이어 위에 있는 경우는 점프 가능
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
         {
@@ -132,10 +133,7 @@ public class PlayerMove : MonoBehaviour
             rb.velocity = new Vector2(0, rb.velocity.y);
 
             if (layer == LayerMask.NameToLayer("Ground_Move"))
-            {
                 transform.SetParent(other.transform);
-            }
-
         }
     }
 
@@ -145,14 +143,11 @@ public class PlayerMove : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
         {
             isGrounded = false;
-
-            if (layer == LayerMask.NameToLayer("Ground_Move"))
-            {
-                transform.SetParent(_playerPerent);
-            }
+            transform.SetParent(_playerPerent);
         }
 
         jumpHeight = _initJump;
     }
+
     #endregion
 }

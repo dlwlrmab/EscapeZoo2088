@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
     public void SetRround(Vector3 startPos)
     {
-        transform.localPosition = startPos;
+        transform.position = startPos;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -42,7 +42,5 @@ public class Player : MonoBehaviour
                 }
             }
         }
-    }
-
-    
+    }    
 }
