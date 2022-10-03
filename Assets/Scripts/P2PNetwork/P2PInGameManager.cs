@@ -4,6 +4,8 @@ using EuNet.Core;
 using EuNet.Unity;
 using UnityEngine;
 
+[ExecutionOrder(-10)]
+[RequireComponent(typeof(NetView))]
 public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandler
 {
     public Actor ControlActor { get; set; }

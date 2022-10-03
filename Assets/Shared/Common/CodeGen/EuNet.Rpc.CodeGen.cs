@@ -375,7 +375,7 @@ namespace Common
 {
     public interface IActorViewRpc_NoReply
     {
-        void OnSetMoveVelocity(float x, float y);
+        void OnSetMoveVelocity(float x, bool jump);
     }
 
     public enum IActorViewRpc_Enum : int
@@ -444,14 +444,14 @@ namespace Common
             return new ActorViewRpc(Target, RequestWaiter, timeout);
         }
 
-        public async Task OnSetMoveVelocity(float x, float y)
+        public async Task OnSetMoveVelocity(float x, bool jump)
         {
             var _writer_ = NetPool.DataWriterPool.Alloc();
             try
             {
                 _writer_.Write((int)IActorViewRpc_Enum.OnSetMoveDirection);
                 _writer_.Write(x);
-                _writer_.Write(y);
+                _writer_.Write(jump);
                 await SendRequestAndWait(_writer_);
             }
             finally
@@ -460,14 +460,14 @@ namespace Common
             }
         }
 
-        void IActorViewRpc_NoReply.OnSetMoveVelocity(float x, float y)
+        void IActorViewRpc_NoReply.OnSetMoveVelocity(float x, bool jump)
         {
             var _writer_ = NetPool.DataWriterPool.Alloc();
             try
             {
                 _writer_.Write((int)IActorViewRpc_Enum.OnSetMoveDirection);
                 _writer_.Write(x);
-                _writer_.Write(y);
+                _writer_.Write(jump);
                 SendRequest(_writer_);
             }
             finally
@@ -480,7 +480,7 @@ namespace Common
     [RequireComponent(typeof(NetView))]
     public abstract class ActorViewRpcServiceBehaviour : MonoBehaviour, IRpcInvokable, IActorViewRpc
     {
-        public abstract Task OnSetMoveVelocity(float x, float y);
+        public abstract Task OnSetMoveVelocity(float x, bool jump);
         public async Task<bool> Invoke(object _target_, NetDataReader _reader_, NetDataWriter _writer_)
         {
             ISession session = _target_ as ISession;
@@ -490,8 +490,8 @@ namespace Common
                 case IActorViewRpc_Enum.OnSetMoveDirection:
                     {
                         var x = _reader_.ReadSingle();
-                        var y = _reader_.ReadSingle();
-                        await OnSetMoveVelocity(x, y);
+                        var jump = _reader_.ReadBoolean();
+                        await OnSetMoveVelocity(x, jump);
                     }
                     break;
                 default: return false;
@@ -512,8 +512,8 @@ namespace Common
                 case IActorViewRpc_Enum.OnSetMoveDirection:
                     {
                         var x = _reader_.ReadSingle();
-                        var y = _reader_.ReadSingle();
-                        await _view_.FindRpcHandler<IActorViewRpc>().OnSetMoveVelocity(x, y);
+                        var jump = _reader_.ReadBoolean();
+                        await _view_.FindRpcHandler<IActorViewRpc>().OnSetMoveVelocity(x, jump);
                     }
                     break;
                 default: return false;

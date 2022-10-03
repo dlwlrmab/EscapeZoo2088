@@ -5,6 +5,6 @@ namespace Common
 {
     public interface IActorViewRpc : IViewRpc
     {
-        Task OnSetMoveVelocity(float x, float y);
+        Task OnSetMoveVelocity(float x, bool jump);
     }
 }

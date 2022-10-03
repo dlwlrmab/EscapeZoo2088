@@ -11,9 +11,9 @@ public class PlayerMove : MonoBehaviour
     float jumpHeight;
 
     Rigidbody2D rb;
-    float inputDirection;
+    public float inputDirection;
 
-    bool jump = false;
+    public bool jump = false;
     bool isGrounded = true;
 
     float _initJump = 1f;
@@ -39,7 +39,7 @@ public class PlayerMove : MonoBehaviour
         _initJump = jumpHeight;
     }
 
-    // Update is called once per frame
+    // 여기서 구현하면 다른 플레이어도 내가 움직이게 됨
     void Update()
     {   // 입력만 처리
         if (_type != ROUNDTYPE.LONGJUMP)
@@ -51,6 +51,8 @@ public class PlayerMove : MonoBehaviour
                 if (isGrounded)
                     jump = true;
             }
+            var actor = P2PInGameManager.Instance.ControlActor;
+            actor.SetMoveVelocity(inputDirection, jump);
         }
         else
         {

@@ -11,12 +11,14 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
     private NetView _view;
     public NetView View => _view;
     private ActorViewRpc _actorRpc;
-    private float _moveDirection;
-    private Vector3? _netSyncPosition;
-    public float _moveSpeed = 2f;
+
+    private Vector2? _netSyncPosition;
+    private Vector2? _netSyncVelocity;
+
     public Rigidbody2D _rb;
     public bool IsJump = false;
     public float jumpHeight = 1f;
+    public float moveSpeed = 2f;
     Vector2 velocity;
 
     private void Awake()
@@ -36,50 +38,32 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
         ActorManager.Instance?.Remove(this);
     }
 
-    void Update()
-    {
-        _moveDirection = Input.GetAxisRaw("Horizontal");
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            IsJump = true;
-        }
-    }
-
     private void FixedUpdate()
     {
-        velocity = _rb.velocity;
-        var moveDelta = _moveDirection * _moveSpeed * Time.deltaTime;
-
-        if (_netSyncPosition.HasValue)
-        {/*
-            // 네트워크 위치와 동기화를 하자
-            _netSyncPosition += moveDelta;
-
-            var dist = _netSyncPosition.Value - transform.localPosition;
-            moveDelta = dist * Mathf.Min(Time.deltaTime * 10f, 1f);*/
-        }
-        if (IsJump)
+        if (_netSyncPosition.HasValue && _netSyncVelocity.HasValue)
         {
-            velocity.y += Mathf.Sqrt(2f * 9.81f * jumpHeight);
-            IsJump = false;
+            // 네트워크 위치와 동기화를 하자
+            _netSyncPosition += _netSyncVelocity*Time.fixedDeltaTime;
+
+            _rb.MovePosition(_netSyncPosition.Value);
         }
-        velocity.x = _moveDirection * _moveSpeed;
-        SetMoveVelocity(velocity.x, velocity.y);
     }
 
-    public void SetMoveVelocity(float x, float y)
+    public void SetMoveVelocity(float x, bool jump)
     {
         _actorRpc
             .ToOthers(DeliveryMethod.Unreliable)
-            .OnSetMoveVelocity(x, y);
+            .OnSetMoveVelocity(x, jump);
 
-        OnSetMoveVelocity(x, y);
+        OnSetMoveVelocity(x, jump);
     }
 
-    public Task OnSetMoveVelocity(float x, float y)
+    public Task OnSetMoveVelocity(float x, bool jump)
     {
-        velocity.x = x;
-        velocity.y = y;
+        velocity = _rb.velocity;
+        velocity.x = x * moveSpeed;
+        if (jump)
+            velocity.y += Mathf.Sqrt(2f * -Physics2D.gravity.y * jumpHeight);
         _rb.velocity = velocity;
         return Task.CompletedTask;
     }
@@ -101,15 +85,15 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     public bool OnViewPeriodicSyncSerialize(NetDataWriter writer)
     {
-        writer.Write(_moveDirection);
-        writer.Write(transform.localPosition);
+        writer.Write(_rb.velocity);
+        writer.Write(_rb.position);
         return true;
     }
 
     public void OnViewPeriodicSyncDeserialize(NetDataReader reader)
     {
-        _moveDirection = reader.ReadSingle();
-        _netSyncPosition = reader.ReadVector3();
+        _netSyncVelocity = reader.ReadVector2();
+        _netSyncPosition = reader.ReadVector2();
     }
 
     public void Serialize(NetDataWriter writer)

@@ -342,11 +342,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c068102c4f81b54fae7331b56dc12d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 6229757935331134203}
-  _moveSpeed: 2
   _rb: {fileID: 0}
   IsJump: 0
   jumpHeight: 1
+  moveSpeed: 2
 --- !u!114 &7891928453796484017
 MonoBehaviour:
   m_ObjectHideFlags: 0
