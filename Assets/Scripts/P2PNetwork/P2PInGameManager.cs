@@ -42,7 +42,7 @@ public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandle
             // 내가 주인인 플레이어를 생성함
             playerObj = NetClientGlobal.Instance.Instantiate(
                 "Player/PlayerMe",
-                new Vector3(Random.Range(-1f, 1f), 0.5f, 0f),
+                new Vector3(Random.Range(-0.1f, 0.1f), 0.5f, 0f),
                 Quaternion.identity,
                 writer);
 
