@@ -17,7 +17,7 @@ namespace EuNet.Core
         // 데이터 클리어
         public void Clear()
         {
-            _queue.Clear();
+            _queue = null;
         }
 
         public void Enqueue(T value)

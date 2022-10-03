@@ -23,8 +23,6 @@ public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandle
             // 마스터가 아니므로 마스터로부터 현재 게임 상황을 받아서 복구시킴
             await RecoveryAsync();
         }
-
-        CreateMyPlayer();
     }
 
     public async UniTask<bool> RecoveryAsync()
@@ -34,13 +32,14 @@ public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandle
         return true;
     }
 
-    private void CreateMyPlayer()
+    public GameObject CreateMyPlayer()
     {
+        GameObject playerObj = null;
         NetPool.DataWriterPool.Use((writer) =>
         {
             // 내가 주인인 플레이어를 생성함
-            var playerObj = NetClientGlobal.Instance.Instantiate(
-                "Player",
+            playerObj = NetClientGlobal.Instance.Instantiate(
+                "Player/PlayerMe",
                 new Vector3(Random.Range(-1f, 1f), 0.5f, 0f),
                 Quaternion.identity,
                 writer);
@@ -48,6 +47,7 @@ public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandle
             // 컨트롤을 할 수 있도록 등록
             ControlActor = playerObj.GetComponent<Actor>();
         });
+        return playerObj;
     }
 
     public void OnViewInstantiate(NetDataReader reader)

@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewPeriodicSync, IActorViewRpc
 {
-    [SerializeField] private Renderer _renderer;
+    //[SerializeField] private Renderer _renderer;
 
     private NetView _view;
     public NetView View => _view;
@@ -86,7 +86,7 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     public void OnViewInstantiate(NetDataReader reader)
     {
-        _renderer.material.color = reader.ReadColor();
+        //_renderer.material.color = reader.ReadColor();
     }
 
     public void OnViewDestroy(NetDataReader reader)
@@ -114,11 +114,11 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     public void Serialize(NetDataWriter writer)
     {
-        writer.Write(_renderer.material.color);
+        //writer.Write(_renderer.material.color);
     }
 
     public void Deserialize(NetDataReader reader)
     {
-        _renderer.material.color = reader.ReadColor();
+        //_renderer.material.color = reader.ReadColor();
     }
 }

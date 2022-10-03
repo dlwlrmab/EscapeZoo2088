@@ -227,11 +227,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6229757935380672633}
-  - component: {fileID: 6229757935380672632}
   - component: {fileID: 6326742817650103210}
   - component: {fileID: 6229757935380672638}
   - component: {fileID: 388584907187555092}
   - component: {fileID: 234516441856244401}
+  - component: {fileID: 7521154807001599898}
+  - component: {fileID: 7891928453796484017}
   m_Layer: 15
   m_Name: PlayerMe
   m_TagString: Untagged
@@ -256,21 +257,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6229757935380672632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6229757935380672635}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc7bf043f0dce4b4bae809677863ed32, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 2
-  jumpHeight: 1
-  isGrounded: 1
 --- !u!114 &6326742817650103210
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,3 +330,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerCollider: {fileID: 388584907187555092}
   blockCollider: {fileID: 4018919810110140994}
+--- !u!114 &7521154807001599898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229757935380672635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c068102c4f81b54fae7331b56dc12d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _renderer: {fileID: 6229757935331134203}
+  _moveSpeed: 2
+  _rb: {fileID: 0}
+  IsJump: 0
+  jumpHeight: 1
+--- !u!114 &7891928453796484017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6229757935380672635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be91fbb00d51a7c47b4ec39613457832, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewId: 0
+  _ownerSessionId: 0
+  _isSceneObject: 0
+  _viewSyncType: 0
+  _viewSyncInterval: 0.05
