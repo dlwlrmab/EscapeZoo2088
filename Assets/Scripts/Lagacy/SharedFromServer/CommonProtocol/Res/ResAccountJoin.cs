@@ -3,7 +3,12 @@
     public class ResAccountJoin : CBaseProtocol
     {
         public ResponseType ResponseType;
+        public string userId;
+    }
 
-        public int UserId;
+    public class ResLogin : CBaseProtocol
+    {
+        public ResponseType ResponseType;
+        public string userId;
     }
 }
