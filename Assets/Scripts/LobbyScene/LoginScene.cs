@@ -90,7 +90,7 @@ public class LoginScene : MonoBehaviour
         }
 
         // 서버 작업 이후 수정되어야할 코드들
-        Login(id);
+        Login(id, pw);
     }
 
     public void OnClickJoinButton()
@@ -118,7 +118,7 @@ public class LoginScene : MonoBehaviour
         }
 
         // 서버 작업 이후 수정되어야할 코드들
-        JoinAccount(id);
+        JoinAccount(id, pw, mbti);
     }
 
     // 서버로부터 로그인 결과를 받아서 처리
@@ -140,22 +140,25 @@ public class LoginScene : MonoBehaviour
     }
 
     // 서버로 로그인 정보 보냄
-    void Login(string id)
+    void Login(string id, string pw)
     {
-        if (string.IsNullOrWhiteSpace(id))
+        if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(pw))
             return;
 
         var req = new ReqLogin
         {
             userId = id,
-            password = "1234",
+            password = pw,
         };
-
+        
         var webClient = new WebClient();
+        string jsondata = JsonConvert.SerializeObject(req);
+
+        Debug.Log($"LoginData : {jsondata}");
+
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
         var responseBytes
-            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "Login", "POST"
-            , JsonConvert.SerializeObject(req));
+            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "Login", "POST", jsondata);
 
         //var webClient = new WebClient();
         //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
@@ -180,7 +183,7 @@ public class LoginScene : MonoBehaviour
         }
     }
 
-    void JoinAccount(string id)
+    void JoinAccount(string id, string pw, string mbti)
     {
         if (string.IsNullOrWhiteSpace(id))
             return;
@@ -188,8 +191,8 @@ public class LoginScene : MonoBehaviour
         var req = new ReqAccountJoin
         {
             userId = id,
-            password = "1234",
-            mbti = "infj",
+            password = pw,
+            mbti = mbti,
         };
 
         int i = 1;
@@ -202,11 +205,14 @@ public class LoginScene : MonoBehaviour
         {
             var webClient = new WebClient();
 
+            string jsondata = JsonConvert.SerializeObject(req);
+
+            Debug.Log($"JoinData : {jsondata}");
+
             webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
             var responseBytes
-            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "AccountJoin", "POST"
-            , JsonConvert.SerializeObject(req));
+            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "AccountJoin", "POST", jsondata);
 
             var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
 
