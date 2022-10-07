@@ -53,22 +53,24 @@ public class LobbyScene : MonoBehaviour
         if (i == 0)
         {
             var message = MessagePackSerializer.Serialize(req);
-            SendProtocolManager.SendProtocolReq(message, req.MessageType.ToString());
-
-            var responseBytes = webClient.UploadData(GlobalData.GatewayAPI + req.MessageType.ToString(), "POST", message);
-            res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
+            SendProtocolManager.Instance.SendProtocolReq(message, req.MessageType.ToString(), (responseBytes) =>
+            {
+                res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
+            });
         }
         else
         {
             string jsondata = JsonConvert.SerializeObject(req);
-            var responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "TryMatching");
-            res = JsonConvert.DeserializeObject<ResTryMatch>(responseBytes);
+            SendProtocolManager.Instance.SendLambdaReq(jsondata, "TryMatching" ,(responseString) => {
+                res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
+            });
+            
         }
 
         if (res != null && res.ResponseType == ResponseType.Success)
         {
-            // ????? gamesessionid, playersessionid?
-            //ReqOwnTeamMember(res.IpAddress, res.Port, res.GameSessionId);
+           //  ????? gamesessionid, playersessionid?
+           // ReqOwnTeamMember(res.IpAddress, res.Port, res.GameSessionId);
         }
     }
 
@@ -84,7 +86,7 @@ public class LobbyScene : MonoBehaviour
 
         while (false == BattleServerConnector.Instance.IsConnected) ;
 
-        RecvReadyGame(true);
+        ResOwnTeamMember(true);
 
         GlobalData.GameSessionId = gameSessionId;
         BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
@@ -98,7 +100,7 @@ public class LobbyScene : MonoBehaviour
     }
 
     // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
-    public void MakeMatchMaking()
+    public void ReqMakeMatchMaking()
     {
         
     }
@@ -111,18 +113,11 @@ public class LobbyScene : MonoBehaviour
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
-        // type 서버와 상의하여 정해야함 (임시 : "MyPage")
-        var responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "MyPage");
-        ResMyPage res = JsonConvert.DeserializeObject<ResMyPage>(responseBytes);
 
-        if (res != null && res.ResponseType == ResponseType.Success)
-        {
-            // 성공 처리
-        }
-        else
-        {
-            // 실패처리
-        }
+        // type 서버와 상의하여 정해야함 (임시 : "MyPage")
+        SendProtocolManager.Instance.SendLambdaReq(jsondata, "MyPage", (responseString) => {
+            ResMyPageData(responseString);
+        });
     }
 
     #endregion
@@ -131,7 +126,7 @@ public class LobbyScene : MonoBehaviour
     // 서버로부터 준비에대한 응답을 받음
     // 본인이 호스트가 아닌 경우 (성공여부, 이미 준비하고있었던 유저 리스트)
     // 본인이 호스트인경우 (성공여부)
-    public void RecvReadyGame(bool success)
+    public void ResOwnTeamMember(bool success)
     {
         if (success)
         {
@@ -155,7 +150,18 @@ public class LobbyScene : MonoBehaviour
         }
     }
 
-
+    public void ResMyPageData(string responseString)
+    {
+        ResMyPage res = JsonConvert.DeserializeObject<ResMyPage>(responseString);
+        //if (res != null && res.ResponseType == ResponseType.Success)
+        {
+            // 성공 처리
+        }
+        //else
+        {
+            // 실패처리
+        }
+    }
 
     // 서버로부터 매치메이킹 결과 받음
     public void RecvMakeMatchMakingResult(bool success)

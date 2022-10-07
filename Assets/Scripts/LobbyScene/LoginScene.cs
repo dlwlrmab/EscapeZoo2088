@@ -37,6 +37,7 @@ public class LoginScene : MonoBehaviour
         _startCanvas.gameObject.SetActive(true);
     }
 
+    #region button
     public void OnClickGoLogin()
     {
         _notiText.text = "로그인";
@@ -118,29 +119,11 @@ public class LoginScene : MonoBehaviour
         }
 
         // 서버 작업 이후 수정되어야할 코드들
-        JoinAccount(id, pw, mbti);
+        ReqJoinAccount(id, pw, mbti);
     }
+    #endregion
 
-    // 서버로부터 로그인 결과를 받아서 처리
-    // 필요한 데이터 
-    // 플레이가능한 라운드?
-    public void RecvLoginResult(bool success)
-    {
-        if (success)
-            _notiText.text = "로그인 성공";
-        else
-        {
-            _notiText.text = "ID / PW 를 확인해 주세요.";
-            return;
-        }
-
-        GlobalData.id = _inputId.text;
-        GlobalData.mbti = _inputMBTI.text;
-
-        _loginButton.gameObject.SetActive(false);
-        _scenemanager.PlayFadeout(null, "LobbyScene");
-    }
-
+    #region reqServer
     // 서버로 로그인 정보 보냄
     void Login(string id, string pw)
     {
@@ -154,24 +137,12 @@ public class LoginScene : MonoBehaviour
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
-        string responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "Login");
-
-        var res = JsonConvert.DeserializeObject<ResLogin>(responseBytes);
-
-        if (res.ResponseType == ResponseType.Fail)
-        {
-            RecvLoginResult(false);
-        }
-        else
-        {
-            GlobalData.id = res.userId;
-
-            initText();
-            RecvLoginResult(true);
-        }
+        SendProtocolManager.Instance.SendLambdaReq(jsondata, "Login", (a) => {
+            RecvLoginResult(a);
+        });
     }
 
-    void JoinAccount(string id, string pw, string mbti)
+    void ReqJoinAccount(string id, string pw, string mbti)
     {
         if (string.IsNullOrWhiteSpace(id))
             return;
@@ -184,8 +155,43 @@ public class LoginScene : MonoBehaviour
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
-        var responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "AccountJoin");
+        SendProtocolManager.Instance.SendLambdaReq(jsondata, "AccountJoin", (a) =>
+        {
+            RecvJoinResult(a);
+        });
+    }
+    #endregion
 
+    #region resServer
+    // 서버로부터 로그인 결과를 받아서 처리
+    // 필요한 데이터 
+    // 플레이가능한 라운드?
+    public void RecvLoginResult(string responseString)
+    {
+        var res = JsonConvert.DeserializeObject<ResLogin>(responseString);
+
+        if (res.ResponseType == ResponseType.Fail)
+        {
+            _notiText.text = "ID / PW 를 확인해 주세요.";
+            return;
+        }
+        else
+        {
+            _notiText.text = "로그인 성공";
+            GlobalData.id = res.userId;
+            initText();
+        }
+
+
+        GlobalData.id = _inputId.text;
+        GlobalData.mbti = _inputMBTI.text;
+
+        _loginButton.gameObject.SetActive(false);
+        _scenemanager.PlayFadeout(null, "LobbyScene");
+    }
+
+    public void RecvJoinResult(string responseBytes)
+    {
         var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
 
         if (res.ResponseType == ResponseType.DuplicateName)
@@ -202,6 +208,8 @@ public class LoginScene : MonoBehaviour
             _notiText.text = "회원가입 실패";
         }
     }
+    #endregion
+
 
     void initText()
     {

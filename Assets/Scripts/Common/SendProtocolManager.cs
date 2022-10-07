@@ -2,37 +2,58 @@
 using System;
 using System.Net;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
-public class SendProtocolManager : MonoBehaviour
+public class SendProtocolManager : Singleton<SendProtocolManager>
 {
-    public static string SendLambdaReq(string str, string type)
-    {
-        var webClient = new WebClient();
+    WebClient webClient = null;
+    string responseString = string.Empty;
+    byte[] responseBytes;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        webClient = new WebClient();
+    }
+
+    public void SendLambdaReq(string str, string type, Action<string> action)
+    {
+        StartCoroutine(CoLambdaReq(str, type, action));
+    }
+
+    public void SendProtocolReq(byte[] str, string type, Action<byte[]> action)
+    {
+        StartCoroutine(CoProtocolReq(str, type, action));
+    }
+
+    public IEnumerator CoLambdaReq(string str, string type, Action<string> a)
+    {
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
         Debug.Log($"send json {type} : {str}");
 
-        var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
+        responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
 
-        Debug.Log($"res {type} : {responseBytes}");
+        Debug.Log($"res json {type} : {responseString}");
 
-        return responseBytes;
+        a?.Invoke(responseString);
+        yield return null;
     }
 
-    public static byte[] SendProtocolReq(byte[] str, string type)
+    IEnumerator CoProtocolReq(byte[] str, string type, Action<byte[]> a)
     {
-        var webClient = new WebClient();
         webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
 
         var message = MessagePackSerializer.Serialize(str);
 
         Debug.Log($"send message {type} : {message}");
 
-        var responseBytes = webClient.UploadData(GlobalData.GatewayAPI + type, "POST", message);
+        responseBytes = webClient.UploadData(GlobalData.GatewayAPI + type, "POST", message);
 
         Debug.Log($"res message {type} : {responseBytes}");
 
-        return responseBytes;
+        a?.Invoke(responseBytes);
+        yield return null;
     }
 }
