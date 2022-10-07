@@ -7,6 +7,7 @@ public class IngameLoadingController : MonoBehaviour
 {
     [Header("Start Loading")]
     [SerializeField] GameObject _startLoading;
+    [SerializeField] RectTransform _startBackground;
     [SerializeField] Image _loadingBar;
 
     [Header("Round Loading")]
@@ -26,13 +27,20 @@ public class IngameLoadingController : MonoBehaviour
         _startLoading.SetActive(true);
         _roundLoading.SetActive(false);
 
+        _startBackground.localScale = Vector3.one;
         _loadingBar.fillAmount = 0f;
 
         var time = 0f;
         while (true)
         {
-            time += Time.deltaTime * 0.3f;
-            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, time);
+            time += Time.deltaTime;
+
+            if (_startBackground.localScale.x <= 0.7f)
+                _startBackground.localScale = new Vector3(0.7f, 0.7f, 0.7f);
+            else
+                _startBackground.localScale = new Vector3(_startBackground.localScale.x - time * 0.0001f, _startBackground.localScale.y - time * 0.0001f, 1);
+
+            _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, time * 0.3f);
             if (_loadingBar.fillAmount >= 1)
                 break;
 
