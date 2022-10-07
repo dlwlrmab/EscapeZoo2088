@@ -137,9 +137,9 @@ public class LoginScene : MonoBehaviour
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
-        SendProtocolManager.Instance.SendLambdaReq(jsondata, "Login", (a) => {
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "Login", (a) => {
             RecvLoginResult(a);
-        });
+        }));
     }
 
     void ReqJoinAccount(string id, string pw, string mbti)
@@ -155,10 +155,10 @@ public class LoginScene : MonoBehaviour
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
-        SendProtocolManager.Instance.SendLambdaReq(jsondata, "AccountJoin", (a) =>
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "AccountJoin", (a) =>
         {
             RecvJoinResult(a);
-        });
+        }));
     }
     #endregion
 

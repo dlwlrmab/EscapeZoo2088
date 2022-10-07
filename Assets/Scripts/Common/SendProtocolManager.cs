@@ -14,18 +14,8 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         base.Awake();
         webClient = new WebClient();
     }
-
-    public void SendLambdaReq(string str, string type, Action<string> action)
-    {
-        StartCoroutine(CoLambdaReq(str, type, action));
-    }
-
-    public void SendProtocolReq(byte[] str, string type, Action<byte[]> action)
-    {
-        StartCoroutine(CoProtocolReq(str, type, action));
-    }
-
-    public IEnumerator CoLambdaReq(string str, string type, Action<string> a)
+    
+    public IEnumerator CoSendLambdaReq(string str, string type, Action<string> a)
     {
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
@@ -39,7 +29,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         yield return null;
     }
 
-    IEnumerator CoProtocolReq(byte[] str, string type, Action<byte[]> a)
+    public IEnumerator CoSendProtocolReq(byte[] str, string type, Action<byte[]> a)
     {
         webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
 

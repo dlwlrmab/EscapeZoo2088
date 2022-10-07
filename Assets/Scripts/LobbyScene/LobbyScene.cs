@@ -54,21 +54,22 @@ public class LobbyScene : MonoBehaviour
         if (i == 0)
         {
             var message = MessagePackSerializer.Serialize(req);
-            SendProtocolManager.Instance.SendProtocolReq(message, req.MessageType.ToString(), (responseBytes) =>
+            StartCoroutine(SendProtocolManager.Instance.CoSendProtocolReq(message, req.MessageType.ToString(), (responseBytes) =>
             {
                 res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
                 ReqOwnTeamMember(res);
-            });
+            }));
+           
         }
         else
         {
             string jsondata = JsonConvert.SerializeObject(req);
-            SendProtocolManager.Instance.SendLambdaReq(jsondata, "TryMatching" ,(responseString) =>
+
+            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "TryMatching" ,(responseString) =>
             {
                 res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
                 ReqOwnTeamMember(res);
-            });
-            
+            }));
         }
     }
 
@@ -120,9 +121,10 @@ public class LobbyScene : MonoBehaviour
 
         string jsondata = JsonConvert.SerializeObject(req);
 
-        SendProtocolManager.Instance.SendLambdaReq(jsondata, "myPage", (responseString) => {
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "myPage", (responseString) => {
             ResMyPageData(responseString);
-        });
+        }));
+        
     }
 
     #endregion
