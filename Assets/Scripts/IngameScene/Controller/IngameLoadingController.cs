@@ -5,9 +5,15 @@ using UnityEngine.UI;
 
 public class IngameLoadingController : MonoBehaviour
 {
-    [SerializeField] GameObject _loading;
-    [SerializeField] Text _explanation;
+    [Header("Start Loading")]
+    [SerializeField] GameObject _startLoading;
     [SerializeField] Image _loadingBar;
+
+    [Header("Round Loading")]
+    [SerializeField] GameObject _roundLoading;
+    [SerializeField] Text _roundExplanation;
+
+    #region Start Loading
 
     public void LoadStartLoading()
     {
@@ -17,16 +23,15 @@ public class IngameLoadingController : MonoBehaviour
 
     private IEnumerator ShowStartLoading()
     {
-        _loading.SetActive(true);
-        _loadingBar.transform.parent.gameObject.SetActive(true);
+        _startLoading.SetActive(true);
+        _roundLoading.SetActive(false);
 
-        _explanation.text = "스토리 설명 및 플레이어 입장중";
         _loadingBar.fillAmount = 0f;
 
         var time = 0f;
         while (true)
         {
-            time += Time.deltaTime;
+            time += Time.deltaTime * 0.3f;
             _loadingBar.fillAmount = Mathf.Lerp(0f, 1f, time);
             if (_loadingBar.fillAmount >= 1)
                 break;
@@ -34,10 +39,14 @@ public class IngameLoadingController : MonoBehaviour
             yield return null;
         }
 
-        _loading.SetActive(false);
+        _startLoading.SetActive(false);
         _loadingBar.transform.parent.gameObject.SetActive(false);
         IngameScene.Instance.CompleteStartLoading();
     }
+
+    #endregion
+
+    #region Round Loading
 
     public void LoadRoundLoading()
     {
@@ -47,10 +56,10 @@ public class IngameLoadingController : MonoBehaviour
 
     private IEnumerator ShowRoundLoading()
     {
-        _loading.SetActive(true);
-        _loadingBar.transform.parent.gameObject.SetActive(false);
+        _startLoading.SetActive(false);
+        _roundLoading.SetActive(true);
 
-        _explanation.text = IngameScene.Instance.MapController.GetExplanation();
+        _roundExplanation.text = IngameScene.Instance.MapController.GetExplanation();
 
         var time = 0f;
         while (true)
@@ -62,7 +71,9 @@ public class IngameLoadingController : MonoBehaviour
             yield return null;
         }
 
-        _loading.SetActive(false);
+        _roundLoading.SetActive(false);
         IngameScene.Instance.CompleteRoundLoading();
     }
+
+    #endregion
 }
