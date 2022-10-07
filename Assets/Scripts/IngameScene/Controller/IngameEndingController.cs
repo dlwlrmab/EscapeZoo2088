@@ -1,24 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using EnumDef;
 
 public class IngameEndingController : MonoBehaviour
 {
-    [SerializeField] GameObject _win;
-    [SerializeField] GameObject _lose;
+    [SerializeField] GameObject _ending;
+    [SerializeField] Text _endingNotice;
+    [SerializeField] SpriteRenderer[] _players;
 
-    public void LoadEnding(int rank)
+    private Sprite[] _animalSprites;
+
+    private void Start()
     {
-        if (rank == 1)
-        {
-            _win.SetActive(true);
-            _lose.SetActive(false);
-        }
-        else
-        {
-            _win.SetActive(false);
-            _lose.SetActive(true);
-        }
+        _ending.SetActive(false);
+        _animalSprites = Resources.LoadAll<Sprite>("Animal");
+    }
+
+    public void LoadEnding(bool win)
+    {
+        _ending.SetActive(true);
+        _endingNotice.text = win ? "VICTORY" : "DEFEAT";
+
+        List<PlayerInfo> playerInfos = GlobalData.playerInfos;
+        for (int i = 0; i < 5; ++i)
+            _players[i].sprite = GetSprite(playerInfos[i].Animal);
+    }
+
+    private Sprite GetSprite(ANIMAL animal)
+    {
+        foreach (Sprite sprite in _animalSprites)
+            if (sprite.name.Contains(animal.ToString().ToLower()))
+                return sprite;
+        return null;
     }
 
     public void OnClickLobby()

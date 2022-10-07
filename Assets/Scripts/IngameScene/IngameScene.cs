@@ -102,12 +102,11 @@ public class IngameScene : MonoBehaviour
         _packetHandler.SendClearRound();
     }
 
-    public void ClearGame(int rank)
+    public void ClearGame(bool win)
     {
         _state = INGAME_STATE.ENDING;
-        _mapController.gameObject.SetActive(false);
         _playerController.gameObject.SetActive(false);
-        _endingController.LoadEnding(rank);
+        _endingController.LoadEnding(win);
     }
 
     public void MoveLobbyScene()
