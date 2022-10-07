@@ -41,7 +41,7 @@ public class IngameScene : MonoBehaviour
 
     INGAME_STATE _state = INGAME_STATE.LOADING;
 
-    private void Awake()
+    private void Start()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
