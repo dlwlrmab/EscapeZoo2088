@@ -39,23 +39,32 @@ public class IngameScene : MonoBehaviour
 
     SceneLoadManager _scenemanager = null;
 
-    STATE _state = STATE.LOADING;
+    INGAME_STATE _state = INGAME_STATE.LOADING;
 
-    private void Awake()
+    private void Start()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 
-        _state = STATE.LOADING;
+        InitGame();
+    }
+
+    #region Init
+
+    private void InitGame()
+    {
+        _state = INGAME_STATE.LOADING;
+        _mapController.CreateMapAndRound(GlobalData.roundList);
+        _playerController.CreatePlayer(GlobalData.playerInfos);
         _loadingController.LoadStartLoading();
     }
 
     public void CompleteStartLoading()
     {
-        StartCoroutine(WaitCreation());
+        StartCoroutine(WaitInitGame());
     }
 
-    private IEnumerator WaitCreation()
+    private IEnumerator WaitInitGame()
     {
         while (true)
         {
@@ -64,47 +73,45 @@ public class IngameScene : MonoBehaviour
             yield return null;
         }
 
-        _packetHandler.SendGameLoadingComplete();
+        _packetHandler.SendInitGameComplete();
+    }
+
+    #endregion
+
+    public void LoadRound(int nextRound)
+    {
+        _state = INGAME_STATE.PLAYING;
+        _mapController.LoadRound(nextRound); // 맵 세팅 먼저
+        _playerController.LoadRound();
+        _loadingController.LoadRoundLoading();
+    }
+
+    public void CompleteRoundLoading()
+    {
+        StartRound();
     }
 
     public void StartRound()
     {
-        _playerController.StartRound();
-        _playerController.SetPlayerData(_mapController.GetCurrentRoundType());
         _mapController.StartRound();
+        _playerController.StartRound(_mapController.GetCurrentRoundType());
     }
 
     public void ClearRound()
     {
-        _packetHandler.SendRoundClear();
+        _packetHandler.SendClearRound();
+    }
+
+    public void ClearGame(int rank)
+    {
+        _state = INGAME_STATE.ENDING;
+        _mapController.gameObject.SetActive(false);
+        _playerController.gameObject.SetActive(false);
+        _endingController.LoadEnding(rank);
     }
 
     public void MoveLobbyScene()
     {
         _scenemanager.PlayFadeout(null, "LobbyScene");
     }
-
-    #region IngamePacketHandler
-
-    public void RecvEnterGame(int[] roundList)
-    {
-        _mapController.CreateMapAndRound(roundList);
-        _playerController.CreatePlayer();
-    }
-
-    public void RecvRoundStart(int nextRound)
-    {
-        _state = STATE.PLAYING;
-        _mapController.LoadRound(nextRound); // 맵 세팅 먼저
-        _playerController.LoadRound();
-        _loadingController.LoadRoundLoading();
-    }
-
-    public void RecvGameResult(int rank)
-    {
-        _state = STATE.ENDING;
-        _endingController.LoadEnding(rank);
-    }
-
-    #endregion
 }

@@ -1,16 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using CommonProtocol;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class LoginScene : MonoBehaviour
 {
-    // 로그인기능 완성시까지 로그인, 가입 버튼 비활성화
-    // 바로 게임시작버튼으로 인게임화면 로비화면 진입
-    [SerializeField] Transform _loginButton;
-    [SerializeField] Text _inputId;
-    [SerializeField] Text _notiText;
+    [Header("Login Popup")]
+    [SerializeField] Text _textLoginPopupNotice;
+    [SerializeField] Text _inputLoginPopupId;
+    [SerializeField] Text _inputLoginPopupPW;
 
+    [Header("Join Popup")]
+    [SerializeField] Text _textJoinPopupNotice;
+    [SerializeField] Text _inputJoinPopupId;
+    [SerializeField] Text _inputJoinPopupPW;
+    [SerializeField] Text _inputJoinPopupMBTI;
 
     SceneLoadManager _scenemanager = null;
 
@@ -20,37 +25,163 @@ public class LoginScene : MonoBehaviour
         _scenemanager.PlayFadeIn();
     }
 
-    public void OnClickLoginButton()
+    #region OnClick
+
+    public void OnClickLoginPopup()
     {
-        if (_inputId.text == string.Empty || _inputId.text == null)
+        _textLoginPopupNotice.text = "아이디와 비밀번호를 입력해 주세요.";
+        _inputLoginPopupId.text = null;
+        _inputLoginPopupPW.text = null;
+    }
+
+    public void OnClickGoLogin()
+    {
+        string id = _inputLoginPopupId.text;
+        string pw = _inputLoginPopupPW.text;
+
+        if (id == string.Empty || id == null)
         {
-            _notiText.text = "ID를 입력하지 않았습니다.";
+            _textLoginPopupNotice.text = "ID를 입력하지 않았습니다.";
+            return;
+        }
+        if (pw == string.Empty || pw == null)
+        {
+            _textLoginPopupNotice.text = "PW를 입력하지 않았습니다.";
             return;
         }
 
-        // 서버 작업 이후 수정되어야할 코드들
-        //Login();
-        RecvLoginResult(true);
+        ReqLogin(id, pw);
     }
 
-    // 서버로 로그인 정보 보냄
-    void Login()
+    public void OnClickJoinPopup()
     {
-
+        _textJoinPopupNotice.text = "아이디와 비밀번호를 입력해 주세요.";
+        _inputJoinPopupId.text = null;
+        _inputJoinPopupPW.text = null;
+        _inputJoinPopupMBTI.text = null;
     }
 
-    // 서버로부터 로그인 결과를 받아서 처리
-    // 필요한 데이터 
-    // 로그인 성공여부, 플레이가능한 라운드?
-    public void RecvLoginResult(bool success)
+    public void OnClickGoJoin()
     {
-        if (success)
-            _notiText.text = "로그인 성공";
+        string id = _inputJoinPopupId.text;
+        string pw = _inputJoinPopupPW.text;
+        string mbti = _inputJoinPopupMBTI.text;
+
+        if (id == string.Empty || id == null)
+        {
+            _textJoinPopupNotice.text = "ID를 입력하지 않았습니다.";
+            return;
+        }
+        if (pw == string.Empty || pw == null)
+        {
+            _textJoinPopupNotice.text = "PW를 입력하지 않았습니다.";
+            return;
+        }
+        if (!CheckMBTI(mbti))
+        {
+            _textJoinPopupNotice.text = "잘못된 MBTI 입니다.";
+            return;
+        }
+
+        ReqJoinAccount(id, pw, mbti);
+    }
+
+    bool CheckMBTI(string _mbti)
+    {
+        string mbti = _mbti.ToUpper();
+
+        if (mbti == null || string.IsNullOrEmpty(mbti) || mbti.Length != 4)
+            return false;
+
+        if (mbti[0] != 'I' && mbti[0] != 'E')
+            return false;
+
+        if (mbti[1] != 'S' && mbti[1] != 'N')
+            return false;
+
+        if (mbti[2] != 'T' && mbti[2] != 'F')
+            return false;
+
+        if (mbti[3] != 'J' && mbti[3] != 'P')
+            return false;
+
+        return true;
+    }
+
+    #endregion
+
+    #region reqServer
+
+    void ReqLogin(string id, string pw)
+    {
+        if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(pw))
+            return;
+
+        var req = new ReqLogin
+        {
+            userId = id,
+            password = pw,
+        };
+
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "Login", (a) => {
+            RecvLoginResult(a);
+        }));
+    }
+
+    void ReqJoinAccount(string id, string pw, string mbti)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return;
+
+        var req = new ReqAccountJoin
+        {
+            userId = id,
+            password = pw,
+            mbti = mbti,
+        };
+
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "AccountJoin", (a) =>
+        {
+            RecvJoinResult(a);
+        }));
+    }
+
+    #endregion
+
+    #region resServer
+
+    public void RecvLoginResult(string responseString)
+    {
+        var res = JsonConvert.DeserializeObject<ResLogin>(responseString);
+
+        if (res.ResponseType == ResponseType.Fail)
+        {
+            _textLoginPopupNotice.text = "아이디 또는 비밀번호를 확인해 주세요.";
+            return;
+        }
         else
-            _notiText.text = "로그인 실패";
+        {
+            _textLoginPopupNotice.text = "로그인 성공!";
 
-        GlobalData.id = _inputId.text;
-        _loginButton.gameObject.SetActive(false);
-        _scenemanager.PlayFadeout(null, "LobbyScene");
+            GlobalData.id = res.userId;
+            GlobalData.mbti = _inputLoginPopupPW.text.ToUpper();
+            _scenemanager.PlayFadeout(null, "LobbyScene");
+        }
     }
+
+    public void RecvJoinResult(string responseBytes)
+    {
+        var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
+
+        if (res.ResponseType == ResponseType.DuplicateName)
+            _textJoinPopupNotice.text = "이미 존재하는 ID입니다.";
+        else if (res.ResponseType == ResponseType.Success)
+            _textJoinPopupNotice.text = "회원가입 성공!";
+        else
+            _textJoinPopupNotice.text = "회원가입 실패";
+    }
+
+    #endregion
 }

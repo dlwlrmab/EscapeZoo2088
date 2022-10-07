@@ -10,7 +10,7 @@ public class IngamePlayerController : MonoBehaviour
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
 
-    public void CreatePlayer()
+    public void CreatePlayer(List<PlayerInfo> playerInfos)
     {
         _playerList = new List<Player>();
 
@@ -26,31 +26,25 @@ public class IngamePlayerController : MonoBehaviour
     public void LoadRound()
     {
         Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
-
         for (int i = 0; i < _playerList.Count; ++i)
         {
-            _playerList[i].SetRround(startPos);
+            _playerList[i].LoadRound(startPos);
             startPos.x += 1;
         }
     }
 
-    public void StartRound()
+    public void StartRound(ROUNDTYPE type)
     {
-        // 플레이어 움직이기 시작
+        for (int i = 0; i < _playerList.Count; ++i)
+        {
+            var playerMove = _playerList[i].GetComponent<PlayerMove>();
+            if (playerMove != null)
+                playerMove.Init(type);
+        }
     }
 
     public List<Player> GetPlayerList()
     {
         return _playerList;
-    }
-
-    public void SetPlayerData(ROUNDTYPE type)
-    {
-        foreach (var player in _playerList)
-        {
-            var playerMove = player.GetComponent<PlayerMove>();
-            if (playerMove != null)
-                playerMove.Init(type);
-        }
     }
 }

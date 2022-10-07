@@ -12,7 +12,7 @@ public class Round : MonoBehaviour
 
     protected IngamePlayerController _playerController = null;
 
-    public void SetMap(int mapIndex)
+    public void CreateRound(int mapIndex)
     {
         SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer child in allChildren)

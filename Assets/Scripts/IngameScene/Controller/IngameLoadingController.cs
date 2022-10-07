@@ -63,6 +63,6 @@ public class IngameLoadingController : MonoBehaviour
         }
 
         _loading.SetActive(false);
-        IngameScene.Instance.StartRound();
+        IngameScene.Instance.CompleteRoundLoading();
     }
 }

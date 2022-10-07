@@ -60,22 +60,22 @@ namespace Assets.Scripts
             MessagePackSerializer.DefaultOptions = 
                 MessagePackSerializerOptions.Standard.WithResolver(resolver);
 
-            Knight = Instantiate(KnightPrefab, transform);
-            EnemyKnight = Instantiate(EnemyKnightPrefab, transform);
-            LoginCanvas = Instantiate(LoginCanvasPrefab, transform);
-            LobbyCanvas = Instantiate(LobbyCanvasPrefab, transform);
-            BattleEndCanvas = Instantiate(BattleEndCanvasPrefab, transform);
-            BattlePlayingCanvas = Instantiate(BattleControllerCanvasPrefab, transform);
-            RoomListsCanvas = Instantiate(RoomListsCanvasPrefab, transform);
+            //Knight = Instantiate(KnightPrefab, transform);
+            //EnemyKnight = Instantiate(EnemyKnightPrefab, transform);
+            //LoginCanvas = Instantiate(LoginCanvasPrefab, transform);
+            //LobbyCanvas = Instantiate(LobbyCanvasPrefab, transform);
+            //BattleEndCanvas = Instantiate(BattleEndCanvasPrefab, transform);
+            //BattlePlayingCanvas = Instantiate(BattleControllerCanvasPrefab, transform);
+            //RoomListsCanvas = Instantiate(RoomListsCanvasPrefab, transform);
 
-            Knight.SetActive(true);
-            EnemyKnight.SetActive(false);
-            LoginCanvas.SetActive(true);
-            LobbyCanvas.SetActive(false);
-            NoticeCanvas.SetActive(false);
-            BattleEndCanvas.SetActive(false);
-            BattlePlayingCanvas.SetActive(false);
-            RoomListsCanvas.SetActive(false);
+            //Knight.SetActive(true);
+            //EnemyKnight.SetActive(false);
+            //LoginCanvas.SetActive(true);
+            //LobbyCanvas.SetActive(false);
+            //NoticeCanvas.SetActive(false);
+            //BattleEndCanvas.SetActive(false);
+            //BattlePlayingCanvas.SetActive(false);
+            //RoomListsCanvas.SetActive(false);
         }
 
         private void Notice(string text)

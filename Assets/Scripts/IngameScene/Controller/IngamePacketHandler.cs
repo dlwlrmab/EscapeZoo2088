@@ -1,76 +1,79 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using EnumDef;
+
 
 public class IngamePacketHandler : MonoBehaviour
 {
     #region Send
 
-    public void SendGameLoadingComplete()
+    public void SendInitGameComplete()
     {
         // 맵, 라운드들, 플레이어 등 생성 완료
 
-        RecvRoundStart();
+        RecvStartRound();
     }
 
-    public void SendRoundClear()
+    public void SendClearRound()
     {
         // 하나의 라운드 클리어 후 보냄
 
-        if (_testRound == 4)
-            RecvGameResult();
+        if (GlobalData.roundIndex == GlobalData.roundMax)
+            RecvClearGame();
         else
-            RecvRoundStart();
+            RecvStartRound();
     }
 
     #endregion
 
     #region Recv
 
-    public void RecvEnterGame()
+    public void RecvStartRound()
     {
-        // 인게임 씬 입장한 후 보냄
+        // 라운드 시작(재시작)할 때 보냄
 
-        int[] roundList = new int[6] { 0, 1, 2, 3, 4, 5 };
-        IngameScene.Instance.RecvEnterGame(roundList);
+        IngameScene.Instance.LoadRound(GlobalData.roundIndex++);
     }
 
-    public void RecvRoundStart()
-    {
-        // 라운드 시작할 때 보냄
-
-        int nextRound = _testRound++;
-        IngameScene.Instance.RecvRoundStart(nextRound);
-    }
-
-    public void RecvGameResult()
+    public void RecvClearGame()
     {
         // 라운드 종료와 함께 받음
 
         int rank = Random.Range(1, 5);
-        IngameScene.Instance.RecvGameResult(rank);
+        IngameScene.Instance.ClearGame(rank);
     }
 
     #endregion
 
     #region Test
 
-    int _testRound = 0;
-
     private void Awake()
     {
-        RecvEnterGame();
+        // 원래 로비에서 인게임 넘어올때 받아야 하지만,
+        // 임시로 여기서 설정
+
+        GlobalData.mapIndex = 1;
+        GlobalData.roundIndex = 0;
+        GlobalData.roundMax = 6;
+        GlobalData.roundList = new int[6] { 0, 1, 2, 3, 4, 5 };
+        GlobalData.playerInfos = new List<PlayerInfo>() {
+            new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
+            new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
+            new PlayerInfo { Id = "124", Animal = ANIMAL.CROCODILE, MBTI = "isfj" },
+            new PlayerInfo { Id = "125", Animal = ANIMAL.GORILIA, MBTI = "isfj" },
+            new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
+        };
     }
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.A))
         {
-            RecvRoundStart();
+            RecvStartRound();
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            RecvGameResult();
+            RecvClearGame();
         }
     }
 
