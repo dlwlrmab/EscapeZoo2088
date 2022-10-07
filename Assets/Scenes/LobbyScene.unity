@@ -2063,9 +2063,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 327790409}
-        m_TargetAssemblyTypeName: LobbyScene, Assembly-CSharp
-        m_MethodName: CloseMyPage
+      - m_Target: {fileID: 1595752185}
+        m_TargetAssemblyTypeName: PopupMyInfo, Assembly-CSharp
+        m_MethodName: CloseMyInfo
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
