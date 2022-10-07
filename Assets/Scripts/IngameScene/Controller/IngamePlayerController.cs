@@ -3,17 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using EnumDef;
 
-public class IngamePlayerController : MonoBehaviour
+public class IngamePlayerController : Singleton<IngamePlayerController>
 {
-    private List<Player> _playerList;
+    private List<Player> _playerList = new List<Player>();
 
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
 
     public void CreatePlayer(List<PlayerInfo> playerInfos)
     {
-        _playerList = new List<Player>();
-
         // 내 플레이어 생성
         //GameObject playerMe = Instantiate(Resources.Load<GameObject>("Player/PlayerMe"), transform);
         GameObject playerMe = P2PInGameManager.Instance.CreateMyPlayer();
@@ -46,5 +44,18 @@ public class IngamePlayerController : MonoBehaviour
     public List<Player> GetPlayerList()
     {
         return _playerList;
+    }
+
+    public void AddPlayer(Player p)
+    {
+        _playerList.Add(p);
+    }
+
+    public void RemovePlayer(Player p)
+    {
+        if(_playerList.Contains(p))
+        {
+            _playerList.Remove(p);
+        }
     }
 }

@@ -9,6 +9,11 @@ public class Player : MonoBehaviour
 
     public bool HasKey { set; get; } = false;
 
+    void Start()
+    {
+        IngamePlayerController.Instance.AddPlayer(this);
+    }
+
     public void CreatePlayer(PlayerInfo playerInfo)
     {
         _info = playerInfo;
@@ -41,5 +46,10 @@ public class Player : MonoBehaviour
                 other.transform.localPosition = new Vector3(-0.2f, 0.2f, 0);
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        IngamePlayerController.Instance.RemovePlayer(this);
     }
 }
