@@ -2,18 +2,33 @@
 
 namespace EnumDef
 {
-    // 맵마다 특성이 필요한경우,
-    public enum ROUNDTYPE
+    public enum ANIMAL
     {
-        NONE,
-        LONGJUMP,
+        CHICK = 0,
+        CHICKEN,
+        COW,
+        CROCODILE,
+        ELEPHANT,
+        GORILIA,
+        MONKEY,
+        PANDA,
+        PIG,
+        RABBIT,
+        SLOTH,
+        ZEBRA
     }
 
-    public enum STATE
+    public enum INGAME_STATE
     {
         LOADING = 0,
         PLAYING,
         ENDING
+    }
+
+    public enum ROUNDTYPE
+    {
+        NONE,
+        LONGJUMP,
     }
 
     public enum BLOCKTYPE
@@ -25,5 +40,3 @@ namespace EnumDef
         BALL,
     }
 }
-
-

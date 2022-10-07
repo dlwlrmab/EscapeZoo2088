@@ -47,23 +47,27 @@ public class IngameMapController : MonoBehaviour
         _roundList[_roundIndex].StartRound();
     }
 
-    public string GetExplanation()
-    {
-        return _roundList[_roundIndex].GetExplanation();
-    }
-
-    public Vector3 GetPlayerSpawn()
-    {
-        return _roundList[_roundIndex].GetPlayerSpawn();
-    }
+    #region Get
 
     public Round GetCurrentRound()
     {
         return _roundList[_roundIndex];
     }
 
+    public string GetExplanation()
+    {
+        return GetCurrentRound().GetExplanation();
+    }
+
+    public Vector3 GetPlayerSpawn()
+    {
+        return GetCurrentRound().GetPlayerSpawn();
+    }
+
     public ROUNDTYPE GetCurrentRoundType()
     {
-        return _roundList[_roundIndex].GetRoundType(); 
+        return GetCurrentRound().GetRoundType(); 
     }
+
+    #endregion
 }

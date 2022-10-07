@@ -195,7 +195,7 @@ public class LobbyScene : MonoBehaviour
         // 해당플레이어 프리팹 제거
         // 유저리스트에서 제거
 
-        if (GlobalData.playerList.Count < 5)
+        if (GlobalData.playerInfos.Count < 5)
         {
             _playButton.SetActive(false);
         }
@@ -206,7 +206,7 @@ public class LobbyScene : MonoBehaviour
     {
         // 해당플레이어 프리팹 생성
         // 유저리스트에 추가
-        if (GlobalData.playerList.Count == 5)
+        if (GlobalData.playerInfos.Count == 5)
         {
             _playButton.SetActive(true);
         }

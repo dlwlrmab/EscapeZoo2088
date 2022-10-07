@@ -25,17 +25,4 @@ public class IngameEndingController : MonoBehaviour
     {
         IngameScene.Instance.MoveLobbyScene();
     }
-
-    #region Test
-
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            OnClickLobby();
-        }
-    }
-
-    #endregion
 }

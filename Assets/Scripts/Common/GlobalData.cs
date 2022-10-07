@@ -5,6 +5,8 @@ using System.Net;
 using UnityEngine;
 using CommonProtocol;
 using MessagePack;
+using EnumDef;
+
 
 public class GlobalData : MonoBehaviour
 {
@@ -21,9 +23,17 @@ public class GlobalData : MonoBehaviour
 
     // 인게임: 로비에서 인게임 진입 시 서버에게 받을 데이터들
     public static int mapIndex = -1;
+    public static int roundIndex = -1;
+    public static int roundMax= -1;
     public static int[] roundList = null;
-    public static List<Player> playerList = null;
+    public static List<PlayerInfo> playerInfos = null;
+}
 
+public class PlayerInfo
+{
+    public string Id;
+    public string MBTI;
+    public ANIMAL Animal;
 }
 
 public class Strings : MonoBehaviour
