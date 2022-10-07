@@ -14,9 +14,10 @@ public class Player : MonoBehaviour
         _info = playerInfo;
     }
 
-    public void LoadRound(Vector3 startPos)
+    public void LoadRound(Vector3 startPos, Transform parent)
     {
         transform.position = startPos;
+        transform.parent = parent;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

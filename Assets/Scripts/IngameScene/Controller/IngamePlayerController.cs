@@ -28,7 +28,7 @@ public class IngamePlayerController : MonoBehaviour
         Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
         for (int i = 0; i < _playerList.Count; ++i)
         {
-            _playerList[i].LoadRound(startPos);
+            _playerList[i].LoadRound(startPos, transform);
             startPos.x += 1;
         }
     }
