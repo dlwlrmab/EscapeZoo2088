@@ -17,7 +17,7 @@ public class PopupMyInfo : MonoBehaviour
         if (success)
         {
             _id.text = data.userId;
-            _mbti.text = data.mbti;
+            _mbti.text = data.mbti.ToUpper();
             _winCnt.text = data.winCnt.ToString();
             _loseCnt.text = data.lossCnt.ToString();
             _score.text = data.score.ToString();

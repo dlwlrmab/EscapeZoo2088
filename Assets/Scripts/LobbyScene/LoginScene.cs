@@ -184,7 +184,7 @@ public class LoginScene : MonoBehaviour
 
 
         GlobalData.id = _inputId.text;
-        GlobalData.mbti = _inputMBTI.text;
+        GlobalData.mbti = _inputMBTI.text.ToUpper();
 
         _loginButton.gameObject.SetActive(false);
         _scenemanager.PlayFadeout(null, "LobbyScene");
@@ -220,21 +220,21 @@ public class LoginScene : MonoBehaviour
 
     bool CheckMBTI(string _mbti)
     {
-        string mbti = _mbti.ToLower();
+        string mbti = _mbti.ToUpper();
 
         if (mbti == null || string.IsNullOrEmpty(mbti) || mbti.Length != 4)
             return false;
 
-        if (mbti[0] != 'i' && mbti[0] != 'e')
+        if (mbti[0] != 'I' && mbti[0] != 'E')
             return false;
 
-        if (mbti[1] != 's' && mbti[1] != 'n')
+        if (mbti[1] != 'S' && mbti[1] != 'N')
             return false;
 
-        if (mbti[2] != 't' && mbti[2] != 'f')
+        if (mbti[2] != 'T' && mbti[2] != 'F')
             return false;
 
-        if (mbti[3] != 'j' && mbti[3] != 'p')
+        if (mbti[3] != 'J' && mbti[3] != 'P')
             return false;
 
         return true;

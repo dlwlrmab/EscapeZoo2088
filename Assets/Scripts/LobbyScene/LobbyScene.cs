@@ -32,7 +32,7 @@ public class LobbyScene : MonoBehaviour
     
     #region reqServer
     // 서버로 준비메시지를 보냄(같은팀 인원모으기)
-    void SendReqTryingMatch()
+    void ReqTryingMatch()
     {
         var infos = ConfigReader.Instance.GetInfos<Infos>();
 
@@ -57,47 +57,52 @@ public class LobbyScene : MonoBehaviour
             SendProtocolManager.Instance.SendProtocolReq(message, req.MessageType.ToString(), (responseBytes) =>
             {
                 res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
+                ReqOwnTeamMember(res);
             });
         }
         else
         {
             string jsondata = JsonConvert.SerializeObject(req);
-            SendProtocolManager.Instance.SendLambdaReq(jsondata, "TryMatching" ,(responseString) => {
+            SendProtocolManager.Instance.SendLambdaReq(jsondata, "TryMatching" ,(responseString) =>
+            {
                 res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
+                ReqOwnTeamMember(res);
             });
             
-        }
-
-        if (res != null && res.ResponseType == ResponseType.Success)
-        {
-           //  ????? gamesessionid, playersessionid?
-           // ReqOwnTeamMember(res.IpAddress, res.Port, res.GameSessionId);
         }
     }
 
     // 매치메이킹(팀원매칭)
-    private void ReqOwnTeamMember(string battleServerIp, int battleServerPot, string gameSessionId, string playerSessionId)
+    private void ReqOwnTeamMember(ResTryMatch res)
     {
-        if (GameManager.Instance.IsTryMatching)
-            return;
+        if (res != null && res.ResponseType == ResponseType.Success)
+        {
+            // gamesessionid?, playersessionid?
+            if (GameManager.Instance.IsTryMatching)
+                return;
 
-        GameManager.Instance.IsTryMatching = true;
+            GameManager.Instance.IsTryMatching = true;
 
-        BattleServerConnector.Instance.Connect(battleServerIp, battleServerPot, "0");
+            BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
 
-        while (false == BattleServerConnector.Instance.IsConnected) ;
+            while (false == BattleServerConnector.Instance.IsConnected) ;
 
-        ResOwnTeamMember(true);
+            GlobalData.GameSessionId = res.GameSessionId;
+            BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
+                    MessagePackSerializer.Serialize(new ProtoBattleEnter
+                    {
+                        Msg = BattleProtocol.MessageType.BattleEnter,
+                        UserId = GameManager.Instance.UserId,
+                        //GameSessionId = gameSessionId,
+                        //PlayerSessionId = playerSessionId,
+                    }));
 
-        GlobalData.GameSessionId = gameSessionId;
-        BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
-                MessagePackSerializer.Serialize(new ProtoBattleEnter
-                {
-                    Msg = BattleProtocol.MessageType.BattleEnter,
-                    UserId = GameManager.Instance.UserId,
-                    GameSessionId = gameSessionId,
-                    PlayerSessionId = playerSessionId,
-                }));
+            ResOwnTeamMember(true);
+        }
+        else
+        {
+            _notiText.text = "서버연결에 실패하였습니다. 재시도해주세요";
+        }
     }
 
     // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
@@ -115,7 +120,6 @@ public class LobbyScene : MonoBehaviour
 
         string jsondata = JsonConvert.SerializeObject(req);
 
-        // type 서버와 상의하여 정해야함
         SendProtocolManager.Instance.SendLambdaReq(jsondata, "myPage", (responseString) => {
             ResMyPageData(responseString);
         });
@@ -244,7 +248,7 @@ public class LobbyScene : MonoBehaviour
         }
 
         // 서버 작업완료이후 수정되어야할 코드들
-        SendReqTryingMatch();
+        ReqTryingMatch();
     }
 
     public void OnClickPlayGame()

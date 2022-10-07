@@ -8,9 +8,7 @@ using System.Collections.Generic;
 public class SendProtocolManager : Singleton<SendProtocolManager>
 {
     WebClient webClient = null;
-    string responseString = string.Empty;
-    byte[] responseBytes;
-
+    
     protected override void Awake()
     {
         base.Awake();
@@ -33,7 +31,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         Debug.Log($"send json {type} : {str}");
 
-        responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
+        string responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
 
         Debug.Log($"res json {type} : {responseString}");
 
@@ -49,7 +47,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         Debug.Log($"send message {type} : {message}");
 
-        responseBytes = webClient.UploadData(GlobalData.GatewayAPI + type, "POST", message);
+        byte[] responseBytes = webClient.UploadData(GlobalData.GatewayAPI + type, "POST", message);
 
         Debug.Log($"res message {type} : {responseBytes}");
 

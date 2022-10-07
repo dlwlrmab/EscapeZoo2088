@@ -21,8 +21,8 @@
 
     public class ResTryMatch : CBaseProtocol
     {
-        public string IpAddress;
-        public int Port;
-        public string GameSessionId;
+        public string IpAddress; // battleServerIp
+        public int Port; // battleServerPot
+        public string GameSessionId; // gameSessionId
     }
 }
