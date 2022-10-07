@@ -9,7 +9,7 @@ namespace EnumDef
         COW,
         CROCODILE,
         ELEPHANT,
-        GORILIA,
+        GORILLA,
         MONKEY,
         PANDA,
         PIG,

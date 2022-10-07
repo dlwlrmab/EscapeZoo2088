@@ -55,7 +55,7 @@ public class LoginScene : MonoBehaviour
 
     public void OnClickJoinPopup()
     {
-        _textJoinPopupNotice.text = "아이디와 비밀번호를 입력해 주세요.";
+        _textJoinPopupNotice.text = "아이디, 비밀번호, MBTI를 입력해 주세요.";
         _inputJoinPopupId.text = null;
         _inputJoinPopupPW.text = null;
         _inputJoinPopupMBTI.text = null;
