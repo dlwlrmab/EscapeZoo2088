@@ -18,14 +18,14 @@ public class IngameMapController : MonoBehaviour
             mapIndex = 1;
 
         // 맵 생성
-        GameObject map = Instantiate(Resources.Load<GameObject>("Map/Map_" + mapIndex), transform);
+        GameObject map = Instantiate(Resources.Load<GameObject>("Prefabs/Map/Map_" + mapIndex), transform);
         map.transform.localPosition = new Vector3(0, 0, 2);
 
         // 라운드 생성
         _roundList = new List<Round>();
         foreach (int roundIndex in roundList)
         {
-            GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + roundIndex), transform);
+            GameObject round = Instantiate(Resources.Load<GameObject>("Prefabs/Round/Round_" + roundIndex), transform);
             _roundList.Add(round.GetComponent<Round>());
             _roundList[_roundList.Count - 1].CreateRound(mapIndex);
         }

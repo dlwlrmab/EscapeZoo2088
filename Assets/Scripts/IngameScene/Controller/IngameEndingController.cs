@@ -15,7 +15,7 @@ public class IngameEndingController : MonoBehaviour
     private void Start()
     {
         _ending.SetActive(false);
-        _animalSprites = Resources.LoadAll<Sprite>("Animal");
+        _animalSprites = Resources.LoadAll<Sprite>("Sprites/Animal");
     }
 
     public void LoadEnding(bool win)
@@ -24,7 +24,7 @@ public class IngameEndingController : MonoBehaviour
         _endingNotice.text = win ? "VICTORY" : "DEFEAT";
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
-        for (int i = 0; i < 5; ++i)
+        for (int i = 0; i < _players.Length; ++i)
             _players[i].sprite = GetSprite(playerInfos[i].Animal);
     }
 
