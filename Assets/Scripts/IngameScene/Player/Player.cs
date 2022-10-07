@@ -5,8 +5,9 @@ using EnumDef;
 
 public class Player : MonoBehaviour
 {
-    private string _ID;
-    private int _animalType;
+    private string _userID;
+    private string _userMBTI;
+    private int _userAnimal;
 
     public bool HasKey { set; get; } = false;
 
