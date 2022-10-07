@@ -27,7 +27,7 @@ public class IngameMapController : MonoBehaviour
         {
             GameObject round = Instantiate(Resources.Load<GameObject>("Round/Round_" + roundIndex), transform);
             _roundList.Add(round.GetComponent<Round>());
-            _roundList[_roundList.Count - 1].SetMap(mapIndex);
+            _roundList[_roundList.Count - 1].CreateRound(mapIndex);
         }
 
         _isCreateComplete = true;
