@@ -15,40 +15,40 @@ public class Battle : MonoBehaviour
 
     public void CreateGame()
     {
-        var infos = ConfigReader.Instance.GetInfos<Infos>();
+        //var infos = ConfigReader.Instance.GetInfos<Infos>();
 
-        var req = new CommonProtocol.ReqCreateGame
-        {
-            //MessageType = CommonProtocol.MessageType.CreateGame,
-            UserId = GameManager.Instance.UserId,
-            GameName = GameManager.Instance.Name
-        };
-
-        var webClient = new WebClient();
-        webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-        var responseBytes
-            = webClient.UploadString(new Uri("https://nq4m28r2tf.execute-api.ap-northeast-2.amazonaws.com/test/") + "CreateGame", "POST"
-            , JsonConvert.SerializeObject(req));
-
-        var res = JsonConvert.DeserializeObject<CommonProtocol.ResCreateGame>(responseBytes);
+        //var req = new CommonProtocol.ReqCreateGame
+        //{
+        //    //MessageType = CommonProtocol.MessageType.CreateGame,
+        //    UserId = GameManager.Instance.UserId,
+        //    GameName = GameManager.Instance.Name
+        //};
 
         //var webClient = new WebClient();
-        //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
+        //webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
         //var responseBytes
-        //    = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
-        //    , MessagePackSerializer.Serialize(req));
+        //    = webClient.UploadString(new Uri("https://nq4m28r2tf.execute-api.ap-northeast-2.amazonaws.com/test/") + "CreateGame", "POST"
+        //    , JsonConvert.SerializeObject(req));
 
-        //var res = MessagePackSerializer.Deserialize<CommonProtocol.ResTryMatching>(responseBytes);
+        //var res = JsonConvert.DeserializeObject<CommonProtocol.ResCreateGame>(responseBytes);
 
-        if (res.ResponseType == CommonProtocol.ResponseType.Success)
-        {
-            var resPlayer = WebManager.Instance.CreatePlayer(res.GameSessionId);
-            if (resPlayer.ResponseType == CommonProtocol.ResponseType.Success)
-            {
-                GameManager.Instance.PlayerType = PlayerType.Player1;
-                BattleEnter(res.IpAddress, res.Port, res.GameSessionId, resPlayer.PlayerSessionId);
-            }
-        }
+        ////var webClient = new WebClient();
+        ////webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
+        ////var responseBytes
+        ////    = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
+        ////    , MessagePackSerializer.Serialize(req));
+
+        ////var res = MessagePackSerializer.Deserialize<CommonProtocol.ResTryMatching>(responseBytes);
+
+        //if (res.ResponseType == CommonProtocol.ResponseType.Success)
+        //{
+        //    var resPlayer = WebManager.Instance.CreatePlayer(res.GameSessionId);
+        //    if (resPlayer.ResponseType == CommonProtocol.ResponseType.Success)
+        //    {
+        //        GameManager.Instance.PlayerType = PlayerType.Player1;
+        //        BattleEnter(res.IpAddress, res.Port, res.GameSessionId, resPlayer.PlayerSessionId);
+        //    }
+        //}
     }
 
     public void SearchRoom()
@@ -98,7 +98,7 @@ public class Battle : MonoBehaviour
             = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
             , MessagePackSerializer.Serialize(req));
 
-        var res = MessagePackSerializer.Deserialize<CommonProtocol.ResTryMatching>(responseBytes);
+        var res = MessagePackSerializer.Deserialize<CommonProtocol.ResTryMatch>(responseBytes);
 
         if (res.ResponseType == CommonProtocol.ResponseType.Success)
         {

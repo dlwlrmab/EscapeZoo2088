@@ -24,7 +24,7 @@ public class ConfigReader
 
     public T GetInfos<T>()
     {
-        var json = Resources.Load(GameManager.Instance.TargetServer + "\\Connect") as TextAsset;
+        var json = Resources.Load(GlobalData.TargetServer + "\\Connect") as TextAsset;
         GameManager.Instance.WriteTxt("./log1.txt", json.ToString());
         var b = json.ToString();
         try

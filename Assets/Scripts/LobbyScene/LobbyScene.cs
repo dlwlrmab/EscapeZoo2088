@@ -1,7 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Assets.Scripts;
+using CommonProtocol;
+using Newtonsoft.Json;
+using System;
+using System.Collections;
+using System.Net;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
+using MessagePack;
+using BattleProtocol;
 
 public class LobbyScene : MonoBehaviour
 {
@@ -57,9 +64,7 @@ public class LobbyScene : MonoBehaviour
         }
 
         // 서버 작업완료이후 수정되어야할 코드들
-        //ReadyGame();
-        RecvReadyGame(true);
-
+        ReadyGame();
     }
 
     public void OnClickPlayGame()
@@ -78,8 +83,80 @@ public class LobbyScene : MonoBehaviour
     // 서버로 준비메시지를 보냄(같은팀 인원모으기)
     void ReadyGame()
     {
+        var infos = ConfigReader.Instance.GetInfos<Infos>();
 
+        var req = new CommonProtocol.ReqTryingMatch
+        {
+            userId = GlobalData.id,
+            mapIndex = GlobalData.mapIndex,
+            animalIndex = GlobalData.animalIndex,
+            MessageType = CommonProtocol.MessageType.TryMatching,
+        };
+
+        var webClient = new WebClient();
+        ResTryMatch res = null;
+
+        int i = 1;
+        // 둘다 사용가능한 것 같고, 서버 구현에따라 선택하면 될듯
+        // i == 0 일반 프로토콜? 사용하는형식
+        // else 람다함수 사용하는 방식
+        if (i == 0)
+        {
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
+
+            var message = MessagePackSerializer.Serialize(req);
+
+            Debug.Log($"ReadyGameData - id : {req.userId} // map : {req.mapIndex} // animal : {req.animalIndex} // messagetype : {req.MessageType}");
+            Debug.Log($"ReadyGameData_serializer - id : {message.GetValue(1)} // map : {message.GetValue(2)} // animal : {message.GetValue(3)} // messagetype : {message.GetValue(0)}");
+
+            var responseBytes = webClient.UploadData(GlobalData.GatewayAPI + req.MessageType.ToString(), "POST", message);
+            res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
+        }
+        else
+        {
+            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+            string jsondata = JsonConvert.SerializeObject(req);
+
+            Debug.Log($"ReadyGameData - id : {req.userId} // map : {req.mapIndex} // animal : {req.animalIndex} // messagetype : {req.MessageType}");
+            Debug.Log($"ReadyGameData : {jsondata}");
+
+            var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "TryMatching", "POST", jsondata);
+            res = JsonConvert.DeserializeObject<ResTryMatch>(responseBytes);
+        }
+
+        if (res != null && res.ResponseType == ResponseType.Success)
+        {
+            // ????? gamesessionid, playersessionid?
+            //BattleEnter(res.IpAddress, res.Port, res.GameSessionId);
+        }
     }
+
+    // 매치메이킹
+    private void BattleEnter(string battleServerIp, int battleServerPot, string gameSessionId, string playerSessionId)
+    {
+        if (GameManager.Instance.IsTryMatching)
+            return;
+
+        GameManager.Instance.IsTryMatching = true;
+
+        BattleServerConnector.Instance.Connect(battleServerIp, battleServerPot, "0");
+
+        while (false == BattleServerConnector.Instance.IsConnected) ;
+
+        RecvReadyGame(true);
+
+        GlobalData.GameSessionId = gameSessionId;
+        BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
+                MessagePackSerializer.Serialize(new ProtoBattleEnter
+                {
+                    Msg = BattleProtocol.MessageType.BattleEnter,
+                    UserId = GameManager.Instance.UserId,
+                    GameSessionId = gameSessionId,
+                    PlayerSessionId = playerSessionId,
+                }));
+    }
+
     // 서버로부터 준비에대한 응답을 받음
     // 본인이 호스트가 아닌 경우 (성공여부, 이미 준비하고있었던 유저 리스트)
     // 본인이 호스트인경우 (성공여부)
@@ -92,6 +169,13 @@ public class LobbyScene : MonoBehaviour
 
             // 서버연결이후 제거
             _playButton.SetActive(true);
+
+            // 이때 배경에서 캐릭터 움직이기가능.
+            // 매칭된 사람의 캐릭터도 나와야함.
+            // 다른사람이 매칭된지 어떻게 알지?
+            // 게임 플레이하려면 어떻게 하는지..?
+            // 플레이어 타입 수정 필요할듯
+            // 메시지타입도 추가필요할듯
         }
         else
         {

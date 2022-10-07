@@ -123,7 +123,7 @@ public class LoginScene : MonoBehaviour
 
     // 서버로부터 로그인 결과를 받아서 처리
     // 필요한 데이터 
-    // 로그인 성공여부, 플레이가능한 라운드?
+    // 플레이가능한 라운드?
     public void RecvLoginResult(bool success)
     {
         if (success)
@@ -135,6 +135,8 @@ public class LoginScene : MonoBehaviour
         }
 
         GlobalData.id = _inputId.text;
+        GlobalData.mbti = _inputMBTI.text;
+
         _loginButton.gameObject.SetActive(false);
         _scenemanager.PlayFadeout(null, "LobbyScene");
     }
@@ -157,27 +159,31 @@ public class LoginScene : MonoBehaviour
         Debug.Log($"LoginData : {jsondata}");
 
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-        var responseBytes
-            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "Login", "POST", jsondata);
+        var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "Login", "POST", jsondata);
 
-        //var webClient = new WebClient();
-        //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
-        //var responseBytes
-        //    = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
-        //    , MessagePackSerializer.Serialize(req));
+        // 일반 프로토콜을 사용하는방식
+        // 서버에서 람다로 구현되어있어, 사용하지않음
+        {
+            //var webClient = new WebClient();
+            //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
+            //var responseBytes
+            //    = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
+            //    , MessagePackSerializer.Serialize(req));
 
-        //var res = MessagePackSerializer.Deserialize<ResAccountJoin>(responseBytes);
+            //var res = MessagePackSerializer.Deserialize<ResAccountJoin>(responseBytes);
+        }
 
         var res = JsonConvert.DeserializeObject<ResLogin>(responseBytes);
 
         if (res.ResponseType == ResponseType.Fail)
         {
-            _notiText.text = "존재하지 않는 ID입니다.";
+            _notiText.text = "ID / PW 를 확인해 주세요.";
             RecvLoginResult(false);
         }
         else
         {
             GlobalData.id = res.userId;
+
             initText();
             RecvLoginResult(true);
         }
@@ -195,27 +201,21 @@ public class LoginScene : MonoBehaviour
             mbti = mbti,
         };
 
-        int i = 1;
-        if (i == 0)
+        var webClient = new WebClient();
+
+        string jsondata = JsonConvert.SerializeObject(req);
+
+        Debug.Log($"JoinData : {jsondata}");
+
+        webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
+
+        var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "AccountJoin", "POST", jsondata);
+
+        var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
+
+        // 일반 프로토콜을 사용하는방식
+        // 서버에서 람다로 구현되어있어, 사용하지않음
         {
-            string json = JsonUtility.ToJson(req);
-            StartCoroutine(RequestPost(GlobalData.GatewayAPI, json));
-        }
-        else
-        {
-            var webClient = new WebClient();
-
-            string jsondata = JsonConvert.SerializeObject(req);
-
-            Debug.Log($"JoinData : {jsondata}");
-
-            webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-            var responseBytes
-            = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "AccountJoin", "POST", jsondata);
-
-            var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
-
             //var webClient = new WebClient();
             //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
             //var infos = ConfigReader.Instance.GetInfos<Infos>();
@@ -224,20 +224,20 @@ public class LoginScene : MonoBehaviour
             //, MessagePackSerializer.Serialize(req));
 
             //var res = MessagePackSerializer.Deserialize<ResAccountJoin>(responseBytes);
+        }
 
-            if (res.ResponseType == ResponseType.DuplicateName)
-            {
-                _notiText.text = "이미 존재하는 ID입니다.";
-            }
-            else if(res.ResponseType == ResponseType.Success)
-            {
-                _notiText.text = "회원가입 성공, 로그인 해주세요";
-                initText();
-            }
-            else
-            {
-                _notiText.text = "회원가입 실패";
-            }
+        if (res.ResponseType == ResponseType.DuplicateName)
+        {
+            _notiText.text = "이미 존재하는 ID입니다.";
+        }
+        else if (res.ResponseType == ResponseType.Success)
+        {
+            _notiText.text = "회원가입 성공, 로그인 해주세요";
+            initText();
+        }
+        else
+        {
+            _notiText.text = "회원가입 실패";
         }
     }
 
@@ -269,49 +269,5 @@ public class LoginScene : MonoBehaviour
 
         return true;
     }
-    // 서버연결 테스트용 함수
-    // 연결 완료후 삭제
-    IEnumerator RequestPost(string URL, string json)
-    {
-        using (UnityWebRequest request = UnityWebRequest.Post(URL, json))
-        {
-            byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
-            request.uploadHandler = new UploadHandlerRaw(jsonToSend);
-            request.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
-            request.SetRequestHeader("Content-Type", "application/json");
-
-            yield return request.SendWebRequest();
-
-            // 네트워크 에러 체크
-            if (request.isNetworkError)
-            {
-                Debug.Log("네트워크 에러");
-                yield break;
-            }
-
-            var text = request.downloadHandler.text;
-
-            if (text != null)
-                Debug.Log(text);
-
-            // 받은 데이터 JSON으로 변환
-            //JsonData = data = null;
-            //try
-            //{
-            //    data = Json.Parse(request.downloadHandler.text);
-            //}
-            //catch (Exception)
-            //{
-            //    // 예외처리
-            //    yield break;
-            //}
-
-            //if (data == null)
-            //{
-            //    // json 데이터가 빈 상황 예외처리
-            //    yield break;
-            //}
-        }
-
-    }
+  
 }

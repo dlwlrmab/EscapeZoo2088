@@ -1,4 +1,6 @@
-﻿namespace CommonProtocol
+﻿
+
+namespace CommonProtocol
 {
     public class CBaseProtocol
     {
