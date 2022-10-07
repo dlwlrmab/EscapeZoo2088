@@ -15,18 +15,11 @@ public class IngamePlayerController : MonoBehaviour
         _playerList = new List<Player>();
 
         // 내 플레이어 생성
-        GameObject playerMe = Instantiate(Resources.Load<GameObject>("Player/PlayerMe"), transform);
-        _playerList.Add(playerMe.GetComponent<Player>());
-        _playerList[0].CreatePlayer( playerInfos[0]);
+        //GameObject playerMe = Instantiate(Resources.Load<GameObject>("Player/PlayerMe"), transform);
+        GameObject playerMe = P2PInGameManager.Instance.CreateMyPlayer();
+        //_playerList.Add(playerMe.GetComponent<Player>()); ActorManager에서 관리
 
-        // 다른 플레이어 생성
-        GameObject playerOther = Instantiate(Resources.Load<GameObject>("Player/PlayerOther"), transform);
-        for (int i = 0; i < 4; ++i)
-        {
-            _playerList.Add(playerOther.GetComponent<Player>());
-            _playerList[i + 1].CreatePlayer(playerInfos[i + 1]);
-        }
-
+        // 다른 플레이어 생성: 입장시 자동 생성 ActorManager에서 관리
         _isCreateComplete = true;
     }
 
