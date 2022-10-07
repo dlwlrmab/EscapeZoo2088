@@ -16,10 +16,11 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         base.Awake();
         webClient = new WebClient();
     }
-    
+
+    #region Lambda
+
     public IEnumerator CoSendLambdaReq(string str, string type, Action<string> a)
     {
-        
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
         Debug.Log($"send json {type} : {str}");
@@ -31,7 +32,20 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         yield return null;
     }
 
- 
+    IEnumerator CoWaitLambdaRes(string str, string type)
+    {
+        SceneLoadManager.Instance.SetLoading(true);
+
+        responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
+        Debug.Log($"res json {type} : {responseString}");
+
+        yield return null;
+    }
+
+    #endregion
+
+    #region Protocol
+
     public IEnumerator CoSendProtocolReq(byte[] str, string type, Action<byte[]> a)
     {
         webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
@@ -47,16 +61,6 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         yield return null;
     }
 
-    IEnumerator CoWaitLambdaRes(string str, string type)
-    {
-        SceneLoadManager.Instance.SetLoading(true);
-
-        responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
-        Debug.Log($"res json {type} : {responseString}");
-
-        yield return null;
-    }
-
     IEnumerator CoWaitProtocolaRes(byte[] str, string type)
     {
         SceneLoadManager.Instance.SetLoading(true);
@@ -66,4 +70,6 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         yield return null;
     }
+
+    #endregion
 }
