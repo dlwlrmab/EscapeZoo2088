@@ -59,7 +59,7 @@ public class IngamePacketHandler : MonoBehaviour
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
             new PlayerInfo { Id = "124", Animal = ANIMAL.CROCODILE, MBTI = "isfj" },
-            new PlayerInfo { Id = "125", Animal = ANIMAL.GORILIA, MBTI = "isfj" },
+            new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
             new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
         };
     }
