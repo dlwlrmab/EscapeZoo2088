@@ -39,8 +39,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         // 라운드 종료와 함께 받음
 
-        int rank = Random.Range(1, 5);
-        IngameScene.Instance.ClearGame(rank);
+        IngameScene.Instance.ClearGame(true);
     }
 
     #endregion
