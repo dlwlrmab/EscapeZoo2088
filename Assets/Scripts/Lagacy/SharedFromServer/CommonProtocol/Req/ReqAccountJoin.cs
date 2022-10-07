@@ -1,5 +1,5 @@
-﻿using MessagePack;
-using BattleProtocol;
+﻿using BattleProtocol;
+using MessagePack;
 
 // 람다로 서버에 요청을 보내는경우 json 을 보내기떄문에 직렬화할필요없음 (application/json)
 

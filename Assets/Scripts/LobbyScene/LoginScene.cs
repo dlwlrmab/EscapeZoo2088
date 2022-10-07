@@ -130,7 +130,7 @@ public class LoginScene : MonoBehaviour
             _notiText.text = "로그인 성공";
         else
         {
-            _notiText.text = "로그인 실패";
+            _notiText.text = "ID / PW 를 확인해 주세요.";
             return;
         }
 
@@ -152,32 +152,14 @@ public class LoginScene : MonoBehaviour
             userId = id,
             password = pw,
         };
-        
-        var webClient = new WebClient();
+
         string jsondata = JsonConvert.SerializeObject(req);
-
-        Debug.Log($"LoginData : {jsondata}");
-
-        webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-        var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "Login", "POST", jsondata);
-
-        // 일반 프로토콜을 사용하는방식
-        // 서버에서 람다로 구현되어있어, 사용하지않음
-        {
-            //var webClient = new WebClient();
-            //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
-            //var responseBytes
-            //    = webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
-            //    , MessagePackSerializer.Serialize(req));
-
-            //var res = MessagePackSerializer.Deserialize<ResAccountJoin>(responseBytes);
-        }
+        string responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "Login");
 
         var res = JsonConvert.DeserializeObject<ResLogin>(responseBytes);
 
         if (res.ResponseType == ResponseType.Fail)
         {
-            _notiText.text = "ID / PW 를 확인해 주세요.";
             RecvLoginResult(false);
         }
         else
@@ -201,30 +183,10 @@ public class LoginScene : MonoBehaviour
             mbti = mbti,
         };
 
-        var webClient = new WebClient();
-
         string jsondata = JsonConvert.SerializeObject(req);
-
-        Debug.Log($"JoinData : {jsondata}");
-
-        webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
-
-        var responseBytes = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + "AccountJoin", "POST", jsondata);
+        var responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "AccountJoin");
 
         var res = JsonConvert.DeserializeObject<ResAccountJoin>(responseBytes);
-
-        // 일반 프로토콜을 사용하는방식
-        // 서버에서 람다로 구현되어있어, 사용하지않음
-        {
-            //var webClient = new WebClient();
-            //webClient.Headers[HttpRequestHeader.ContentType] = "application/octet-stream";
-            //var infos = ConfigReader.Instance.GetInfos<Infos>();
-            //var responseBytes
-            //= webClient.UploadData(new Uri(infos.GameServer.Address) + req.MessageType.ToString(), "POST"
-            //, MessagePackSerializer.Serialize(req));
-
-            //var res = MessagePackSerializer.Deserialize<ResAccountJoin>(responseBytes);
-        }
 
         if (res.ResponseType == ResponseType.DuplicateName)
         {
