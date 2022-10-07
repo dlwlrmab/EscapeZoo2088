@@ -266,7 +266,8 @@ public class LobbyScene : MonoBehaviour
 
     public void OnClickMyInfo()
     {
-        ReqMyInfo();
+        if(!_popupMyInfo.gameObject.activeSelf)
+            ReqMyInfo();
     }
 
   
