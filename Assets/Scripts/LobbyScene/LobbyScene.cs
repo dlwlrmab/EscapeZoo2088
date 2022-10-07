@@ -100,12 +100,29 @@ public class LobbyScene : MonoBehaviour
     // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
     public void MakeMatchMaking()
     {
-
+        
     }
 
     public void ReqMyPageData()
     {
+        var req = new CommonProtocol.ReqMyPage
+        {
+            userId = GlobalData.id,
+        };
 
+        string jsondata = JsonConvert.SerializeObject(req);
+        // type 서버와 상의하여 정해야함 (임시 : "MyPage")
+        var responseBytes = SendProtocolManager.SendLambdaReq(jsondata, "MyPage");
+        ResMyPage res = JsonConvert.DeserializeObject<ResMyPage>(responseBytes);
+
+        if (res != null && res.ResponseType == ResponseType.Success)
+        {
+            // 성공 처리
+        }
+        else
+        {
+            // 실패처리
+        }
     }
 
     #endregion

@@ -2,13 +2,11 @@
 {
     public class ResAccountJoin : CBaseProtocol
     {
-        public ResponseType ResponseType;
         public string userId;
     }
 
     public class ResLogin : CBaseProtocol
     {
-        public ResponseType ResponseType;
         public string userId;
     }
 
@@ -21,7 +19,6 @@
 
     public class ResTryMatch : CBaseProtocol
     {
-        public ResponseType ResponseType;
         public string IpAddress;
         public int Port;
         public string GameSessionId;
