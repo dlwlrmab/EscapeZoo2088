@@ -50,6 +50,6 @@ public class Player : MonoBehaviour
 
     void OnDestroy()
     {
-        IngamePlayerController.Instance.RemovePlayer(this);
+        IngamePlayerController.Instance?.RemovePlayer(this);
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumDef;
+using EuNet.Unity;
 
-public class IngamePlayerController : Singleton<IngamePlayerController>
+public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 {
     private List<Player> _playerList = new List<Player>();
 
