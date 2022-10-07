@@ -238,6 +238,9 @@ public class LobbyScene : MonoBehaviour
 
     public void OnClickReadyGame()
     {
+        _scenemanager.PlayFadeout(null, "IngameScene");
+        return;
+
         if (GlobalData.mapIndex == -1)
         {
             _notiText.text = "맵을 선택하지 않았습니다.";
