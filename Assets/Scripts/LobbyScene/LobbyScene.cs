@@ -15,6 +15,7 @@ public class LobbyScene : MonoBehaviour
     [SerializeField] Text _notiText;
     [SerializeField] GameObject _playButton;
     [SerializeField] GameObject _readyButton;
+    [SerializeField] PopupMyInfo _popupMyInfo;
 
     SceneLoadManager _scenemanager = null;
     GameObject _exMapButton = null;
@@ -105,7 +106,7 @@ public class LobbyScene : MonoBehaviour
         
     }
 
-    public void ReqMyPageData()
+    public void ReqMyInfo()
     {
         var req = new CommonProtocol.ReqMyPage
         {
@@ -114,8 +115,8 @@ public class LobbyScene : MonoBehaviour
 
         string jsondata = JsonConvert.SerializeObject(req);
 
-        // type 서버와 상의하여 정해야함 (임시 : "MyPage")
-        SendProtocolManager.Instance.SendLambdaReq(jsondata, "MyPage", (responseString) => {
+        // type 서버와 상의하여 정해야함
+        SendProtocolManager.Instance.SendLambdaReq(jsondata, "myPage", (responseString) => {
             ResMyPageData(responseString);
         });
     }
@@ -152,14 +153,15 @@ public class LobbyScene : MonoBehaviour
 
     public void ResMyPageData(string responseString)
     {
+        _popupMyInfo.gameObject.SetActive(true);
         ResMyPage res = JsonConvert.DeserializeObject<ResMyPage>(responseString);
-        //if (res != null && res.ResponseType == ResponseType.Success)
+        if (res != null && res.ResponseType == ResponseType.Success)
         {
-            // 성공 처리
+            _popupMyInfo.SetData(res, true);
         }
-        //else
+        else
         {
-            // 실패처리
+            _popupMyInfo.SetData(null, false);
         }
     }
 
@@ -258,10 +260,12 @@ public class LobbyScene : MonoBehaviour
         RecvMakeMatchMakingResult(true);
     }
 
-    public void OnClickMyPage()
+    public void OnClickMyInfo()
     {
-
+        ReqMyInfo();
     }
+
+  
     public void OnClickExit()
     {
         // 서버와의 연결을 끊고, 로그인씬으로 이동

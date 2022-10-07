@@ -22,5 +22,9 @@ public class GlobalData : MonoBehaviour
     public static List<Player> playerList = new List<Player>(); // 함께 플레이하는 유저들의 데이터 저장
 
     public static string GatewayAPI = "https://opupgoihqd.execute-api.ap-northeast-2.amazonaws.com/test/";
+}
 
+public class Strings : MonoBehaviour
+{
+    public static string MypageFail = "데이터 로드 실패";
 }

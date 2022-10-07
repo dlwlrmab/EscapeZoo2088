@@ -15,6 +15,8 @@
         public int winCnt;
         public int lossCnt;
         public int score;
+        public string mbti;
+        public string userId;
     }
 
     public class ResTryMatch : CBaseProtocol
