@@ -16,7 +16,7 @@ public class RoundObjDead : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            _round.ReStartRound();
+            _round.SendReStartRound();
         }
     }
 }

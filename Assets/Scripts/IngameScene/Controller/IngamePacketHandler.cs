@@ -48,6 +48,14 @@ public class IngamePacketHandler : MonoBehaviour
         IngameScene.Instance.StartRound();
     }
 
+    public void RecvUpdateRound()
+    {
+        // 라운드 진행 중 업데이트할 데이터가 있을 때
+        // 라운드 0: 태양 보여주기
+
+        IngameScene.Instance.MapController.GetCurrentRound().UpdateRound();
+    }
+
     public void RecvClearEnemyRound()
     {
         // 적이 라운드 클리어했을 때 보냄
@@ -81,7 +89,7 @@ public class IngamePacketHandler : MonoBehaviour
             new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
             new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
         };
-        GlobalData.roundIndex = 0;
+        GlobalData.roundIndex = -1;
         GlobalData.roundMax = GlobalData.roundList.Length;
     }
 
@@ -94,6 +102,10 @@ public class IngamePacketHandler : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.R))
         {
             RecvClearGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            RecvUpdateRound();
         }
     }
 

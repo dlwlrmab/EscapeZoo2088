@@ -35,30 +35,23 @@ public class Round0 : Round
     {
         base.StartRound();
 
+        StopAllCoroutines();
         StartSun();
     }
 
-    public override void ClearRound()
+    public override void UpdateRound()
     {
-        base.ClearRound();
+        base.UpdateRound();
 
-        StopAllCoroutines();
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
-
-        StopAllCoroutines();
-        StartCoroutine(ShowSun());
+        StartSun();
     }
 
     #endregion
 
     public void StartSun()
     {
-        // 서버에서 태양 시작 요청 받기
-
+        if (_coCheckPlayerMoving != null)
+            StopCoroutine(_coCheckPlayerMoving);
         StartCoroutine(ShowSun());
     }
 
@@ -106,8 +99,6 @@ public class Round0 : Round
 
             yield return null;
         }
-
-        StopCoroutine(_coCheckPlayerMoving);
     }
 
     private IEnumerator CheckPlayerMoving()
@@ -124,7 +115,7 @@ public class Round0 : Round
             for (int i = 0; i < players.Count; ++i)
                 if (players[i].transform.localPosition != _prePlayerPos[i])
                 {
-                    ReStartRound();
+                    SendReStartRound();
                     break;
                 }
 

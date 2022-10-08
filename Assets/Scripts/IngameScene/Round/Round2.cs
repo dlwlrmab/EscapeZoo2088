@@ -21,20 +21,5 @@ public class Round2 : Round
         _clear.LoadRound(this);
     }
 
-    public override void StartRound()
-    {
-        base.StartRound();
-    }
-
-    public override void ClearRound()
-    {
-        base.ClearRound();
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
-    }
-
     #endregion
 }

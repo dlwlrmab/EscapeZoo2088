@@ -27,20 +27,6 @@ public class Round1 : Round
     {
         base.StartRound();
 
-        StartCoroutine(Drop());
-    }
-
-    public override void ClearRound()
-    {
-        base.ClearRound();
-
-        StopAllCoroutines();
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
-
         StopAllCoroutines();
         StartCoroutine(Drop());
     }

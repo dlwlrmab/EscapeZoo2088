@@ -25,10 +25,10 @@ public class Round3 : Round
         _key.StartRound();
     }
 
-    public override void ClearRound()
+    public override void SendClearRound()
     {
         if (_playerController.GetMyPlayer().HasKey)
-            base.ClearRound();
+            base.SendClearRound();
     }
 
     #endregion

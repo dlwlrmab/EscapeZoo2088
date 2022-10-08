@@ -50,16 +50,21 @@ public class Round : MonoBehaviour
         Debug.Log($"Round {GlobalData.roundIndex} : Start");
     }
 
-    public virtual void ClearRound()
+    public virtual void UpdateRound()
     {
-        Debug.Log($"Round {GlobalData.roundIndex} : Clear");
+        Debug.Log($"Round {GlobalData.roundIndex} : Update");
+    }
+
+    public virtual void SendClearRound()
+    {
+        Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 
         IngameScene.Instance.PacketHandler.SendClearRound();
     }
 
-    public virtual void ReStartRound()
+    public void SendReStartRound()
     {
-        Debug.Log($"Round {GlobalData.roundIndex} : ReStart");
+        Debug.Log($"Round {GlobalData.roundIndex} : Send ReStart");
 
         IngameScene.Instance.PacketHandler.SendRestartRound();
     }

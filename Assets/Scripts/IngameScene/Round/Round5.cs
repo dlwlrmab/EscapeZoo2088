@@ -35,16 +35,10 @@ public class Round5 : Round
             _buttonList[i].StartRound();
     }
 
-    public override void ClearRound()
+    public override void SendClearRound()
     {
         if (_playerController.GetMyPlayer().HasKey)
-            base.ClearRound();
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
-
+            base.SendClearRound();
     }
 
     #endregion

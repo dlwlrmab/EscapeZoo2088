@@ -41,15 +41,10 @@ public class Round4 : Round
         _balls.gameObject.SetActive(true);
     }
 
-    public override void ClearRound()
+    public override void SendClearRound()
     {
         if (_playerController.GetMyPlayer().HasKey)
-            base.ClearRound();
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
+            base.SendClearRound();
     }
 
     #endregion
