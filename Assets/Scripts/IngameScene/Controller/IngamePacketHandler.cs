@@ -53,7 +53,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 임시로 여기서 설정
 
         GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new int[6] { 0, 1, 2, 3, 4, 5 };
+        GlobalData.roundList = new int[3] { 0, 1, 2 };
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
@@ -61,7 +61,7 @@ public class IngamePacketHandler : MonoBehaviour
             new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
             new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
         };
-        GlobalData.roundIndex = 0;
+        GlobalData.roundIndex = -1;
         GlobalData.roundMax = GlobalData.roundList.Length;
     }
 
