@@ -109,7 +109,8 @@ public class IngameScene : MonoBehaviour
     public void ClearGame(bool win)
     {
         _state = INGAME_STATE.ENDING;
-        _playerController.gameObject.SetActive(false);
+        _playerController.ClearGame();
+        _uiController.ClearGame();
         _endingController.LoadEnding(win);
     }
 

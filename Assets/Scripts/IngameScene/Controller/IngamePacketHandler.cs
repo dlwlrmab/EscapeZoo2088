@@ -23,7 +23,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         // 하나의 라운드 클리어 후 보냄
 
-        if (GlobalData.roundIndex == GlobalData.roundMax)
+        if (GlobalData.roundIndex == GlobalData.roundMax - 1)
             RecvClearGame();
         else
             RecvStartRound();
@@ -81,7 +81,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 임시로 여기서 설정
 
         GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new int[3] { 0, 1, 2 };
+        GlobalData.roundList = new int[1] { 0};
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },

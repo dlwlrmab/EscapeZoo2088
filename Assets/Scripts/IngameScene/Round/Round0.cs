@@ -11,7 +11,6 @@ public class Round0 : Round
     [SerializeField] RoundObjClear _clear;
 
     private List<Vector3> _prePlayerPos;
-    private IEnumerator _coCheckPlayerMoving = null;
 
     private float SUN_FADEIN_TIME = 2f;
     private float SUN_FADEOUT_TIME = 3f;
@@ -35,7 +34,6 @@ public class Round0 : Round
     {
         base.StartRound();
 
-        StopAllCoroutines();
         StartSun();
     }
 
@@ -50,8 +48,7 @@ public class Round0 : Round
 
     public void StartSun()
     {
-        if (_coCheckPlayerMoving != null)
-            StopCoroutine(_coCheckPlayerMoving);
+        StopAllCoroutines();
         StartCoroutine(ShowSun());
     }
 
@@ -93,7 +90,7 @@ public class Round0 : Round
 
             if (time >= 1)
             {
-                StartCoroutine(_coCheckPlayerMoving = CheckPlayerMoving());
+                StartCoroutine(CheckPlayerMoving());
                 break;
             }
 

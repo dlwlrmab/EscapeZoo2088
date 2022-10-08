@@ -47,6 +47,11 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         }
     }
 
+    public void ClearGame()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void AddPlayer(Player p)
     {
         _playerList.Add(p);

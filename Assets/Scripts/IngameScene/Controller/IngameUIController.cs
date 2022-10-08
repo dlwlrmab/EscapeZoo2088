@@ -33,6 +33,11 @@ public class IngameUIController : MonoBehaviour
         SetRetry();
     }
 
+    public void ClearGame()
+    {
+        gameObject.SetActive(false);
+    }
+
     public void SetRoundBar()
     {
         _myRoundBar.fillAmount = Mathf.Lerp(0f, 1f, (float)GlobalData.roundIndex / GlobalData.roundMax);
