@@ -7,6 +7,7 @@ public class Round0 : Round
     [Header("Round 0")]
     [Space(10)]
     [SerializeField] SpriteRenderer _sun;
+    [SerializeField] Transform _deads;
     [SerializeField] RoundObjClear _clear;
 
     private List<Vector3> _prePlayerPos;
@@ -19,6 +20,10 @@ public class Round0 : Round
         base.StartRound();
 
         _prePlayerPos = new List<Vector3>();
+
+        RoundObjDead[] deads = _deads.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in deads)
+            child.SetRound(this);
         _clear.SetRound(this);
 
         StartCoroutine(ShowSun());
