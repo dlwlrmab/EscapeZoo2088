@@ -218,8 +218,9 @@ MonoBehaviour:
   _explanation: "\uBC84\uD2BC\uC744\uB20C\uB7EC \uD568\uC815\uC744 \uC81C\uAC70\uD558\uACE0
     \uC9D1\uC73C\uB85C \uAC00\uC138\uC694!"
   _roundType: 0
-  _appearObj: {fileID: 0}
-  _clear: {fileID: 3853555704978247175}
+  _offFireImage: {fileID: 21300000, guid: 7f366947aaa73eb49a3c580bc7ad3f98, type: 3}
+  _offButtonImage: {fileID: 21300000, guid: def1766876b38af4a8ca74b12d24078a, type: 3}
+  _key: {fileID: 9037116893875254640}
   _buttonList:
   - {fileID: 9166635531781004249}
   - {fileID: 5611595591401207580}
@@ -227,9 +228,7 @@ MonoBehaviour:
   - {fileID: 5968499924028303300}
   - {fileID: 852625976548396221}
   - {fileID: 3472762146131506568}
-  _offFireImage: {fileID: 21300000, guid: 7f366947aaa73eb49a3c580bc7ad3f98, type: 3}
-  _offButtonImage: {fileID: 21300000, guid: def1766876b38af4a8ca74b12d24078a, type: 3}
-  _key: {fileID: 2183169286846600838}
+  _clear: {fileID: 3853555704978247175}
 --- !u!1 &2733326896128058228
 GameObject:
   m_ObjectHideFlags: 0
@@ -2367,15 +2366,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
---- !u!114 &2183169286846600838 stripped
+--- !u!114 &9037116893875254640 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5981900040799458285, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3469354381339160603, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
   m_PrefabInstance: {fileID: 5570907120174876011}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92b6945e8a2aa9f49b7617f64de5871a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83dea41aab9072246b1a9ce16899dc46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &3441018718978553495 stripped

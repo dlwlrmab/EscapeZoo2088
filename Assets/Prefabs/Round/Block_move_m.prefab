@@ -159,3 +159,5 @@ MonoBehaviour:
   _destPosX: 0
   _startPosY: 0
   _destPosY: 0
+  _isReverse: 1
+  _isPlayerTake: 1

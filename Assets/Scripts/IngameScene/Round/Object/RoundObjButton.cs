@@ -11,20 +11,19 @@ public class RoundObjButton : MonoBehaviour
 
     protected Action _action; // 버튼을 눌렀을때 진행될 동작 
 
-    public virtual void Init()
+    public virtual void StartRound()
     {
         gameObject.SetActive(true);
-
         if (_linkeDeadObj != null)
             _linkeDeadObj.gameObject.SetActive(true);
 
         SetAction();
     }
 
-    public void SetData(Round round)
+    public void LoadRound(Round round)
     {
-        if(_linkeDeadObj != null)
-            _linkeDeadObj.SetRound(round);
+        if (_linkeDeadObj != null)
+            _linkeDeadObj.LoadRound(round);
     }
 
     protected virtual void SetAction()
@@ -43,11 +42,10 @@ public class RoundObjButton : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            if ((_linkeDeadObj != null || _linkedAppearObj != null)&& gameObject.activeSelf)
+            if ((_linkeDeadObj != null || _linkedAppearObj != null) && gameObject.activeSelf)
             {
                 _action?.Invoke();
             }
         }
     }
-
 }

@@ -14,6 +14,11 @@ public class IngamePacketHandler : MonoBehaviour
         RecvStartRound();
     }
 
+    public void SendRestartRound()
+    {
+        RecvRestartRound();
+    }
+
     public void SendClearRound()
     {
         // 하나의 라운드 클리어 후 보냄
@@ -30,21 +35,30 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void RecvStartRound()
     {
-        // 라운드 시작(재시작)할 때 보냄
+        // 라운드 시작할 때 보냄
 
         GlobalData.roundIndex++;
         IngameScene.Instance.LoadRound();
     }
 
+    public void RecvRestartRound()
+    {
+        // 라운드 재시작할 때 보냄
+
+        IngameScene.Instance.StartRound();
+    }
+
     public void RecvClearEnemyRound()
     {
+        // 적이 라운드 클리어했을 때 보냄
+
         GlobalData.enemyRoundIndex++;
         IngameScene.Instance.ClearEnemyRound();
     }
 
     public void RecvClearGame()
     {
-        // 라운드 종료와 함께 받음
+        // 모든 라운드 클리어 했을 때 보냄
 
         IngameScene.Instance.ClearGame(true);
     }

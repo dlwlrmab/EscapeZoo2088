@@ -35,6 +35,7 @@ public class IngameScene : MonoBehaviour
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
 
+    public IngamePacketHandler PacketHandler { get { return _packetHandler; } }
     public IngameMapController MapController { get { return _mapController; } }
     public IngamePlayerController PlayerController { get { return _playerController; } }
 
@@ -98,11 +99,6 @@ public class IngameScene : MonoBehaviour
         _mapController.StartRound();
         _playerController.StartRound(_mapController.GetCurrentRoundType());
         _uiController.StartRound();
-    }
-
-    public void ClearRound()
-    {
-        _packetHandler.SendClearRound();
     }
 
     public void ClearEnemyRound()
