@@ -61,7 +61,7 @@ public class IngamePacketHandler : MonoBehaviour
             new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
             new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
         };
-        GlobalData.roundIndex = -1;
+        GlobalData.roundIndex = 0;
         GlobalData.roundMax = GlobalData.roundList.Length;
     }
 
