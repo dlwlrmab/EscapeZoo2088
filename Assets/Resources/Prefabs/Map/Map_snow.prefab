@@ -128,7 +128,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690a11442a32bc542bd8e7e7589e058c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.7
+  _left: 0
+  _moveSpeed: 10
+  _rotSpeed: 0
 --- !u!1 &3438172381185816838
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +505,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690a11442a32bc542bd8e7e7589e058c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
+  _left: 0
+  _moveSpeed: 10
+  _rotSpeed: 0
 --- !u!1 &8157047956562571106
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,13 +533,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8157047956562571106}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.713647, w: 0.70050555}
   m_LocalPosition: {x: 0, y: 3.2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1488062183399052352}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -91.065}
 --- !u!212 &595624551937484113
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -599,7 +603,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 690a11442a32bc542bd8e7e7589e058c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.2
+  _left: 0
+  _moveSpeed: 10
+  _rotSpeed: 0
 --- !u!1 &8206230005379672336
 GameObject:
   m_ObjectHideFlags: 0
@@ -610,7 +616,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1621699037735376654}
   m_Layer: 0
-  m_Name: Map_1
+  m_Name: Map_snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
