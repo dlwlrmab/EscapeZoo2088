@@ -4668,8 +4668,8 @@ MonoBehaviour:
   PingInterval: 1000
   MtuInterval: 1100
   RudpDisconnectTimeout: 5000
-  SyncType: 0
-  SyncInterval: 0.1
+  SyncType: 1
+  SyncInterval: 0.05
 --- !u!4 &1813839805
 Transform:
   m_ObjectHideFlags: 0

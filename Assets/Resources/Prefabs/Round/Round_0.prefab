@@ -528,6 +528,7 @@ MonoBehaviour:
   _explanation: "\uD574\uAC00 \uB730 \uB54C\uB9CC \uC6C0\uC9C1\uC5EC \uC131\uC5D0
     \uB3C4\uCC29\uD558\uB77C!"
   _roundType: 0
+  _appearObj: {fileID: 0}
   _sun: {fileID: 2669841475697747966}
   _deads: {fileID: 9032202889373917158}
   _clear: {fileID: 5498283885775159447}
@@ -4550,7 +4551,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewId: 0
   _ownerSessionId: 0
-  _isSceneObject: 0
+  _isSceneObject: 1
   _viewSyncType: 1
   _viewSyncInterval: 0.05
 --- !u!1 &7515116044801908472

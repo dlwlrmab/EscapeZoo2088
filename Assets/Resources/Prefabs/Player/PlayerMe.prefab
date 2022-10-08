@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
-  IsJump: 0
+  IsGrounded: 0
   jumpHeight: 1.8
   moveSpeed: 2
 --- !u!114 &7891928453796484017
@@ -361,5 +361,5 @@ MonoBehaviour:
   _viewId: 0
   _ownerSessionId: 0
   _isSceneObject: 0
-  _viewSyncType: 0
+  _viewSyncType: 1
   _viewSyncInterval: 0.05
