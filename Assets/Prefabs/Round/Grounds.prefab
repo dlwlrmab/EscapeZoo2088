@@ -401,6 +401,10 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 15
       objectReference: {fileID: 0}
+    - target: {fileID: 5379053874396820053, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7735381227070572060, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
       propertyPath: m_Size.y
       value: 15
@@ -413,7 +417,13 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.newSize.y
       value: 15
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8986086815012828896, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6506748707138631843, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
+    - {fileID: 2107247769888828209, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 864feb1ba5e259f4fa332b018aef9ea9, type: 3}
 --- !u!4 &153133908573919955 stripped
 Transform:
