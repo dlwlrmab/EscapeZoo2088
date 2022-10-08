@@ -16,7 +16,7 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
     private Vector2? _netSyncVelocity;
 
     public Rigidbody2D _rb;
-    public bool IsJump = false;
+    public bool IsGrounded = false;
     public float jumpHeight = 1f;
     public float moveSpeed = 2f;
     Vector2 velocity;
@@ -105,4 +105,26 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
     {
         //_renderer.material.color = reader.ReadColor();
     }
+
+    #region ##### Ground Check Trigger #####
+    // Ground Check 외의 다른 기능은 다른 스크립트에 작성요망
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        int layer = other.gameObject.layer;
+        if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
+        {
+            if (!IsGrounded)
+                IsGrounded = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        int layer = other.gameObject.layer;
+        if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
+        {
+            IsGrounded = false;
+        }
+    }
+    #endregion
 }

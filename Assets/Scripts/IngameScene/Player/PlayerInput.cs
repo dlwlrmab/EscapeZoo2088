@@ -13,9 +13,11 @@ public class PlayerInput : MonoBehaviour
         float x = Input.GetAxisRaw("Horizontal");
         bool jump = false;
         if (Input.GetKeyDown(KeyCode.Space))
-        {
-            jump = true;
+        {   // 점프 가능 여부는 각자 단말에서 판단함
+            if (actor.IsGrounded)
+                jump = true;
         }
+        
         actor.SetMoveVelocity(x, jump);
     }
 }
