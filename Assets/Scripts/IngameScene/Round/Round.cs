@@ -47,6 +47,9 @@ public class Round : MonoBehaviour
 
     public virtual void StartRound()
     {
+        PlayerInput._type = _roundType;
+
+        SetPlayerJumpHeight(0);
         Debug.Log($"Round {GlobalData.roundIndex} : Start");
     }
 
@@ -71,20 +74,8 @@ public class Round : MonoBehaviour
 
     public virtual void SetPlayerJumpHeight(float height)
     {
-        var ingamePlayerController = IngamePlayerController.Instance;
-        if (ingamePlayerController != null)
-        {
-            var list = ingamePlayerController.GetPlayerList();
-            if (list != null)
-            {
-                foreach(var player in list)
-                {
-                    var actor = player.GetComponent<Actor>();
-                    if(actor != null)
-                        actor.SetJumpHeight(height);
-                }
-            }
-        }
+        var actor = P2PInGameManager.Instance.ControlActor;
+        actor.SetJumpHeight(height);
     }
 
     public string GetExplanation()

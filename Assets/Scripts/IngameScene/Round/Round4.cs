@@ -28,7 +28,7 @@ public class Round4 : Round
     {
         base.StartRound();
 
-        SetPlayerJumpHeight(1);
+        SetPlayerJumpHeight(0.7f);
 
         _key.StartRound();
         foreach (RoundObjDead child in _roundDeads)

@@ -28,7 +28,7 @@ public class Round5 : Round
     {
         base.StartRound();
 
-        SetPlayerJumpHeight(1);
+        SetPlayerJumpHeight(0.7f);
 
         _key.StartRound();
         for (int i = 0; i < _buttonList.Length; i++)
