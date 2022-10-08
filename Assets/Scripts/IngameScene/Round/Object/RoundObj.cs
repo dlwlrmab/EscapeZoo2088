@@ -86,9 +86,15 @@ public class RoundObj : MonoBehaviour
             return;
 
         int layer = other.gameObject.layer;
+
         if (layer == LayerMask.NameToLayer("Player"))
         {
             other.transform.parent = transform;
+        }
+
+        if(other.gameObject.name == "GroundCheckCollider")
+        {
+            other.transform.parent.parent = transform;
         }
     }
 
@@ -101,6 +107,11 @@ public class RoundObj : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Player"))
         {
             other.transform.parent = _playerPerent;
+        }
+
+        if (other.gameObject.name == "GroundCheckCollider")
+        {
+            other.transform.parent.parent = _playerPerent;
         }
     }
 }

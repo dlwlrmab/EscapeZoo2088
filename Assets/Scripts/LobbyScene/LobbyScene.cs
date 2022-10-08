@@ -90,7 +90,7 @@ public class LobbyScene : MonoBehaviour
             if (success)
                 break;
 
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.3f);
         }
 
         SceneLoadManager.Instance.SetLoading(false);
