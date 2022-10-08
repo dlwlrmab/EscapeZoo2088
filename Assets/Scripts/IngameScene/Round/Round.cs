@@ -16,6 +16,7 @@ public class Round : MonoBehaviour
     public void CreateRound()
     {
         Sprite[] roundSprites = Resources.LoadAll<Sprite>("Sprites/Round/" + GlobalData.map.ToString().ToLower());
+        SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
 
         Func<string, Sprite> getSprite = (name) =>
         {
@@ -25,9 +26,11 @@ public class Round : MonoBehaviour
             return null;
         };
 
-        SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer child in allChildren)
         {
+            if (child.sprite == null)
+                continue;
+
             Sprite sprite = getSprite(child.sprite.name);
             if (sprite != null)
                 child.sprite = sprite;
