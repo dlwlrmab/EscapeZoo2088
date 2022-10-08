@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     private PlayerInfo _info;
 
-    public bool HasKey { set; get; } = false;
+    public bool HasKey { get { return transform.Find("Key") != null; } } 
 
     void Start()
     {
@@ -34,16 +34,8 @@ public class Player : MonoBehaviour
             if (type == BLOCKTYPE.KEY)
             {
                 var parent = other.transform.parent;
-                if (parent != null)
-                {
-                    var player = parent.GetComponent<Player>();
-                    if (player != null)
-                        player.HasKey = false;
-                }
-
-                HasKey = true;
                 other.transform.SetParent(transform);
-                other.transform.localPosition = new Vector3(-0.2f, 0.2f, 0);
+                other.transform.localPosition = new Vector3(0f, 0.7f, 0);
             }
         }
     }
