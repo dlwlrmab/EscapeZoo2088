@@ -68,6 +68,12 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
         return Task.CompletedTask;
     }
 
+
+    public void SetJumpHeight(float height)
+    {
+        jumpHeight = height;
+    }
+
     public void OnViewInstantiate(NetDataReader reader)
     {
         //_renderer.material.color = reader.ReadColor();

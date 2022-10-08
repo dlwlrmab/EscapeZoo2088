@@ -64,6 +64,24 @@ public class Round : MonoBehaviour
         IngameScene.Instance.PacketHandler.SendRestartRound();
     }
 
+    public virtual void SetPlayerJumpHeight(float height)
+    {
+        var ingamePlayerController = IngamePlayerController.Instance;
+        if (ingamePlayerController != null)
+        {
+            var list = ingamePlayerController.GetPlayerList();
+            if (list != null)
+            {
+                foreach(var player in list)
+                {
+                    var actor = player.GetComponent<Actor>();
+                    if(actor != null)
+                        actor.SetJumpHeight(height);
+                }
+            }
+        }
+    }
+
     public string GetExplanation()
     {
         return _explanation;
