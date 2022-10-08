@@ -211,7 +211,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2493385382283359004}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.51, y: 4.23, z: 0}
+  m_LocalPosition: {x: -0.51, y: 4.14, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5271319282189349974}
@@ -269,12 +269,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 22c5e60afcb09a74f832fcfa7203ae96, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b140d1315dafb7e4b8b5b91630eb6cd3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 25, y: 1}
+  m_Size: {x: 2.16, y: 1.7}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -297,8 +297,8 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.5, y: 1}
-    newSize: {x: 25, y: 1}
+    oldSize: {x: 1.08, y: 0.85}
+    newSize: {x: 2.16, y: 1.7}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
@@ -807,7 +807,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2574304586838634158, guid: ff0814f979e030c4d9a3ae1bed4395a8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.6699996
+      value: 0.7
       objectReference: {fileID: 0}
     - target: {fileID: 2574304586838634158, guid: ff0814f979e030c4d9a3ae1bed4395a8, type: 3}
       propertyPath: m_LocalPosition.y
@@ -848,6 +848,10 @@ PrefabInstance:
     - target: {fileID: 2574304586838634158, guid: ff0814f979e030c4d9a3ae1bed4395a8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574304586838634158, guid: ff0814f979e030c4d9a3ae1bed4395a8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 5096696420071656912, guid: ff0814f979e030c4d9a3ae1bed4395a8, type: 3}
       propertyPath: m_Name
