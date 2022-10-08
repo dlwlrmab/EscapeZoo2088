@@ -6,7 +6,7 @@ public class RoundObjDead : MonoBehaviour
 {
     private Round _round;
 
-    public void SetRound(Round round)
+    public void LoadRound(Round round)
     {
         _round = round;
     }

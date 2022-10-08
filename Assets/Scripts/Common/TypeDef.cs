@@ -44,7 +44,6 @@
         NONE,
         MOVEX,
         MOVEY,
-        KEY,
         BALL,
     }
 }

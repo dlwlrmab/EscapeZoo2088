@@ -540,10 +540,9 @@ MonoBehaviour:
   _explanation: "\uACF5\uC744 \uD53C\uD574 \uB3D9\uC804\uC744 \uAC00\uC9C0\uACE0
     \uD0C8\uCD9C\uD558\uB77C!"
   _roundType: 0
-  _appearObj: {fileID: 0}
   _balls: {fileID: 55504171478032300}
+  _key: {fileID: 6434307357661384}
   _clear: {fileID: 4460594542470749673}
-  _key: {fileID: 7147422608956898110}
 --- !u!1 &6289954244922214751
 GameObject:
   m_ObjectHideFlags: 0
@@ -1522,15 +1521,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
---- !u!114 &7147422608956898110 stripped
+--- !u!114 &6434307357661384 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5981900040799458285, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3469354381339160603, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
   m_PrefabInstance: {fileID: 3473195167052703955}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92b6945e8a2aa9f49b7617f64de5871a, type: 3}
+  m_Script: {fileID: 11500000, guid: 83dea41aab9072246b1a9ce16899dc46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &3834469926739608878

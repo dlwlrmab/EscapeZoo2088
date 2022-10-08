@@ -13,21 +13,26 @@ public class Round1 : Round
 
     #region Base Round
 
+    public override void LoadRound()
+    {
+        base.LoadRound();
+
+        RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in roundDeads)
+            child.LoadRound(this);
+        _clear.LoadRound(this);
+    }
+
     public override void StartRound()
     {
         base.StartRound();
 
-        RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
-        foreach (RoundObjDead child in roundDeads)
-            child.SetRound(this);
-        _clear.SetRound(this);
-
         StartCoroutine(Drop());
     }
 
-    public override void ClearRound(GameObject player)
+    public override void ClearRound()
     {
-        base.ClearRound(player);
+        base.ClearRound();
 
         StopAllCoroutines();
     }

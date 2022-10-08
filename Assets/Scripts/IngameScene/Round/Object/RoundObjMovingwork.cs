@@ -8,10 +8,12 @@ public class RoundObjMovingwork : MonoBehaviour
     [SerializeField] private Transform _autoMove;
     [SerializeField] private SpriteRenderer _spriteRenderer;
 
+    private Transform _playerPerent;
     private float _spriteInitSizeX = 0;
 
     private void Awake()
     {
+        _playerPerent = IngameScene.Instance.PlayerController.transform;
         _spriteInitSizeX = _spriteRenderer.size.x;
         _spriteRenderer.transform.localRotation = new Quaternion(0, _front ? 180 : 0, 0, 0);
     }
@@ -40,6 +42,15 @@ public class RoundObjMovingwork : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Player"))
         {
             other.transform.parent = _autoMove;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        int layer = other.gameObject.layer;
+        if (layer == LayerMask.NameToLayer("Player"))
+        {
+            other.transform.parent = _playerPerent;
         }
     }
 }
