@@ -6,7 +6,6 @@ using EnumDef;
 public class IngameMapController : MonoBehaviour
 {
     private List<Round> _roundList;
-    private int _roundIndex = 0;
 
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
@@ -29,25 +28,23 @@ public class IngameMapController : MonoBehaviour
         _isCreateComplete = true;
     }
 
-    public void LoadRound(int nextRound)
+    public void LoadRound()
     {
-        _roundIndex = nextRound;
-
         foreach (var round in _roundList)
             round.gameObject.SetActive(false);
-        _roundList[nextRound].gameObject.SetActive(true);
+        _roundList[GlobalData.roundIndex].gameObject.SetActive(true);
     }
 
     public void StartRound()
     {
-        _roundList[_roundIndex].StartRound();
+        _roundList[GlobalData.roundIndex].StartRound();
     }
 
     #region Get
 
     public Round GetCurrentRound()
     {
-        return _roundList[_roundIndex];
+        return _roundList[GlobalData.roundIndex];
     }
 
     public string GetExplanation()

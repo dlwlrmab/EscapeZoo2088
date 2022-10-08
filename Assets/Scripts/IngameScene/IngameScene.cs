@@ -78,10 +78,10 @@ public class IngameScene : MonoBehaviour
 
     #endregion
 
-    public void LoadRound(int nextRound)
+    public void LoadRound()
     {
         _state = INGAME_STATE.PLAYING;
-        _mapController.LoadRound(nextRound); // 맵 세팅 먼저
+        _mapController.LoadRound(); // 라운드 셋팅 먼저
         _playerController.LoadRound();
         _loadingController.LoadRoundLoading();
     }

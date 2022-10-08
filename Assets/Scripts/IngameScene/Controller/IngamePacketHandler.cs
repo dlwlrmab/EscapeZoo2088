@@ -32,7 +32,8 @@ public class IngamePacketHandler : MonoBehaviour
     {
         // 라운드 시작(재시작)할 때 보냄
 
-        IngameScene.Instance.LoadRound(GlobalData.roundIndex++);
+        GlobalData.roundIndex++;
+        IngameScene.Instance.LoadRound();
     }
 
     public void RecvClearGame()

@@ -6,7 +6,6 @@ using System;
 
 public class SceneLoadManager : Singleton<SceneLoadManager>
 {
-
     [SerializeField] private Image _dim;  // 씬이동 or 맵 이동시 fadein/out 을 위한 이미지
     [SerializeField] private GameObject _loading;
 

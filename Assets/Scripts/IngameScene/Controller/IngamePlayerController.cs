@@ -11,8 +11,11 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
 
-    public void CreatePlayer(List<PlayerInfo> playerInfos)
+    public void CreatePlayer()
     {
+        // to do
+        // GlobalData.playerInfos 로 각 플레이어 동물 및 mbti 노출 작업 필요
+
         // 내 플레이어 생성
         //GameObject playerMe = Instantiate(Resources.Load<GameObject>("Player/PlayerMe"), transform);
         GameObject playerMe = P2PInGameManager.Instance.CreateMyPlayer();
