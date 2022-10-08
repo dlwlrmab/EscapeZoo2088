@@ -26,8 +26,27 @@ public class Round4 : Round
         _clear.SetRound(this);
     }
 
+    public override void ClearRound(GameObject player)
+    {
+        if (player != null)
+        {
+            var p = player.GetComponent<Player>();
+
+            if (p != null)
+            {
+                if (p.HasKey)
+                {
+                    base.ClearRound(player);
+                    _key.Init();
+                }
+            }
+        }
+    }
+
     public override void ReStartRound()
     {
+        _key.Init();
+
         base.ReStartRound();
 
         foreach (RoundObjDead child in _roundDeads)
@@ -36,8 +55,6 @@ public class Round4 : Round
             if (objCon != null)
                 objCon.Init();
         }
-
-        _key.Init();
     }
 
     #endregion
