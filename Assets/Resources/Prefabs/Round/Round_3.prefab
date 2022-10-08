@@ -948,7 +948,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerSpawn: {fileID: 433997596189169159}
   _explanation: "\uC810\uD504\uD0A4\uB97C \uC774\uC6A9\uD558\uC5EC \uB3D9\uC804\uC744
-    \uAC00\uC9C0\uACE0 \uC131\uC5D0 \uB3C4\uCC29\uD558\uB77C!"
+    \uAC00\uC9C0\uACE0 \uC131\uC5D0 \uB3C4\uCC29\uD558\uB77C!(\uC67C\uCABD\uC810\uD504
+    : z, \uC624\uB978\uCABD \uC810\uD504 c)"
   _roundType: 1
   _key: {fileID: 2487024075506696672}
   _clear: {fileID: 3283748184826395943}

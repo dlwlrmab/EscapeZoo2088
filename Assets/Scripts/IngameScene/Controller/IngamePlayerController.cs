@@ -55,7 +55,9 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         if (_playerList.Contains(p))
             _playerList.Remove(p);
     }
-
+    
+    // player.info 가 비어있어 key 가 필요한 맵에서 clear 오브젝트 접근시 크래시발생
+    // 서버 연동 후 확인 필요..!
     public Player GetMyPlayer()
     {
         foreach (Player player in _playerList)
