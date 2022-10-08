@@ -35,19 +35,14 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         }
     }
 
-    public void StartRound(ROUNDTYPE type)
+    public void StartRound()
     {
-        for (int i = 0; i < _playerList.Count; ++i)
-        {
-            var playerMove = _playerList[i].GetComponent<PlayerMove>();
-            if (playerMove != null)
-                playerMove.Init(type);
-        }
+        LoadRound();
     }
 
-    public List<Player> GetPlayerList()
+    public void ClearGame()
     {
-        return _playerList;
+        gameObject.SetActive(false);
     }
 
     public void AddPlayer(Player p)
@@ -57,9 +52,25 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void RemovePlayer(Player p)
     {
-        if(_playerList.Contains(p))
-        {
+        if (_playerList.Contains(p))
             _playerList.Remove(p);
+    }
+    
+    // player.info 가 비어있어 key 가 필요한 맵에서 clear 오브젝트 접근시 크래시발생
+    // 서버 연동 후 확인 필요..!
+    public Player GetMyPlayer()
+    {
+        foreach (Player player in _playerList)
+        {
+            if (player.Info.Id == GlobalData.id)
+                return player;
         }
+
+        return null;
+    }
+
+    public List<Player> GetPlayerList()
+    {
+        return _playerList;
     }
 }

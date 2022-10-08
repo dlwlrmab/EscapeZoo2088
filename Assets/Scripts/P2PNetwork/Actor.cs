@@ -17,7 +17,9 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     public Rigidbody2D _rb;
     public bool IsGrounded = false;
+    public bool IsLongJump = false;
     public float jumpHeight = 1f;
+    public float defualtJumpHeight = 0;
     public float moveSpeed = 2f;
     Vector2 velocity;
 
@@ -26,6 +28,9 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
         _view = GetComponent<NetView>();
         _actorRpc = new ActorViewRpc(_view);
         _rb = GetComponent<Rigidbody2D>();
+
+        if(defualtJumpHeight == 0)
+            defualtJumpHeight = jumpHeight;
     }
 
     private void Start()
@@ -66,6 +71,15 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
             velocity.y += Mathf.Sqrt(2f * -Physics2D.gravity.y * jumpHeight);
         _rb.velocity = velocity;
         return Task.CompletedTask;
+    }
+
+
+    public void SetJumpHeight(float height)
+    {
+        if (height != 0)
+            jumpHeight = height;
+        else
+            jumpHeight = defualtJumpHeight;
     }
 
     public void OnViewInstantiate(NetDataReader reader)
@@ -124,6 +138,15 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
         if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
         {
             IsGrounded = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        int layer = other.gameObject.layer;
+        if (layer == LayerMask.NameToLayer("Ground") || layer == LayerMask.NameToLayer("Ground_Move") || layer == LayerMask.NameToLayer("Player"))
+        {
+            IsLongJump = false;
         }
     }
     #endregion

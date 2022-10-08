@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3939267787150040840}
   - component: {fileID: 6445332599687543447}
-  m_Layer: 21
+  m_Layer: 20
   m_Name: sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5681810376094866224}
   - component: {fileID: 2299344765353384318}
   - component: {fileID: -4805643969513158675}
-  m_Layer: 21
+  m_Layer: 20
   m_Name: Block_move_m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,3 +159,5 @@ MonoBehaviour:
   _destPosX: 0
   _startPosY: 0
   _destPosY: 0
+  _isReverse: 1
+  _isPlayerTake: 1

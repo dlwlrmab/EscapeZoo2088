@@ -10,12 +10,13 @@ public class Round : MonoBehaviour
     [SerializeField] private Transform _playerSpawn;
     [SerializeField] protected string _explanation = "";
     [SerializeField] ROUNDTYPE _roundType;
-    [SerializeField] Transform _appearObj;
 
     protected IngamePlayerController _playerController = null;
 
     public void CreateRound()
     {
+        gameObject.SetActive(false);
+
         Sprite[] roundSprites = Resources.LoadAll<Sprite>("Sprites/Round/" + GlobalData.map.ToString().ToLower());
         SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
 
@@ -33,40 +34,48 @@ public class Round : MonoBehaviour
             if (sprite != null)
                 child.sprite = sprite;
         }
+
+        _playerController = IngameScene.Instance.PlayerController;
     }
 
-    protected void ResetAppearObj()
+    public virtual void LoadRound()
     {
-        if(_appearObj != null)
-        {
-            for(int i = 0; i < _appearObj.childCount; i++)
-            {
-                _appearObj.GetChild(i).gameObject.SetActive(false);
-            }
-        }
+        Debug.Log($"Round {GlobalData.roundIndex} : Load");
+
+        gameObject.SetActive(true);
     }
 
     public virtual void StartRound()
     {
-        Debug.Log($"Round : Start  {gameObject.name}");
+        Debug.Log($"Round {GlobalData.roundIndex} : Start");
 
-        ResetAppearObj();
-        _playerController = IngameScene.Instance.PlayerController;
+        PlayerInput._type = _roundType;
+        SetPlayerJumpHeight(0);
     }
 
-    public virtual void ClearRound(GameObject player)
+    public virtual void UpdateRound()
     {
-        Debug.Log($"Round : Clear {gameObject.name}");
-
-        IngameScene.Instance.ClearRound();
+        Debug.Log($"Round {GlobalData.roundIndex} : Update");
     }
 
-    public virtual void ReStartRound()
+    public virtual void SendClearRound()
     {
-        Debug.Log($"Round : ReStart  {gameObject.name}");
+        Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 
-        ResetAppearObj();
-        _playerController.LoadRound();
+        IngameScene.Instance.PacketHandler.SendClearRound();
+    }
+
+    public void SendReStartRound()
+    {
+        Debug.Log($"Round {GlobalData.roundIndex} : Send ReStart");
+
+        IngameScene.Instance.PacketHandler.SendRestartRound();
+    }
+
+    public virtual void SetPlayerJumpHeight(float height)
+    {
+        var actor = P2PInGameManager.Instance.ControlActor;
+        actor.SetJumpHeight(height);
     }
 
     public string GetExplanation()
@@ -77,10 +86,5 @@ public class Round : MonoBehaviour
     public Vector3 GetPlayerSpawn()
     {
         return _playerSpawn.position;
-    }
-
-    public ROUNDTYPE GetRoundType()
-    {
-        return _roundType;
     }
 }

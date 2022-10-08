@@ -6,7 +6,7 @@ public class RoundObjClear : MonoBehaviour
 {
     private Round _round;
 
-    public void SetRound(Round round)
+    public void LoadRound(Round round)
     {
         _round = round;
     }
@@ -16,7 +16,7 @@ public class RoundObjClear : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            _round.ClearRound(other.gameObject);
+            _round.SendClearRound();
         }
     }
 }

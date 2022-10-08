@@ -7,46 +7,37 @@ public class Round6 : Round
 {
     [Header("Round 6")]
     [Space(10)]
-    [SerializeField] RoundObjClear _clear;
-    [SerializeField] RoundObj _key;
+    [SerializeField] RoundObjKey _key;
     [SerializeField] RoundObjButton[] _buttonList = new RoundObjButton[3];
+    [SerializeField] RoundObjClear _clear;
 
     #region Base Round
+
+    public override void LoadRound()
+    {
+        base.LoadRound();
+
+        _clear.LoadRound(this);
+        for (int i = 0; i < _buttonList.Length; i++)
+            _buttonList[i].LoadRound(this);
+    }
 
     public override void StartRound()
     {
         base.StartRound();
-        _clear.SetRound(this);
 
+        SetPlayerJumpHeight(0.7f);
 
+        _key.StartRound();
         for (int i = 0; i < _buttonList.Length; i++)
-        {
-            _buttonList[i].SetData(this);
-            _buttonList[i].Init();
-        }
+            _buttonList[i].StartRound();
     }
 
-    public override void ClearRound(GameObject player)
+    public override void SendClearRound()
     {
-        if (player != null)
-        {
-            var p = player.GetComponent<Player>();
+        if (_playerController.GetMyPlayer().HasKey)
+            base.SendClearRound();
+    }
 
-            if (p != null)
-            {
-                if (p.HasKey)
-                {
-                    base.ClearRound(player);
-                    _key.Init();
-                }
-            }
-        }
-       
-    }
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
-        _key.Init();
-    }
     #endregion
 }

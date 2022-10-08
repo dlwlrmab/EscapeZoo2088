@@ -11,24 +11,14 @@ public class Round2 : Round
 
     #region Base Round
 
-    public override void StartRound()
+    public override void LoadRound()
     {
-        base.StartRound();
+        base.LoadRound();
 
         RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
         foreach (RoundObjDead child in roundDeads)
-            child.SetRound(this);
-        _clear.SetRound(this);
-    }
-
-    public override void ClearRound(GameObject player)
-    {
-        base.ClearRound(player);
-    }
-
-    public override void ReStartRound()
-    {
-        base.ReStartRound();
+            child.LoadRound(this);
+        _clear.LoadRound(this);
     }
 
     #endregion

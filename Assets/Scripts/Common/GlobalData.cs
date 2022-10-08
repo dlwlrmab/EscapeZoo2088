@@ -27,6 +27,9 @@ public class GlobalData : MonoBehaviour
     public static int roundIndex = -1;
     public static int roundMax = -1;
     public static List<PlayerInfo> playerInfos = null;
+
+    // 인게임: 진행 중 받을 데이터들
+    public static int enemyRoundIndex = 1;
 }
 
 public class PlayerInfo
@@ -39,4 +42,6 @@ public class PlayerInfo
 public class Strings : MonoBehaviour
 {
     public static string MypageFail = "데이터 로드 실패";
+    public static string ServerError = "서버연결에 실패하였습니다. 재시도해주세요.";
+    public static string WaitOtherUser = "다른유저를 기다리고 있습니다...";
 }

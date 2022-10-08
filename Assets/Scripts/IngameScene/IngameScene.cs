@@ -31,9 +31,11 @@ public class IngameScene : MonoBehaviour
     [SerializeField] IngamePacketHandler _packetHandler;
     [SerializeField] IngameMapController _mapController;
     [SerializeField] IngamePlayerController _playerController;
+    [SerializeField] IngameUIController _uiController;
     [SerializeField] IngameLoadingController _loadingController;
     [SerializeField] IngameEndingController _endingController;
 
+    public IngamePacketHandler PacketHandler { get { return _packetHandler; } }
     public IngameMapController MapController { get { return _mapController; } }
     public IngamePlayerController PlayerController { get { return _playerController; } }
 
@@ -83,6 +85,7 @@ public class IngameScene : MonoBehaviour
         _state = INGAME_STATE.PLAYING;
         _mapController.LoadRound(); // 라운드 셋팅 먼저
         _playerController.LoadRound();
+        _uiController.LoadRound();
         _loadingController.LoadRoundLoading();
     }
 
@@ -94,18 +97,20 @@ public class IngameScene : MonoBehaviour
     public void StartRound()
     {
         _mapController.StartRound();
-        _playerController.StartRound(_mapController.GetCurrentRoundType());
+        _playerController.StartRound();
+        _uiController.StartRound();
     }
 
-    public void ClearRound()
+    public void ClearEnemyRound()
     {
-        _packetHandler.SendClearRound();
+        _uiController.SetRoundBar();
     }
 
     public void ClearGame(bool win)
     {
         _state = INGAME_STATE.ENDING;
-        _playerController.gameObject.SetActive(false);
+        _playerController.ClearGame();
+        _uiController.ClearGame();
         _endingController.LoadEnding(win);
     }
 

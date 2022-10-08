@@ -14,11 +14,16 @@ public class IngamePacketHandler : MonoBehaviour
         RecvStartRound();
     }
 
+    public void SendRestartRound()
+    {
+        RecvRestartRound();
+    }
+
     public void SendClearRound()
     {
         // 하나의 라운드 클리어 후 보냄
 
-        if (GlobalData.roundIndex == GlobalData.roundMax)
+        if (GlobalData.roundIndex == GlobalData.roundMax - 1)
             RecvClearGame();
         else
             RecvStartRound();
@@ -30,15 +35,38 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void RecvStartRound()
     {
-        // 라운드 시작(재시작)할 때 보냄
+        // 라운드 시작할 때 보냄
 
         GlobalData.roundIndex++;
         IngameScene.Instance.LoadRound();
     }
 
+    public void RecvRestartRound()
+    {
+        // 라운드 재시작할 때 보냄
+
+        IngameScene.Instance.StartRound();
+    }
+
+    public void RecvUpdateRound()
+    {
+        // 라운드 진행 중 업데이트할 데이터가 있을 때
+        // 라운드 0: 태양 보여주기
+
+        IngameScene.Instance.MapController.GetCurrentRound().UpdateRound();
+    }
+
+    public void RecvClearEnemyRound()
+    {
+        // 적이 라운드 클리어했을 때 보냄
+
+        GlobalData.enemyRoundIndex++;
+        IngameScene.Instance.ClearEnemyRound();
+    }
+
     public void RecvClearGame()
     {
-        // 라운드 종료와 함께 받음
+        // 모든 라운드 클리어 했을 때 보냄
 
         IngameScene.Instance.ClearGame(true);
     }
@@ -53,7 +81,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 임시로 여기서 설정
 
         GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new int[3] { 0, 1, 2 };
+        GlobalData.roundList = new int[1] { 0};
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
@@ -74,6 +102,10 @@ public class IngamePacketHandler : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.R))
         {
             RecvClearGame();
+        }
+        else if (Input.GetKeyDown(KeyCode.U))
+        {
+            RecvUpdateRound();
         }
     }
 

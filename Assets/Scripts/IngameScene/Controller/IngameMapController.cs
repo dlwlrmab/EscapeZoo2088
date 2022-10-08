@@ -32,7 +32,8 @@ public class IngameMapController : MonoBehaviour
     {
         foreach (var round in _roundList)
             round.gameObject.SetActive(false);
-        _roundList[GlobalData.roundIndex].gameObject.SetActive(true);
+
+        _roundList[GlobalData.roundIndex].LoadRound();
     }
 
     public void StartRound()
@@ -55,11 +56,6 @@ public class IngameMapController : MonoBehaviour
     public Vector3 GetPlayerSpawn()
     {
         return GetCurrentRound().GetPlayerSpawn();
-    }
-
-    public ROUNDTYPE GetCurrentRoundType()
-    {
-        return GetCurrentRound().GetRoundType(); 
     }
 
     #endregion

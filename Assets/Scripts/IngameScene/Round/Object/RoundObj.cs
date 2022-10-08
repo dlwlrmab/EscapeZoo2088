@@ -13,26 +13,25 @@ public class RoundObj : MonoBehaviour
     [SerializeField] float _startPosY;
     [SerializeField] float _destPosY;
 
-    [SerializeField] bool _isReverse = true;  // true = 왼쪽에서 오른족
+    [SerializeField] bool _isReverse = true;  // true = 왼쪽에서 오른쪽
+    [SerializeField] bool _isPlayerTake = false;  // 플레이어 탐승 여부
 
-    private Transform _parentObj;
+    private Transform _playerPerent;
 
     private void Awake()
     {
-        _parentObj = transform.parent;
+        _playerPerent = IngameScene.Instance.PlayerController.transform;
     }
-    public void Init()
-    {
-        if(_parentObj != null)
-            transform.SetParent(_parentObj);
 
-        transform.localPosition = new Vector3(_startPosX, _startPosY, 0);
+    public void StartRound()
+    {
         gameObject.SetActive(true);
+        transform.localPosition = new Vector3(_startPosX, _startPosY, 0);
     }
 
     private void FixedUpdate()
     {
-        if(_type == BLOCKTYPE.MOVEX)
+        if (_type == BLOCKTYPE.MOVEX)
         {
             if (!_isReverse)
             {
@@ -47,28 +46,28 @@ public class RoundObj : MonoBehaviour
                     _isReverse = false;
             }
         }
-        else if(_type == BLOCKTYPE.MOVEY)
+        else if (_type == BLOCKTYPE.MOVEY)
         {
             if (!_isReverse)
             {
-                transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y + 0.1f * _speed, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + 0.1f * _speed, 0);
                 if (transform.localPosition.y >= _destPosY)
                     _isReverse = true;
             }
             else
             {
-                transform.localPosition = new Vector3(transform.localPosition.x , transform.localPosition.y + -0.1f * _speed, 0);
+                transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y + -0.1f * _speed, 0);
                 if (transform.localPosition.y <= _startPosY)
                     _isReverse = false;
             }
         }
-        else if(_type == BLOCKTYPE.BALL)
+        else if (_type == BLOCKTYPE.BALL)
         {
-            
+
             if (_isReverse)
             {
                 transform.localPosition = new Vector3(transform.localPosition.x + 0.1f * _speed, transform.localPosition.y, 0);
-                if (transform.localPosition.x  > _destPosX)
+                if (transform.localPosition.x > _destPosX)
                     transform.localPosition = new Vector3(_startPosX, transform.localPosition.y, 0);
             }
             else
@@ -77,12 +76,42 @@ public class RoundObj : MonoBehaviour
                 if (transform.localPosition.x < _destPosX)
                     transform.localPosition = new Vector3(_startPosX, transform.localPosition.y, 0);
             }
-                
+
         }
     }
 
-    public BLOCKTYPE GetObjectType()
+    private void OnTriggerStay2D(Collider2D other)
     {
-        return _type;
+        if (_isPlayerTake == false)
+            return;
+
+        int layer = other.gameObject.layer;
+
+        if (layer == LayerMask.NameToLayer("Player"))
+        {
+            other.transform.parent = transform;
+        }
+
+        if(other.gameObject.name == "GroundCheckCollider")
+        {
+            other.transform.parent.parent = transform;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (_isPlayerTake == false)
+            return;
+
+        int layer = other.gameObject.layer;
+        if (layer == LayerMask.NameToLayer("Player"))
+        {
+            other.transform.parent = _playerPerent;
+        }
+
+        if (other.gameObject.name == "GroundCheckCollider")
+        {
+            other.transform.parent.parent = _playerPerent;
+        }
     }
 }

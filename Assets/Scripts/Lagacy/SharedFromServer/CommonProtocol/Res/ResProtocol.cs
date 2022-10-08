@@ -1,4 +1,4 @@
-﻿namespace CommonProtocol
+﻿﻿namespace CommonProtocol
 {
     public class ResAccountJoin : CBaseProtocol
     {
@@ -24,5 +24,16 @@
         public string IpAddress; // battleServerIp
         public int Port; // battleServerPot
         public string GameSessionId; // gameSessionId
+        public string ticketId;
+        //public string IpAddress; // battleServerIp
+        //public int Port; // battleServerPot
+        //public string GameSessionId; // gameSessionId
+    }
+
+    public class ResMatchStatus : CBaseProtocol
+    {
+        public string IpAddress;
+        public string PlayerSessionId;
+        public int Port;
     }
 }
