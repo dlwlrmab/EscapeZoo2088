@@ -344,7 +344,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rb: {fileID: 0}
   IsGrounded: 0
+  IsLongJump: 0
   jumpHeight: 1.8
+  defualtJumpHeight: 0
   moveSpeed: 2
 --- !u!114 &7891928453796484017
 MonoBehaviour:
