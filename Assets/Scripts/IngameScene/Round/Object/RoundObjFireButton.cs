@@ -25,14 +25,14 @@ public class RoundObjFireButton : RoundObjButton
 
     private void DisableFire()
     {
-        _linkedObj.gameObject.SetActive(false);
+        _linkeDeadObj.gameObject.SetActive(false);
         gameObject.SetActive(false);
         _offFireObj.gameObject.SetActive(true);
     }
 
     private void InvokeEnableFire()
     {
-        _linkedObj.gameObject.SetActive(true);
+        _linkeDeadObj.gameObject.SetActive(true);
         gameObject.SetActive(true);
         _offFireObj.gameObject.SetActive(false);
     }

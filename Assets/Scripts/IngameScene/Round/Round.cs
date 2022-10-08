@@ -10,6 +10,7 @@ public class Round : MonoBehaviour
     [SerializeField] private Transform _playerSpawn;
     [SerializeField] protected string _explanation = "";
     [SerializeField] ROUNDTYPE _roundType;
+    [SerializeField] Transform _appearObj;
 
     protected IngamePlayerController _playerController = null;
 
@@ -37,10 +38,22 @@ public class Round : MonoBehaviour
         }
     }
 
+    protected void ResetAppearObj()
+    {
+        if(_appearObj != null)
+        {
+            for(int i = 0; i < _appearObj.childCount; i++)
+            {
+                _appearObj.GetChild(i).gameObject.SetActive(false);
+            }
+        }
+    }
+
     public virtual void StartRound()
     {
         Debug.Log($"Round : Start  {gameObject.name}");
 
+        ResetAppearObj();
         _playerController = IngameScene.Instance.PlayerController;
     }
 
@@ -53,8 +66,9 @@ public class Round : MonoBehaviour
 
     public virtual void ReStartRound()
     {
-        Debug.Log("Round : ReStart  {gameObject.name}");
+        Debug.Log($"Round : ReStart  {gameObject.name}");
 
+        ResetAppearObj();
         _playerController.LoadRound();
     }
 
