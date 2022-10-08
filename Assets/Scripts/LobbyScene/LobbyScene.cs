@@ -14,7 +14,6 @@ using EnumDef;
 
 public class LobbyScene : MonoBehaviour
 {
-    [SerializeField] Text _notiText;
     [SerializeField] GameObject _playButton;
     [SerializeField] GameObject _readyButton;
     [SerializeField] PopupMyInfo _popupMyInfo;
@@ -137,7 +136,6 @@ public class LobbyScene : MonoBehaviour
         }
         else
         {
-            _notiText.text = "서버연결에 실패하였습니다. 재시도해주세요";
             ShowNotiPopup(Strings.ServerError);
         }
     }
@@ -173,7 +171,6 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            _notiText.text = "다른유저를 기다리고있습니다.";
             ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
             Invoke("PlayGame", 1f);
             return;
@@ -194,7 +191,6 @@ public class LobbyScene : MonoBehaviour
         }
         else
         {
-            _notiText.text = "서버연결에 실패하였습니다. 재시도해주세요";
             ShowNotiPopup("배틀서버 타임아웃");
             _readyButton.SetActive(true);
         }
@@ -220,12 +216,10 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            _notiText.text = "매치 메이킹 성공";
             _scenemanager.PlayFadeout(null, "IngameScene");
         }
         else
         {
-            _notiText.text = "매치 메이킹 실패 재시도 해주세요";
             _playButton.SetActive(true);
         }
     }
@@ -352,7 +346,6 @@ public class LobbyScene : MonoBehaviour
     {
         if (!GlobalData.isHost)
         {
-            _notiText.text = "호스트만 게임을 시작할수있습니다.";
             return;
         }
 
