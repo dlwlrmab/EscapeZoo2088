@@ -28,9 +28,6 @@ public class Round : MonoBehaviour
 
         foreach (SpriteRenderer child in allChildren)
         {
-            if (child.sprite == null)
-                continue;
-
             Sprite sprite = getSprite(child.sprite.name);
             if (sprite != null)
                 child.sprite = sprite;

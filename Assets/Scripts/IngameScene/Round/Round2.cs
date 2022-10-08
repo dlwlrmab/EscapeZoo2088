@@ -6,10 +6,8 @@ public class Round2 : Round
 {
     [Header("Round 2")]
     [Space(10)]
-    [SerializeField] Transform _deadMap;
+    [SerializeField] Transform _deads;
     [SerializeField] RoundObjClear _clear;
-
-    private RoundObjDead[] _roundDeads = null;
 
     #region Base Round
 
@@ -17,8 +15,8 @@ public class Round2 : Round
     {
         base.StartRound();
 
-        _roundDeads = _deadMap.GetComponentsInChildren<RoundObjDead>();
-        foreach (RoundObjDead child in _roundDeads)
+        RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in roundDeads)
             child.SetRound(this);
         _clear.SetRound(this);
     }
@@ -26,8 +24,6 @@ public class Round2 : Round
     public override void ClearRound(GameObject player)
     {
         base.ClearRound(player);
-
-        StopAllCoroutines();
     }
 
     public override void ReStartRound()
