@@ -32,6 +32,7 @@ namespace CommonProtocol
         public string userId;
         public int gameMap;
         public int score;
+        public int character;
     }
 
     public class ReqMatchStatus

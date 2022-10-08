@@ -41,7 +41,7 @@ public class LobbyScene : MonoBehaviour
         var req = new ReqTryMatch
         {
             userId = GlobalData.id,
-            //animalIndex = (int)GlobalData.animal,
+            character = (int)GlobalData.animal,
             gameMap = (int)GlobalData.map,
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
