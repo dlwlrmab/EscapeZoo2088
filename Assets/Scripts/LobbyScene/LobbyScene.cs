@@ -258,6 +258,8 @@ public class LobbyScene : MonoBehaviour
 
     public void OnClickReadyGame()
     {
+        PlayGame();
+
         if (GlobalData.map == MAP.NONE)
         {
             ShowNotiPopup("맵을 선택하지 않았습니다.");
