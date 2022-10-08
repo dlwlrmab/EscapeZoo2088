@@ -27,6 +27,9 @@ public class GlobalData : MonoBehaviour
     public static int roundIndex = -1;
     public static int roundMax = -1;
     public static List<PlayerInfo> playerInfos = null;
+
+    // 인게임: 진행 중 받을 데이터들
+    public static int enemyRoundIndex = 1;
 }
 
 public class PlayerInfo
