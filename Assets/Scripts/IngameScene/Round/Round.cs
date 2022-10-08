@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumDef;
+using System;
 
 public class Round : MonoBehaviour
 {
@@ -14,12 +15,22 @@ public class Round : MonoBehaviour
 
     public void CreateRound()
     {
-        // GlobalData.map 사용
+        Sprite[] roundSprites = Resources.LoadAll<Sprite>("Sprites/Round/" + GlobalData.map.ToString().ToLower());
+
+        Func<string, Sprite> getSprite = (name) =>
+        {
+            foreach (Sprite sprite in roundSprites)
+                if (sprite.name == name)
+                    return sprite;
+            return null;
+        };
 
         SpriteRenderer[] allChildren = GetComponentsInChildren<SpriteRenderer>();
         foreach (SpriteRenderer child in allChildren)
         {
-            // 스프라이트 변경
+            Sprite sprite = getSprite(child.sprite.name);
+            if (sprite != null)
+                child.sprite = sprite;
         }
     }
 

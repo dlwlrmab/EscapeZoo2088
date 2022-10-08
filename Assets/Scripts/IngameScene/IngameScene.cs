@@ -54,7 +54,7 @@ public class IngameScene : MonoBehaviour
     private void InitGame()
     {
         _state = INGAME_STATE.LOADING;
-        _mapController.CreateMapAndRound(GlobalData.roundList);
+        _mapController.CreateMapAndRound();
         _playerController.CreatePlayer(GlobalData.playerInfos);
         _loadingController.LoadStartLoading();
     }

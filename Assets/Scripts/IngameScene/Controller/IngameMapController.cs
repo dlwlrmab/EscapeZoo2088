@@ -11,7 +11,7 @@ public class IngameMapController : MonoBehaviour
     private bool _isCreateComplete = false;
     public bool CreateComplete { get { return _isCreateComplete; } }
 
-    public void CreateMapAndRound(int[] roundList)
+    public void CreateMapAndRound()
     {
         // 맵 생성
         GameObject map = Instantiate(Resources.Load<GameObject>("Prefabs/Map/Map_" + GlobalData.map.ToString().ToLower()), transform);
@@ -19,7 +19,7 @@ public class IngameMapController : MonoBehaviour
 
         // 라운드 생성
         _roundList = new List<Round>();
-        foreach (int roundIndex in roundList)
+        foreach (int roundIndex in GlobalData.roundList)
         {
             GameObject round = Instantiate(Resources.Load<GameObject>("Prefabs/Round/Round_" + roundIndex), transform);
             _roundList.Add(round.GetComponent<Round>());
