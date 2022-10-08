@@ -23,6 +23,9 @@ public class MapElementAutoMove : MonoBehaviour
     {
         transform.Rotate(Vector3.forward, Time.deltaTime * _rotSpeed);
 
+        if (_moveSpeed == 0)
+            return;
+
         if (_direction == DIRECTION.LEFT)
         {
             transform.localPosition += Vector3.left * Time.deltaTime * _moveSpeed;
