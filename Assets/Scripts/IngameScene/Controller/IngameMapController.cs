@@ -58,10 +58,5 @@ public class IngameMapController : MonoBehaviour
         return GetCurrentRound().GetPlayerSpawn();
     }
 
-    public ROUNDTYPE GetCurrentRoundType()
-    {
-        return GetCurrentRound().GetRoundType(); 
-    }
-
     #endregion
 }

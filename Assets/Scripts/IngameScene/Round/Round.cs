@@ -47,10 +47,10 @@ public class Round : MonoBehaviour
 
     public virtual void StartRound()
     {
-        PlayerInput._type = _roundType;
-
-        SetPlayerJumpHeight(0);
         Debug.Log($"Round {GlobalData.roundIndex} : Start");
+
+        PlayerInput._type = _roundType;
+        SetPlayerJumpHeight(0);
     }
 
     public virtual void UpdateRound()
@@ -86,10 +86,5 @@ public class Round : MonoBehaviour
     public Vector3 GetPlayerSpawn()
     {
         return _playerSpawn.position;
-    }
-
-    public ROUNDTYPE GetRoundType()
-    {
-        return _roundType;
     }
 }

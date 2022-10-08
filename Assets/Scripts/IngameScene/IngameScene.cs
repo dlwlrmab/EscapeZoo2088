@@ -97,7 +97,7 @@ public class IngameScene : MonoBehaviour
     public void StartRound()
     {
         _mapController.StartRound();
-        _playerController.StartRound(_mapController.GetCurrentRoundType());
+        _playerController.StartRound();
         _uiController.StartRound();
     }
 

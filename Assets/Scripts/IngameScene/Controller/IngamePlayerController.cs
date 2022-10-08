@@ -35,16 +35,9 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         }
     }
 
-    public void StartRound(ROUNDTYPE type)
+    public void StartRound()
     {
         LoadRound();
-
-        for (int i = 0; i < _playerList.Count; ++i)
-        {
-            var playerMove = _playerList[i].GetComponent<PlayerMove>();
-            if (playerMove != null)
-                playerMove.Init(type);
-        }
     }
 
     public void ClearGame()
