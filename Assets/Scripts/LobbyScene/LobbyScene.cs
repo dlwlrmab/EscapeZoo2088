@@ -1,4 +1,4 @@
-﻿using Assets.Scripts;
+﻿﻿using Assets.Scripts;
 using CommonProtocol;
 using Newtonsoft.Json;
 using System;
@@ -18,10 +18,13 @@ public class LobbyScene : MonoBehaviour
     [SerializeField] GameObject _playButton;
     [SerializeField] GameObject _readyButton;
     [SerializeField] PopupMyInfo _popupMyInfo;
+    [SerializeField] GameObject _popupNoti;
+    [SerializeField] Text _popupNotiText;
 
     SceneLoadManager _scenemanager = null;
     GameObject _exMapButton = null;
     GameObject _exAnimalButton = null;
+    bool _serverTimeOut = false;
 
     private void Awake()
     {
@@ -31,56 +34,73 @@ public class LobbyScene : MonoBehaviour
         GlobalData.animal = ANIMAL.NONE;
     }
 
-    
+
     #region reqServer
     // 서버로 준비메시지를 보냄(같은팀 인원모으기)
     void ReqTryingMatch()
     {
-        var infos = ConfigReader.Instance.GetInfos<Infos>();
-
-        var req = new CommonProtocol.ReqTryingMatch
+        var req = new ReqTryMatch
         {
             userId = GlobalData.id,
-            mapIndex = (int)GlobalData.map,
-            animalIndex = (int)GlobalData.animal,
+            //animalIndex = (int)GlobalData.animal,
+            gameMap = (int)GlobalData.map,
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
 
         var webClient = new WebClient();
         ResTryMatch res = null;
 
-        int i = 1;
-        // 둘다 사용가능한 것 같고, 서버 구현에따라 선택하면 될듯
-        // i == 0 일반 프로토콜? 사용하는형식
-        // else 람다함수 사용하는 방식
-        if (i == 0)
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
         {
-            var message = MessagePackSerializer.Serialize(req);
-            StartCoroutine(SendProtocolManager.Instance.CoSendProtocolReq(message, req.MessageType.ToString(), (responseBytes) =>
-            {
-                res = MessagePackSerializer.Deserialize<ResTryMatch>(responseBytes);
-                ReqOwnTeamMember(res);
-            }));
-           
-        }
-        else
-        {
-            string jsondata = JsonConvert.SerializeObject(req);
-
-            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "TryMatching" ,(responseString) =>
-            {
-                res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
-                ReqOwnTeamMember(res);
-            }));
-        }
+            res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
+            CheckMatchStatus(res.ticketId);
+        }));
     }
 
-    // 매치메이킹(팀원매칭)
-    private void ReqOwnTeamMember(ResTryMatch res)
+    void CheckMatchStatus(string ticketId)
+    {
+        var req = new ReqMatchStatus();
+        req.ticketIds.Add(ticketId);
+
+        string jsondata = JsonConvert.SerializeObject(req);
+
+        StartCoroutine(CoWaitOtherUser(jsondata));
+    }
+
+    // 매칭될떄까지 상태체크 반복
+    IEnumerator CoWaitOtherUser(string jsondata)
+    {
+        ShowNotiPopup("매칭 시작");
+        ResMatchStatus res = null;
+        bool success = false;
+
+        ShowNotiPopup(Strings.WaitOtherUser, false);
+
+        while (true)
+        {
+            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchStatus", (responseString) =>
+            {
+                res = JsonConvert.DeserializeObject<ResMatchStatus>(responseString);
+                // 팀원이 다차면 ResponseType.Success 
+                if (res.ResponseType == ResponseType.Success)
+                    success = true;
+            }));
+
+            if (success)
+                break;
+
+            yield return new WaitForSeconds(1);
+        }
+
+        ShowNotiPopup("매칭 성공");
+        ConnectBattleServer(res);
+    }
+    
+    private void ConnectBattleServer(ResMatchStatus res)
     {
         if (res != null && res.ResponseType == ResponseType.Success)
         {
-            // gamesessionid?, playersessionid?
             if (GameManager.Instance.IsTryMatching)
                 return;
 
@@ -89,34 +109,49 @@ public class LobbyScene : MonoBehaviour
             BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
 
             while (false == BattleServerConnector.Instance.IsConnected) ;
+            Invoke("ServerTimeOut", 3f);
+            while (false == BattleServerConnector.Instance.IsConnected && !_serverTimeOut) ;
 
-            GlobalData.GameSessionId = res.GameSessionId;
+            if (_serverTimeOut)
+            {
+                ResConnectBattleServer(false);
+                return;
+            }
+
+            CancelInvoke("ServerTimeOut");
+            _serverTimeOut = false;
+
+            ShowNotiPopup("배틀서버 연결 성공!");
+
+            //GlobalData.GameSessionId = res.GameSessionId;
             BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
                     MessagePackSerializer.Serialize(new ProtoBattleEnter
                     {
                         Msg = BattleProtocol.MessageType.BattleEnter,
                         UserId = GameManager.Instance.UserId,
                         //GameSessionId = gameSessionId,
-                        //PlayerSessionId = playerSessionId,
+                        PlayerSessionId = res.PlayerSessionId,
                     }));
 
-            ResOwnTeamMember(true);
+            ResConnectBattleServer(true);
         }
         else
         {
             _notiText.text = "서버연결에 실패하였습니다. 재시도해주세요";
+            ShowNotiPopup(Strings.ServerError);
         }
     }
 
-    // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
-    public void ReqMakeMatchMaking()
+    // 배틀서버연결에 무한정 기다리는 경우가있어, 3초 타임아웃
+    void ServerTimeOut()
     {
-        
+
+        _serverTimeOut = true;
     }
 
     public void ReqMyInfo()
     {
-        var req = new CommonProtocol.ReqMyPage
+        var req = new ReqMyPage
         {
             userId = GlobalData.id,
         };
@@ -126,20 +161,25 @@ public class LobbyScene : MonoBehaviour
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "myPage", (responseString) => {
             ResMyPageData(responseString);
         }));
-        
+
     }
 
     #endregion
 
     #region resServer
-    // 서버로부터 준비에대한 응답을 받음
-    // 본인이 호스트가 아닌 경우 (성공여부, 이미 준비하고있었던 유저 리스트)
-    // 본인이 호스트인경우 (성공여부)
-    public void ResOwnTeamMember(bool success)
+    
+    // 배틀서버 연결
+    public void ResConnectBattleServer(bool success)
     {
         if (success)
         {
             _notiText.text = "다른유저를 기다리고있습니다.";
+            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
+            Invoke("PlayGame", 1f);
+            return;
+
+            ShowNotiPopup(Strings.WaitOtherUser);
+
             _readyButton.SetActive(false);
 
             // 서버연결이후 제거
@@ -155,9 +195,11 @@ public class LobbyScene : MonoBehaviour
         else
         {
             _notiText.text = "서버연결에 실패하였습니다. 재시도해주세요";
+            ShowNotiPopup("배틀서버 타임아웃");
             _readyButton.SetActive(true);
         }
     }
+
 
     public void ResMyPageData(string responseString)
     {
@@ -190,30 +232,6 @@ public class LobbyScene : MonoBehaviour
 
     #endregion
 
-    #region otherPlayer
-    // 다른유저가 로비에서 나간경우
-    public void ExitUser()
-    {
-        // 해당플레이어 프리팹 제거
-        // 유저리스트에서 제거
-
-        if (GlobalData.playerInfos.Count < 5)
-        {
-            _playButton.SetActive(false);
-        }
-    }
-
-    // 다른유저가 로비에 참여한 경우
-    public void joinUser()
-    {
-        // 해당플레이어 프리팹 생성
-        // 유저리스트에 추가
-        if (GlobalData.playerInfos.Count == 5)
-        {
-            _playButton.SetActive(true);
-        }
-    }
-    #endregion
 
     #region buttonClick
     public void ChoiceMap(GameObject obj)
@@ -240,23 +258,93 @@ public class LobbyScene : MonoBehaviour
 
     public void OnClickReadyGame()
     {
-        _scenemanager.PlayFadeout(null, "IngameScene");
-        return;
-
         if (GlobalData.map == MAP.NONE)
         {
-            _notiText.text = "맵을 선택하지 않았습니다.";
+            ShowNotiPopup("맵을 선택하지 않았습니다.");
             return;
         }
         if (GlobalData.animal == ANIMAL.NONE)
         {
-            _notiText.text = "캐릭터를 선택하지 않았습니다.";
+            ShowNotiPopup("캐릭터를 선택하지 않았습니다.");
             return;
         }
 
         // 서버 작업완료이후 수정되어야할 코드들
         ReqTryingMatch();
     }
+
+
+    public void OnClickMyInfo()
+    {
+        if (!_popupMyInfo.gameObject.activeSelf)
+            ReqMyInfo();
+    }
+
+
+    #endregion
+
+    #region popup
+
+    void ShowNotiPopup(string msg, bool close = true)
+    {
+        CancelInvoke("InvokeClosePopupNoti");
+        _popupNoti.SetActive(true);
+        _popupNotiText.text = msg;
+        Debug.LogAssertion(msg);
+
+        if (close)
+            Invoke("InvokeClosePopupNoti", 3f);
+    }
+
+    void InvokeClosePopupNoti()
+    {
+        _popupNoti.SetActive(false);
+    }
+    #endregion
+
+
+    // 플레이어튼 사용하지않고 매칭 성공시 자동시작
+    public void PlayGame()
+    {
+        _scenemanager.PlayFadeout(null, "IngameScene");
+    }
+
+    #region 구현필요?
+
+    public void OnClickExit()
+    {
+        // 서버와의 연결을 끊고, 로그인씬으로 이동
+        // 서버연결끊는 로직 필요
+        _scenemanager.PlayFadeout(null, "LoginScene");
+    }
+
+    #region otherPlayer
+    // 다른유저가 로비에서 나간경우
+    public void ExitUser()
+    {
+        // 해당플레이어 프리팹 제거
+        // 유저리스트에서 제거
+
+        if (GlobalData.playerInfos.Count < 5)
+        {
+            _playButton.SetActive(false);
+        }
+    }
+
+    // 다른유저가 로비에 참여한 경우
+    public void joinUser()
+    {
+        // 해당플레이어 프리팹 생성
+        // 유저리스트에 추가
+        if (GlobalData.playerInfos.Count == 5)
+        {
+            _playButton.SetActive(true);
+        }
+    }
+    #endregion
+    #endregion
+
+    #region 사용안하는듯..?
 
     public void OnClickPlayGame()
     {
@@ -270,19 +358,14 @@ public class LobbyScene : MonoBehaviour
         //MakeMatchMaking();
         RecvMakeMatchMakingResult(true);
     }
-
-    public void OnClickMyInfo()
-    {
-        if(!_popupMyInfo.gameObject.activeSelf)
-            ReqMyInfo();
-    }
-
-  
-    public void OnClickExit()
+    
+    // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
+    public void ReqMakeMatchMaking()
     {
         // 서버와의 연결을 끊고, 로그인씬으로 이동
         // 서버연결끊는 로직 필요
         _scenemanager.PlayFadeout(null, "LoginScene");
+
     }
     #endregion
 

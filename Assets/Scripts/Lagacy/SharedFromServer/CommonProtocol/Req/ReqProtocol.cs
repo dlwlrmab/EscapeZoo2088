@@ -1,5 +1,6 @@
-﻿using BattleProtocol;
+﻿﻿using BattleProtocol;
 using MessagePack;
+using System.Collections.Generic;
 
 // 람다로 서버에 요청을 보내는경우 json 을 보내기떄문에 직렬화할필요없음 (application/json)
 
@@ -26,6 +27,18 @@ namespace CommonProtocol
         public string userId;
     }
 
+    public class ReqTryMatch : CBaseProtocol
+    {
+        public string userId;
+        public int gameMap;
+        public int score;
+    }
+
+    public class ReqMatchStatus
+    {
+        public List<string> ticketIds = new List<string>();
+    }
+
     [MessagePackObject]
     public class ReqTryingMatch
     {
@@ -42,6 +55,8 @@ namespace CommonProtocol
     [MessagePackObject]
     public class ProtoBattleEnter : BaseProtocol
     {
+        //[Key(1)]
+        //public string GameSessionId;
         [Key(1)]
         public string GameSessionId;
         [Key(2)]
