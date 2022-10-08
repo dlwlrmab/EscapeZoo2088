@@ -51,9 +51,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 원래 로비에서 인게임 넘어올때 받아야 하지만,
         // 임시로 여기서 설정
 
-        GlobalData.mapIndex = 1;
-        GlobalData.roundIndex = 0;
-        GlobalData.roundMax = 6;
+        GlobalData.map = MAP.DESERT;
         GlobalData.roundList = new int[6] { 0, 1, 2, 3, 4, 5 };
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
@@ -62,6 +60,8 @@ public class IngamePacketHandler : MonoBehaviour
             new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
             new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
         };
+        GlobalData.roundIndex = 0;
+        GlobalData.roundMax = GlobalData.roundList.Length;
     }
 
     private void Update()

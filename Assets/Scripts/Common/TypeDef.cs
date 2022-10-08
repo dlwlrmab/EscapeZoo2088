@@ -2,8 +2,18 @@
 
 namespace EnumDef
 {
+    public enum MAP
+    {
+        NONE = -1,
+        GRASS = 0,
+        DESERT,
+        SNOW,
+        CITY
+    }
+
     public enum ANIMAL
     {
+        NONE = -1,
         CHICK = 0,
         CHICKEN,
         COW,

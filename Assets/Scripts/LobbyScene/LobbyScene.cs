@@ -9,6 +9,8 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 using MessagePack;
 using BattleProtocol;
+using EnumDef;
+
 
 public class LobbyScene : MonoBehaviour
 {
@@ -25,8 +27,8 @@ public class LobbyScene : MonoBehaviour
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
-        GlobalData.mapIndex = -1;
-        GlobalData.animalIndex = -1;
+        GlobalData.map = MAP.NONE;
+        GlobalData.animal = ANIMAL.NONE;
     }
 
     
@@ -39,8 +41,8 @@ public class LobbyScene : MonoBehaviour
         var req = new CommonProtocol.ReqTryingMatch
         {
             userId = GlobalData.id,
-            mapIndex = GlobalData.mapIndex,
-            animalIndex = GlobalData.animalIndex,
+            mapIndex = (int)GlobalData.map,
+            animalIndex = (int)GlobalData.animal,
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
 
@@ -221,7 +223,7 @@ public class LobbyScene : MonoBehaviour
             _exMapButton.GetComponent<Image>().color = Color.white;
         }
         _exMapButton = obj;
-        GlobalData.mapIndex = int.Parse(obj.name);
+        GlobalData.map = (EnumDef.MAP)int.Parse(obj.name);
         obj.GetComponent<Image>().color = Color.green;
     }
 
@@ -232,7 +234,7 @@ public class LobbyScene : MonoBehaviour
             _exAnimalButton.GetComponent<Image>().color = Color.white;
         }
         _exAnimalButton = obj;
-        GlobalData.animalIndex = int.Parse(obj.name);
+        GlobalData.animal = (ANIMAL)int.Parse(obj.name);
         obj.GetComponent<Image>().color = Color.green;
     }
 
@@ -241,12 +243,12 @@ public class LobbyScene : MonoBehaviour
         _scenemanager.PlayFadeout(null, "IngameScene");
         return;
 
-        if (GlobalData.mapIndex == -1)
+        if (GlobalData.map == MAP.NONE)
         {
             _notiText.text = "맵을 선택하지 않았습니다.";
             return;
         }
-        if (GlobalData.animalIndex == -1)
+        if (GlobalData.animal == ANIMAL.NONE)
         {
             _notiText.text = "캐릭터를 선택하지 않았습니다.";
             return;
