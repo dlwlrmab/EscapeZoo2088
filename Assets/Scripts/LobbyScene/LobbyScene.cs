@@ -1,4 +1,4 @@
-﻿﻿using Assets.Scripts;
+﻿using Assets.Scripts;
 using CommonProtocol;
 using Newtonsoft.Json;
 using System;
@@ -242,7 +242,7 @@ public class LobbyScene : MonoBehaviour
         }
         _exMapButton = obj;
         GlobalData.map = (EnumDef.MAP)int.Parse(obj.name);
-        obj.GetComponent<Image>().color = Color.green;
+        obj.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
     }
 
     public void ChoiceAnimal(GameObject obj)
@@ -253,7 +253,7 @@ public class LobbyScene : MonoBehaviour
         }
         _exAnimalButton = obj;
         GlobalData.animal = (ANIMAL)int.Parse(obj.name);
-        obj.GetComponent<Image>().color = Color.green;
+        obj.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
     }
 
     public void OnClickReadyGame()
