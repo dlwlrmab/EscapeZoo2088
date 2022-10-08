@@ -37,17 +37,14 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void StartRound(ROUNDTYPE type)
     {
+        LoadRound();
+
         for (int i = 0; i < _playerList.Count; ++i)
         {
             var playerMove = _playerList[i].GetComponent<PlayerMove>();
             if (playerMove != null)
                 playerMove.Init(type);
         }
-    }
-
-    public List<Player> GetPlayerList()
-    {
-        return _playerList;
     }
 
     public void AddPlayer(Player p)
@@ -57,9 +54,23 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void RemovePlayer(Player p)
     {
-        if(_playerList.Contains(p))
-        {
+        if (_playerList.Contains(p))
             _playerList.Remove(p);
+    }
+
+    public Player GetMyPlayer()
+    {
+        foreach (Player player in _playerList)
+        {
+            if (player.Info.Id == GlobalData.id)
+                return player;
         }
+
+        return null;
+    }
+
+    public List<Player> GetPlayerList()
+    {
+        return _playerList;
     }
 }

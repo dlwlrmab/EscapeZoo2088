@@ -6,6 +6,7 @@ using EnumDef;
 public class Player : MonoBehaviour
 {
     private PlayerInfo _info;
+    public PlayerInfo Info { get; }
 
     public bool HasKey { get { return transform.Find("Key") != null; } } 
 
@@ -23,21 +24,6 @@ public class Player : MonoBehaviour
     {
         transform.position = startPos;
         transform.parent = parent;
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        var obj = other.gameObject.GetComponent<RoundObj>();
-        if (obj != null)
-        {
-            var type = obj.GetObjectType();
-            if (type == BLOCKTYPE.KEY)
-            {
-                var parent = other.transform.parent;
-                other.transform.SetParent(transform);
-                other.transform.localPosition = new Vector3(0f, 0.7f, 0);
-            }
-        }
     }
 
     void OnDestroy()

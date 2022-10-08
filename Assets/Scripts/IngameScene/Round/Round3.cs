@@ -6,31 +6,29 @@ public class Round3 : Round
 {
     [Header("Round 3")]
     [Space(10)]
+    [SerializeField] RoundObjKey _key;
     [SerializeField] RoundObjClear _clear;
 
     #region Base Round
 
+    public override void LoadRound()
+    {
+        base.LoadRound();
+
+        _clear.LoadRound(this);
+    }
+
     public override void StartRound()
     {
         base.StartRound();
-        _clear.SetRound(this);
+
+        _key.StartRound();
     }
 
-
-    public override void ClearRound(GameObject player)
+    public override void ClearRound()
     {
-        if (player != null)
-        {
-            var p = player.GetComponent<Player>();
-
-            if (p != null)
-            { 
-                if (p.HasKey)
-                {
-                    base.ClearRound(player);
-                }
-            }
-        }
+        if (_playerController.GetMyPlayer().HasKey)
+            base.ClearRound();
     }
 
     #endregion

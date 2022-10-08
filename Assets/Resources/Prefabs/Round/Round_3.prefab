@@ -414,7 +414,7 @@ MonoBehaviour:
   _explanation: "\uC810\uD504\uD0A4\uB97C \uC774\uC6A9\uD558\uC5EC \uB3D9\uC804\uC744
     \uAC00\uC9C0\uACE0 \uC131\uC5D0 \uB3C4\uCC29\uD558\uB77C!"
   _roundType: 1
-  _appearObj: {fileID: 0}
+  _key: {fileID: 2487024075506696672}
   _clear: {fileID: 3283748184826395943}
 --- !u!1001 &639846722216843203
 PrefabInstance:
@@ -601,6 +601,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
+--- !u!114 &2487024075506696672 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3469354381339160603, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}
+  m_PrefabInstance: {fileID: 1343814684268147195}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83dea41aab9072246b1a9ce16899dc46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8082011468848546311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7101933386966004732, guid: 5a3d8436ed223f844b4e7aa359144080, type: 3}

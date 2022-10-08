@@ -32,7 +32,8 @@ public class IngameMapController : MonoBehaviour
     {
         foreach (var round in _roundList)
             round.gameObject.SetActive(false);
-        _roundList[GlobalData.roundIndex].gameObject.SetActive(true);
+
+        _roundList[GlobalData.roundIndex].LoadRound();
     }
 
     public void StartRound()

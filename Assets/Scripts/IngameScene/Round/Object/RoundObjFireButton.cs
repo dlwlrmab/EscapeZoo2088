@@ -6,12 +6,12 @@ public class RoundObjFireButton : RoundObjButton
 {
     [SerializeField] Transform _offFireObj;
 
-    public override void Init()
+    public override void StartRound()
     {
+        base.StartRound();
+
         CancelInvoke("InvokeResetFire");
         InvokeEnableFire();
-
-        base.Init();
     }
 
     protected override void SetAction()
