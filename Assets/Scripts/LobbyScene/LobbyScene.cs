@@ -75,6 +75,7 @@ public class LobbyScene : MonoBehaviour
         bool success = false;
 
         ShowNotiPopup(Strings.WaitOtherUser, false);
+        SceneLoadManager.Instance.SetLoading(true);
 
         while (true)
         {
@@ -84,7 +85,7 @@ public class LobbyScene : MonoBehaviour
                 // 팀원이 다차면 ResponseType.Success 
                 if (res.ResponseType == ResponseType.Success)
                     success = true;
-            }));
+            }, false));
 
             if (success)
                 break;
@@ -92,6 +93,7 @@ public class LobbyScene : MonoBehaviour
             yield return new WaitForSeconds(1);
         }
 
+        SceneLoadManager.Instance.SetLoading(false);
         ShowNotiPopup("매칭 성공");
         ConnectBattleServer(res);
     }
@@ -143,7 +145,6 @@ public class LobbyScene : MonoBehaviour
     // 배틀서버연결에 무한정 기다리는 경우가있어, 3초 타임아웃
     void ServerTimeOut()
     {
-
         _serverTimeOut = true;
     }
 
@@ -253,6 +254,7 @@ public class LobbyScene : MonoBehaviour
     public void OnClickReadyGame()
     {
         PlayGame();
+        return;
 
         if (GlobalData.map == MAP.NONE)
         {
