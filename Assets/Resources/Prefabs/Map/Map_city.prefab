@@ -108,7 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5298145772911286636}
   m_Layer: 0
-  m_Name: Map_City
+  m_Name: Map_city
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -372,7 +372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5449651898831559202
 Transform:
   m_ObjectHideFlags: 0
