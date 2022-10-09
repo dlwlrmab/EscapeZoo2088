@@ -31,6 +31,14 @@ public class LobbyScene : MonoBehaviour
         _scenemanager.PlayFadeIn();
         GlobalData.map = MAP.NONE;
         GlobalData.animal = ANIMAL.NONE;
+
+        if (GlobalData.isGogame)
+        {
+            GlobalData.map = MAP.DESERT;
+            GlobalData.animal = ANIMAL.CHICKEN;
+
+            PlayGame();
+        }
     }
 
     #region reqServer
@@ -166,18 +174,15 @@ public class LobbyScene : MonoBehaviour
     #endregion
 
     #region resServer
-    
+
     // 배틀서버 연결
     public void ResConnectBattleServer(bool success)
     {
         if (success)
         {
-            if (GlobalData.isGogame)
-            {
-                ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-                Invoke("PlayGame", 1f);
-                return;
-            }
+            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
+            Invoke("PlayGame", 1f);
+            return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
 
@@ -199,7 +204,6 @@ public class LobbyScene : MonoBehaviour
             _readyButton.SetActive(true);
         }
     }
-
 
     public void ResMyPageData(string responseString)
     {
@@ -255,9 +259,6 @@ public class LobbyScene : MonoBehaviour
 
     public void OnClickReadyGame()
     {
-        PlayGame();
-        return;
-
         if (GlobalData.map == MAP.NONE)
         {
             ShowNotiPopup("맵을 선택하지 않았습니다.");
