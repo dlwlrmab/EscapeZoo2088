@@ -48,9 +48,18 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
         if (_netSyncPosition.HasValue && _netSyncVelocity.HasValue)
         {
             // 네트워크 위치와 동기화를 하자
-            _netSyncPosition += _netSyncVelocity*Time.fixedDeltaTime;
-
-            _rb.MovePosition(_netSyncPosition.Value);
+            var diff = _netSyncPosition - _rb.position;
+            Vector2 moveDistance = diff.Value * 0.1f;
+            if (moveDistance.magnitude > 0.1f)
+            {
+                moveDistance = moveDistance.normalized * 0.1f;
+                _rb.MovePosition(_rb.position+moveDistance);
+            }
+            else
+            {
+                _rb.MovePosition(_netSyncPosition.Value);
+            }
+            Debug.Log(this.name + _rb.position);
         }
     }
 
