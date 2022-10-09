@@ -7,7 +7,7 @@ public class Round6 : Round
 {
     [Header("Round 6")]
     [Space(10)]
-    [SerializeField] RoundObjKey _key;
+    [SerializeField] RoundObjKey[] _key;
     [SerializeField] RoundObjButton[] _buttonList = new RoundObjButton[3];
     [SerializeField] RoundObjClear _clear;
 
@@ -28,7 +28,9 @@ public class Round6 : Round
 
         SetPlayerJumpHeight(0.7f);
 
-        _key.StartRound();
+        foreach (var key in _key)
+            key.StartRound();
+
         for (int i = 0; i < _buttonList.Length; i++)
             _buttonList[i].StartRound();
     }

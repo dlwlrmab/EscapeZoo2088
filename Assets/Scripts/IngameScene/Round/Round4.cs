@@ -7,7 +7,7 @@ public class Round4 : Round
     [Header("Round 4")]
     [Space(10)]
     [SerializeField] Transform _balls;
-    [SerializeField] RoundObjKey _key;
+    [SerializeField] RoundObjKey[] _key;
     [SerializeField] RoundObjClear _clear;
 
     private RoundObjDead[] _roundDeads = null;
@@ -30,7 +30,9 @@ public class Round4 : Round
 
         SetPlayerJumpHeight(0.7f);
 
-        _key.StartRound();
+        foreach (var key in _key)
+            key.StartRound();
+
         foreach (RoundObjDead child in _roundDeads)
         {
             var objCon = child.GetComponent<RoundObj>();

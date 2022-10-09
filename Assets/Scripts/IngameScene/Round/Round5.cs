@@ -9,7 +9,7 @@ public class Round5 : Round
     [Space(10)]
     [SerializeField] Sprite _offFireImage;
     [SerializeField] Sprite _offButtonImage;
-    [SerializeField] RoundObjKey _key;
+    [SerializeField] RoundObjKey[] _key;
     [SerializeField] RoundObjButton[] _buttonList = new RoundObjButton[3];
     [SerializeField] RoundObjClear _clear;
 
@@ -30,7 +30,9 @@ public class Round5 : Round
 
         SetPlayerJumpHeight(1f);
 
-        _key.StartRound();
+        foreach (var key in _key)
+            key.StartRound();
+
         for (int i = 0; i < _buttonList.Length; i++)
             _buttonList[i].StartRound();
     }
