@@ -10,6 +10,7 @@ public class LoginScene : MonoBehaviour
     [SerializeField] Text _textLoginPopupNotice;
     [SerializeField] Text _inputLoginPopupId;
     [SerializeField] Text _inputLoginPopupPW;
+    [SerializeField] Toggle _toggleAutoLogin;
 
     [Header("Join Popup")]
     [SerializeField] Text _textJoinPopupNotice;
@@ -19,18 +20,33 @@ public class LoginScene : MonoBehaviour
 
     SceneLoadManager _scenemanager = null;
 
+    private bool _autoLogin = false;
+
     private void Awake()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
+
+        _autoLogin = PlayerPrefs.GetInt("saveAutoLogin") == 1;
+        _toggleAutoLogin.isOn = _autoLogin;
     }
 
     #region OnClick
 
     public void OnClickLoginPopup()
     {
+        string saveId = PlayerPrefs.GetString("saveId");
+        string savePw = PlayerPrefs.GetString("savePw");
+
+        if (_autoLogin && !string.IsNullOrEmpty(saveId) && !string.IsNullOrEmpty(savePw))
+        {
+            ReqLogin(saveId, savePw);
+            return;
+        }
+
         _textLoginPopupNotice.text = "아이디와 비밀번호를 입력해 주세요.";
-        _inputLoginPopupId.text = null;
+
+        _inputLoginPopupId = null;
         _inputLoginPopupPW.text = null;
     }
 
@@ -86,6 +102,14 @@ public class LoginScene : MonoBehaviour
         ReqJoinAccount(id, pw, mbti);
     }
 
+    public void ToggleAutoLogin()
+    {
+        _autoLogin = _toggleAutoLogin.isOn;
+        PlayerPrefs.SetInt("saveAutoLogin", _autoLogin ? 1 : 0);
+    }
+
+    #endregion
+
     bool CheckMBTI(string _mbti)
     {
         string mbti = _mbti.ToUpper();
@@ -108,7 +132,7 @@ public class LoginScene : MonoBehaviour
         return true;
     }
 
-    #endregion
+    
 
     #region reqServer
 
@@ -126,6 +150,9 @@ public class LoginScene : MonoBehaviour
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "Login", (a) => {
             RecvLoginResult(a);
+            
+            PlayerPrefs.SetString("saveId", id);
+            PlayerPrefs.SetString("savePw", pw);
         }));
     }
 
