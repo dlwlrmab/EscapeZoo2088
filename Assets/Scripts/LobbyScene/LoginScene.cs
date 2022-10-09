@@ -27,14 +27,23 @@ public class LoginScene : MonoBehaviour
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 
+#if UNITY_EDITOR
+        _toggleAutoLogin.gameObject.SetActive(true);
+
         _autoLogin = PlayerPrefs.GetInt("saveAutoLogin") == 1;
         _toggleAutoLogin.isOn = _autoLogin;
+
+#else
+        _toggleAutoLogin.gameObject.SetActive(false);
+
+#endif
     }
 
     #region OnClick
 
     public void OnClickLoginPopup()
     {
+#if UNITY_EDITOR
         string saveId = PlayerPrefs.GetString("saveId");
         string savePw = PlayerPrefs.GetString("savePw");
 
@@ -43,10 +52,11 @@ public class LoginScene : MonoBehaviour
             ReqLogin(saveId, savePw);
             return;
         }
+#endif
 
         _textLoginPopupNotice.text = "아이디와 비밀번호를 입력해 주세요.";
 
-        _inputLoginPopupId = null;
+        _inputLoginPopupId.text = null;
         _inputLoginPopupPW.text = null;
     }
 
