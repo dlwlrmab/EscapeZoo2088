@@ -131,6 +131,7 @@ public class LobbyScene : MonoBehaviour
         else
         {
             ShowNotiPopup("매칭을 취소하였습니다.");
+            _stopmatching = false; 
         }
         
     }
@@ -251,6 +252,29 @@ public class LobbyScene : MonoBehaviour
         if (success)
         {
             _scenemanager.PlayFadeout(null, "IngameScene");
+            var req = new ReqStartGame
+            {
+                preRoundNum = 0,
+                endRoundNum = GlobalData.roundMax,
+                teamUserCount = GlobalData.teamUserCount,
+            };
+
+            ResStartGame res = null;
+
+            string jsondata = JsonConvert.SerializeObject(req);
+            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
+            {
+                res = JsonConvert.DeserializeObject<ResStartGame>(responseString);
+                if (res.ResponseType == ResponseType.Success)
+                {
+                    GlobalData.roundIndex = res.currentRoundNum;
+                    GlobalData.SunriseTime = res.sunriseTime;
+                    GlobalData.roundList = res.roundList;
+                    _scenemanager.PlayFadeout(null, "IngameScene");
+                }
+                else
+                    Debug.LogAssertion($"ResStartGame.ResponseType != Success");
+            }));
         }
         else
         {

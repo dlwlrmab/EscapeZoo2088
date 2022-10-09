@@ -18,17 +18,22 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendInitGameComplete()
     {
-        SendStartRound();
+        SendStartRound(false);
     }
 
-    public void SendStartRound()
+    public void SendStartRound(bool nextround = true)
     {
         var req = new ReqStartGame
         {
-            preRoundNum = ++GlobalData.roundIndex,
             endRoundNum = GlobalData.roundMax,
             teamUserCount = GlobalData.teamUserCount,
         };
+
+        if (nextround)
+            req.preRoundNum = ++GlobalData.roundIndex;
+        else
+            req.preRoundNum = GlobalData.roundIndex;
+
 
         ResStartGame res = null;
 
