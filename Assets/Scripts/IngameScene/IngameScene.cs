@@ -42,7 +42,6 @@ public class IngameScene : MonoBehaviour
     SceneLoadManager _scenemanager = null;
 
     INGAME_STATE _state = INGAME_STATE.LOADING;
-    public bool IsWinner { get; set; } = false;
 
     private void Start()
     {

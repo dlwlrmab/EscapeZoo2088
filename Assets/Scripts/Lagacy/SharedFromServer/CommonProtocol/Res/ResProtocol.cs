@@ -1,4 +1,6 @@
-﻿﻿namespace CommonProtocol
+﻿using System.Collections.Generic;
+
+﻿namespace CommonProtocol
 {
     public class ResAccountJoin : CBaseProtocol
     {
@@ -30,6 +32,19 @@
         public string GameSessionId; 
         public int Port;
         public string teamName;
+    }
+
+    public class ResStartGame : IngameProcotol
+    {
+        public int currentRoundNum;
+        public int endRoundNum;
+        public List<int> roundList = new List<int>();
+        public int sunriseTime;
+    }
+
+    public class ResReStartGame : ResStartGame
+    {
+
     }
 
     public class ResMatchResult : CBaseProtocol

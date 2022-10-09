@@ -27,9 +27,13 @@ public class GlobalData : MonoBehaviour
 
     // 인게임: 로비에서 인게임 진입 시 서버에게 받을 데이터들
     public static MAP map = MAP.NONE;
-    public static int[] roundList = null;
+    public static List<int> roundList = null;
     public static int roundIndex = -1;
-    public static int roundMax = -1;
+    public static bool IsWinner = false;
+    public static int SunriseTime = 0;
+    // 아래두개는 클라에서 결정하여 서버로 보내주는 값
+    public static int roundMax = 7;  // 총 라운드수
+    public static int teamUserCount = 2; // 한팀당 인원수
     public static List<PlayerInfo> playerInfos = null;
 
     // 인게임: 진행 중 받을 데이터들
