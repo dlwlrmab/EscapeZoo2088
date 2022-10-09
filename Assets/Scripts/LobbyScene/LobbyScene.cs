@@ -70,7 +70,15 @@ public class LobbyScene : MonoBehaviour
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<ResTryMatch>(responseString);
-            CheckMatchStatus(res.ticketId);
+            if(res.ResponseType != ResponseType.Success || string.IsNullOrEmpty(res.ticketId))
+            {
+                ShowNotiPopup("티켓요청에 실패했습니다.");
+            }
+            else
+            {
+                CheckMatchStatus(res.ticketId);
+            }
+            
         }));
     }
 
