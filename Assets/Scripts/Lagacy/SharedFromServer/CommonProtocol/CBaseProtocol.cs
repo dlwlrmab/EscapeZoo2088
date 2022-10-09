@@ -21,15 +21,20 @@ namespace CommonProtocol
 
         public IngameProcotol()
         {
+            if (!string.IsNullOrEmpty(GlobalData.Id))
+                userId = GlobalData.Id;
+            else
+                Debug.LogAssertion("BaseProtocol userid is null");
+
             if (!string.IsNullOrEmpty(GlobalData.GameSessionId))
                 gameSessionId = GlobalData.GameSessionId;
             else
-                Debug.LogAssertion("BaseProtocol userid is null");
+                Debug.LogAssertion("BaseProtocol GameSessionId is null");
 
             if (!string.IsNullOrEmpty(GlobalData.TeamName))
                 teamName = GlobalData.TeamName;
             else
-                Debug.LogAssertion("BaseProtocol teamName is null");
+                Debug.LogAssertion("BaseProtocol TeamName is null");
 
             if (!string.IsNullOrEmpty(GlobalData.PlayerSessionId))
                 playerSessionId = GlobalData.PlayerSessionId;
