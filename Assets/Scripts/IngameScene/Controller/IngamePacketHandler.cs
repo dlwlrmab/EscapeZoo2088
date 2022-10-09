@@ -57,7 +57,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         var req = new ReqMatchResult
         {
-            isWinner = GlobalData.IsWinner,
+            isWinner = GlobalData.isWinner,
         };
 
         ResMatchResult res = null;
@@ -79,8 +79,8 @@ public class IngamePacketHandler : MonoBehaviour
         if (res.ResponseType == ResponseType.Success)
         {
             GlobalData.roundIndex = res.currentRoundNum;
-            GlobalData.SunriseTime = res.sunriseTime;
-            GlobalData.roundList = res.roundList;
+            GlobalData.enemyRoundIndex = res.enemyRoundIndex;
+            GlobalData.sunriseTime = res.sunriseTime;
             _ingameScene.LoadRound();
         }
         else
@@ -92,8 +92,7 @@ public class IngamePacketHandler : MonoBehaviour
         if (res.ResponseType != ResponseType.Success)
         {
             GlobalData.roundIndex = res.currentRoundNum;
-            GlobalData.roundList = res.roundList;
-            GlobalData.SunriseTime = res.sunriseTime;
+            GlobalData.sunriseTime = res.sunriseTime;
             _ingameScene.StartRound();
         }
         else
@@ -105,7 +104,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.IsWinner = true;
+            GlobalData.isWinner = true;
             GlobalData.myScore = res.score;
             _ingameScene.ClearGame();
         }

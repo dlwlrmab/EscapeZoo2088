@@ -90,7 +90,7 @@ public class Round0 : Round
             yield return null;
         }
 
-        Invoke("StartSun", GlobalData.SunriseTime);
+        Invoke("StartSun", GlobalData.sunriseTime);
     }
 
     private IEnumerator CheckPlayerMoving()
