@@ -26,7 +26,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         _loadingMark = loadingMark;
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
-        Debug.Log($"send json {type} : {str}");
+        Debug.Log($"[Send] json {type} : {str}");
 
         if (_loadingMark)
             SceneLoadManager.Instance.SetLoading(true);
@@ -44,7 +44,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
     IEnumerator CoWaitLambdaRes(string str, string type)
     {
         responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
-        Debug.Log($"res json {type} : {responseString}");
+        Debug.Log($"[Res] json {type} : {responseString}");
 
         yield return null;
     }
@@ -60,7 +60,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         var message = MessagePackSerializer.Serialize(str);
 
-        Debug.Log($"send message {type} : {message}");
+        Debug.Log($"[Send] message {type} : {message}");
 
         yield return StartCoroutine(CoWaitProtocolaRes(str, type, loadingMark));
 
@@ -76,7 +76,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
             SceneLoadManager.Instance.SetLoading(true);
 
         responseBytes = webClient.UploadData(GlobalData.GatewayAPI + type, "POST", str);
-        Debug.Log($"res message {type} : {responseBytes}");
+        Debug.Log($"[Res] message {type} : {responseBytes}");
 
         yield return null;
     }

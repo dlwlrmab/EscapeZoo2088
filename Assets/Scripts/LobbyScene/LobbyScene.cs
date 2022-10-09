@@ -54,7 +54,6 @@ public class LobbyScene : MonoBehaviour
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
 
-        var webClient = new WebClient();
         ResTryMatch res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);

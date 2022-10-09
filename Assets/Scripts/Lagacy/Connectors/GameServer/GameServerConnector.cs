@@ -21,13 +21,12 @@ namespace Assets.Scripts.Connectors.GameServer
         private bool _isInit;
         private Coroutine _waitCoroutine;
 
+
         void Update()
         {
-            Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAA");
             if (_isRequest || _listQueue.Count == 0)
                 return;
 
-            Debug.Log("BBBBBBBBBBBBBBBBB");
             OnRequest();
         }
 

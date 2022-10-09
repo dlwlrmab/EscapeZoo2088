@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using CommonProtocol;
 using EnumDef;
-
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class IngamePacketHandler : MonoBehaviour
 {
@@ -21,10 +22,25 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendClearRound()
     {
-        // 하나의 라운드 클리어 후 보냄
-
+        // 모든 라운드를 종료하였을때.
         if (GlobalData.roundIndex == GlobalData.roundMax - 1)
-            RecvClearGame();
+        {
+            var req = new ReqMatchResult
+            {
+                //IsWinner =  이전 프로토콜에서 받은 값.
+            };
+
+            ResMatchResult res = null;            
+
+            string jsondata = JsonConvert.SerializeObject(req);
+            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
+            {
+                res = JsonConvert.DeserializeObject<ResMatchResult>(responseString);
+                RecvClearGame(res);
+            }));
+        }
+
+        // 하나의 라운드 클리어 후 보냄
         else
             RecvStartRound();
     }
@@ -64,11 +80,17 @@ public class IngamePacketHandler : MonoBehaviour
         IngameScene.Instance.ClearEnemyRound();
     }
 
-    public void RecvClearGame()
-    {
-        // 모든 라운드 클리어 했을 때 보냄
 
-        IngameScene.Instance.ClearGame(true);
+    // 모든 라운드 종료 응답
+    public void RecvClearGame(ResMatchResult res)
+    {
+        
+        if(res.ResponseType == ResponseType.Success)
+        {
+            IngameScene.Instance.ClearGame(true);
+        }
+        else
+            Debug.LogAssertion($"ResMatchResult.ResponseType != Success");
     }
 
     #endregion
@@ -101,7 +123,7 @@ public class IngamePacketHandler : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.R))
         {
-            RecvClearGame();
+            //RecvClearGame();
         }
         else if (Input.GetKeyDown(KeyCode.U))
         {

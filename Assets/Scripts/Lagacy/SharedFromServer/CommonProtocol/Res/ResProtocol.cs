@@ -32,4 +32,9 @@
         public int Port;
         public string teamName;
     }
+
+    public class ResMatchResult : CBaseProtocol
+    {
+        public int score;
+    }
 }

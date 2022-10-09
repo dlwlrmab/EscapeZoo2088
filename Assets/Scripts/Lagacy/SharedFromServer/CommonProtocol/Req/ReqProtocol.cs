@@ -45,6 +45,11 @@ namespace CommonProtocol
         }
     }
 
+    public class ReqMatchResult : CBaseProtocol
+    {
+        public bool isWinner;
+    }
+
     [MessagePackObject]
     public class ProtoBattleEnter : BaseProtocol
     {
