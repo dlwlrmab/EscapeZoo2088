@@ -53,11 +53,6 @@ public class Round : MonoBehaviour
         SetPlayerJumpHeight(0);
     }
 
-    public virtual void UpdateRound()
-    {
-        Debug.Log($"Round {GlobalData.roundIndex} : Update");
-    }
-
     public virtual void SendClearRound()
     {
         Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");

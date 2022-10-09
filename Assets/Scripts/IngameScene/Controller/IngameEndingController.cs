@@ -21,11 +21,11 @@ public class IngameEndingController : MonoBehaviour
         _animalSprites = Resources.LoadAll<Sprite>("Sprites/Animal");
     }
 
-    public void LoadEnding(int score)
+    public void LoadEnding()
     {
         _ending.SetActive(true);
         _endingNotice.text = GlobalData.IsWinner ? "VICTORY" : "DEFEAT";
-        _endingScore.text = "FINAL SCORE : " + score;
+        _endingScore.text = "FINAL SCORE : " + GlobalData.myScore;
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
         for (int i = 0; i < _players.Length; ++i)

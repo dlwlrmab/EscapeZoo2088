@@ -8,7 +8,6 @@ public class IngamePacketHandler : MonoBehaviour
 {
     private IngameScene _ingameScene;
 
-
     private void Start()
     {
         _ingameScene = IngameScene.Instance;
@@ -18,11 +17,6 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendInitGameComplete()
     {
-        SendStartRound(false);
-    }
-
-    public void SendStartRound(bool nextround = true)
-    {
         var req = new ReqStartGame
         {
             preRoundNum = ++GlobalData.roundIndex,
@@ -30,27 +24,16 @@ public class IngamePacketHandler : MonoBehaviour
             teamUserCount = GlobalData.teamUserCount,
         };
 
-
-        
         ResStartGame res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<ResStartGame>(responseString);
-            if (res.ResponseType == ResponseType.Success)
-            {
-                GlobalData.roundIndex = res.currentRoundNum;
-                GlobalData.SunriseTime = res.sunriseTime;
-                GlobalData.roundList = res.roundList;
-                RecvStartRound(res.currentRoundNum);
-            }
-            else
-                Debug.LogAssertion($"ResStartGame.ResponseType != Success");
+            RecvStartRound(res);
         }));
     }
 
-    // 라운드 재시작할 때 보냄
     public void SendRestartRound()
     {
         var req = new ReqReStartGame
@@ -72,38 +55,36 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendClearRound()
     {
-        // 모든 라운드를 종료하였을때.
-        if (GlobalData.roundIndex == GlobalData.roundMax - 1)
+        var req = new ReqMatchResult
         {
-            var req = new ReqMatchResult
-            {
-                isWinner = GlobalData.IsWinner,
-            };
+            isWinner = GlobalData.IsWinner,
+        };
 
-            ResMatchResult res = null;            
+        ResMatchResult res = null;
 
-            string jsondata = JsonConvert.SerializeObject(req);
-            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
-            {
-                res = JsonConvert.DeserializeObject<ResMatchResult>(responseString);
-                RecvClearGame(res);
-            }));
-        }
-
-        // 하나의 라운드 클리어 후 보냄
-        else
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
         {
-            SendStartRound();
-        }
+            res = JsonConvert.DeserializeObject<ResMatchResult>(responseString);
+            RecvClearGame(res);
+        }));
     }
 
     #endregion
 
     #region Recv
 
-    public void RecvStartRound(int round)
+    public void RecvStartRound(ResStartGame res)
     {
-        _ingameScene.LoadRound();
+        if (res.ResponseType == ResponseType.Success)
+        {
+            GlobalData.roundIndex = res.currentRoundNum;
+            GlobalData.SunriseTime = res.sunriseTime;
+            GlobalData.roundList = res.roundList;
+            _ingameScene.LoadRound();
+        }
+        else
+            Debug.LogAssertion($"ResStartGame.ResponseType != Success");
     }
 
     public void RecvRestartRound(ResReStartGame res)
@@ -120,71 +101,16 @@ public class IngamePacketHandler : MonoBehaviour
 
     }
 
-    public void RecvUpdateRound()
-    {
-        // 라운드 진행 중 업데이트할 데이터가 있을 때
-        // 라운드 0: 태양 보여주기
-
-        _ingameScene.MapController.GetCurrentRound().UpdateRound();
-    }
-
-    public void RecvClearEnemyRound()
-    {
-        // 적이 라운드 클리어했을 때 보냄
-
-        GlobalData.enemyRoundIndex++;
-        _ingameScene.ClearEnemyRound();
-    }
-
-
-    // 모든 라운드 종료 응답
     public void RecvClearGame(ResMatchResult res)
     {
-        
-        if(res.ResponseType == ResponseType.Success)
+        if (res.ResponseType == ResponseType.Success)
         {
-            _ingameScene.ClearGame(res.score);
+            GlobalData.IsWinner = true;
+            GlobalData.myScore = res.score;
+            _ingameScene.ClearGame();
         }
         else
             Debug.LogAssertion($"ResMatchResult.ResponseType != Success");
-    }
-
-    #endregion
-
-    #region Test
-
-    private void Awake()
-    {
-        // 원래 로비에서 인게임 넘어올때 받아야 하지만,
-        // 임시로 여기서 설정
-
-        GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new List<int>() { 0};
-        GlobalData.playerInfos = new List<PlayerInfo>() {
-            new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
-            new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
-            new PlayerInfo { Id = "124", Animal = ANIMAL.CROCODILE, MBTI = "isfj" },
-            new PlayerInfo { Id = "125", Animal = ANIMAL.GORILLA, MBTI = "isfj" },
-            new PlayerInfo { Id = "126", Animal = ANIMAL.PANDA, MBTI = "isfj" }
-        };
-        GlobalData.roundIndex = -1;
-        GlobalData.roundMax = GlobalData.roundList.Count;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            //RecvStartRound();
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            //RecvClearGame();
-        }
-        else if (Input.GetKeyDown(KeyCode.U))
-        {
-            RecvUpdateRound();
-        }
     }
 
     #endregion

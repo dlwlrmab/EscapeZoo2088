@@ -37,13 +37,6 @@ public class Round0 : Round
         StartSun();
     }
 
-    public override void UpdateRound()
-    {
-        base.UpdateRound();
-
-        StartSun();
-    }
-
     #endregion
 
     public void StartSun()

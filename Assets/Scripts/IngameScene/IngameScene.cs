@@ -101,17 +101,12 @@ public class IngameScene : MonoBehaviour
         _uiController.StartRound();
     }
 
-    public void ClearEnemyRound()
-    {
-        _uiController.SetRoundBar();
-    }
-
-    public void ClearGame(int score)
+    public void ClearGame()
     {
         _state = INGAME_STATE.ENDING;
         _playerController.ClearGame();
         _uiController.ClearGame();
-        _endingController.LoadEnding(score);
+        _endingController.LoadEnding();
     }
 
     public void MoveLobbyScene()
