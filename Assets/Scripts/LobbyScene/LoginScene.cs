@@ -200,9 +200,9 @@ public class LoginScene : MonoBehaviour
         {
             _textLoginPopupNotice.text = "로그인 성공!";
 
-            GlobalData.Id = res.userId;
-            GlobalData.mbti = _inputLoginPopupPW.text.ToUpper();
-            GlobalData.Score = res.score;
+            GlobalData.myId = res.userId;
+            GlobalData.myMBTI = _inputLoginPopupPW.text.ToUpper();
+            GlobalData.myScore = res.score;
             _scenemanager.PlayFadeout(null, "LobbyScene");
         }
     }

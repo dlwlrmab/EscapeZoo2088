@@ -18,16 +18,12 @@ public class GlobalData : MonoBehaviour
 
     public static bool isGogame = false;
 
-    public static string Id = string.Empty;
-    public static string mbti = string.Empty;
-    public static string TeamName = string.Empty;
-    public static int Score = 0;
-
-
-
-    // 로비
-    public static bool isHost = true;  // 한 그룹내에서 여러명이 게임을 시작할수도 있어, 호스트 지정이 필요하거나, 인원수가 차면 자동으로 시작하거나 하는 규칙이 필요할듯?
-    public static ANIMAL animal = ANIMAL.NONE;
+    // 내 정보
+    public static string myId = string.Empty;
+    public static string myMBTI = string.Empty;
+    public static string myTeamName = string.Empty;
+    public static int myScore = 0;
+    public static ANIMAL myAnimal = ANIMAL.NONE;
 
     // 인게임: 로비에서 인게임 진입 시 서버에게 받을 데이터들
     public static MAP map = MAP.NONE;

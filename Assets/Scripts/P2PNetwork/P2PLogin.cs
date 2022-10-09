@@ -22,7 +22,7 @@ public class P2PLogin : MonoBehaviour
         {//맵을 선택하지 않았습니다.
             return;
         }
-        if (GlobalData.animal == ANIMAL.NONE)
+        if (GlobalData.myAnimal == ANIMAL.NONE)
         {//캐릭터를 선택하지 않았습니다
             return;
         }

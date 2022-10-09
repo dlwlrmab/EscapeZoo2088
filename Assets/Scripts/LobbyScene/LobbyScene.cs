@@ -39,12 +39,12 @@ public class LobbyScene : MonoBehaviour
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
         GlobalData.map = MAP.NONE;
-        GlobalData.animal = ANIMAL.NONE;
+        GlobalData.myAnimal = ANIMAL.NONE;
 
         if (GlobalData.isGogame)
         {
             GlobalData.map = MAP.DESERT;
-            GlobalData.animal = ANIMAL.CHICKEN;
+            GlobalData.myAnimal = ANIMAL.CHICKEN;
 
             PlayGame();
         }
@@ -57,10 +57,10 @@ public class LobbyScene : MonoBehaviour
     {
         var req = new ReqTryMatch
         {
-            userId = GlobalData.Id,
-            character = (int)GlobalData.animal,
+            userId = GlobalData.myId,
+            character = (int)GlobalData.myAnimal,
             gameMap = (int)GlobalData.map,
-            score = GlobalData.Score,
+            score = GlobalData.myScore,
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
 
@@ -142,7 +142,7 @@ public class LobbyScene : MonoBehaviour
 
         GlobalData.GameSessionId = res.GameSessionId;
         GlobalData.PlayerSessionId = res.PlayerSessionId;
-        GlobalData.TeamName = res.teamName;
+        GlobalData.myTeamName = res.teamName;
         GlobalData.Port = res.Port;
 
         GameManager.Instance.IsTryMatching = true;
@@ -186,7 +186,7 @@ public class LobbyScene : MonoBehaviour
     {
         var req = new ReqMyPage
         {
-            userId = GlobalData.Id,
+            userId = GlobalData.myId,
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
@@ -279,7 +279,7 @@ public class LobbyScene : MonoBehaviour
             _exAnimalButton.GetComponent<Image>().color = Color.white;
         }
         _exAnimalButton = obj;
-        GlobalData.animal = (ANIMAL)int.Parse(obj.name);
+        GlobalData.myAnimal = (ANIMAL)int.Parse(obj.name);
         obj.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
     }
 
@@ -290,7 +290,7 @@ public class LobbyScene : MonoBehaviour
             ShowNotiPopup("맵을 선택하지 않았습니다.");
             return;
         }
-        if (GlobalData.animal == ANIMAL.NONE)
+        if (GlobalData.myAnimal == ANIMAL.NONE)
         {
             ShowNotiPopup("캐릭터를 선택하지 않았습니다.");
             return;
@@ -370,30 +370,4 @@ public class LobbyScene : MonoBehaviour
     }
     #endregion
     #endregion
-
-    #region 사용안하는듯..?
-
-    public void OnClickPlayGame()
-    {
-        if (!GlobalData.isHost)
-        {
-            return;
-        }
-
-        // 서버 작업완료 이후 수정되어야할 코드들
-        //MakeMatchMaking();
-        RecvMakeMatchMakingResult(true);
-    }
-    
-    // 서버로 매치메이킹 요청 보냄(다른팀 매칭)
-    public void ReqMakeMatchMaking()
-    {
-        // 서버와의 연결을 끊고, 로그인씬으로 이동
-        // 서버연결끊는 로직 필요
-        _scenemanager.PlayFadeout(null, "LoginScene");
-
-    }
-    #endregion
-
-
 }

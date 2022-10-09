@@ -40,7 +40,7 @@ public class P2PInGameManager : SceneSingleton<P2PInGameManager>, INetViewHandle
         NetPool.DataWriterPool.Use((writer) =>
         {
             // 내가 주인인 플레이어를 생성함
-            string prefabPath = "Prefabs/Player/Player" + (int)GlobalData.animal;
+            string prefabPath = "Prefabs/Player/Player" + (int)GlobalData.myAnimal;
             playerObj = NetClientGlobal.Instance.Instantiate(
                 prefabPath,
                 new Vector3(Random.Range(-0.1f, 0.1f), 0.5f, 0f),
