@@ -32,13 +32,14 @@
         public string GameSessionId; 
         public int Port;
         public string teamName;
+        public List<PlayerInfo> playerInfos = null;
+        public List<int> roundList;
     }
 
     public class ResStartGame : IngameProcotol
     {
         public int currentRoundNum;
-        public int endRoundNum;
-        public List<int> roundList = new List<int>();
+        public int enemyRoundIndex;
         public int sunriseTime;
     }
 
@@ -49,6 +50,7 @@
 
     public class ResMatchResult : CBaseProtocol
     {
+        public bool isWinner;
         public int score;
     }
 }

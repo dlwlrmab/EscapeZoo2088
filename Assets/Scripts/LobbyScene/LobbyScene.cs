@@ -151,8 +151,10 @@ public class LobbyScene : MonoBehaviour
 
         GlobalData.GameSessionId = res.GameSessionId;
         GlobalData.PlayerSessionId = res.PlayerSessionId;
-        GlobalData.myTeamName = res.teamName;
         GlobalData.Port = res.Port;
+        GlobalData.myTeamName = res.teamName;
+        GlobalData.playerInfos = res.playerInfos;
+        GlobalData.roundList = res.roundList;
 
         GameManager.Instance.IsTryMatching = true;
 
@@ -254,42 +256,6 @@ public class LobbyScene : MonoBehaviour
         }
     }
 
-    // 서버로부터 매치메이킹 결과 받음
-    public void RecvMakeMatchMakingResult(bool success)
-    {
-        if (success)
-        {
-            _scenemanager.PlayFadeout(null, "IngameScene");
-            var req = new ReqStartGame
-            {
-                preRoundNum = 0,
-                endRoundNum = GlobalData.roundMax,
-                teamUserCount = GlobalData.teamUserCount,
-            };
-
-            ResStartGame res = null;
-
-            string jsondata = JsonConvert.SerializeObject(req);
-            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
-            {
-                res = JsonConvert.DeserializeObject<ResStartGame>(responseString);
-                if (res.ResponseType == ResponseType.Success)
-                {
-                    GlobalData.roundIndex = res.currentRoundNum;
-                    GlobalData.SunriseTime = res.sunriseTime;
-                    GlobalData.roundList = res.roundList;
-                    _scenemanager.PlayFadeout(null, "IngameScene");
-                }
-                else
-                    Debug.LogAssertion($"ResStartGame.ResponseType != Success");
-            }));
-        }
-        else
-        {
-            _playButton.SetActive(true);
-        }
-    }
-
     #endregion
 
     #region buttonClick
@@ -360,7 +326,6 @@ public class LobbyScene : MonoBehaviour
         _popupNoti.SetActive(false);
     }
     #endregion
-
 
     // 플레이어튼 사용하지않고 매칭 성공시 자동시작
     public void PlayGame()

@@ -24,13 +24,13 @@ public class IngameEndingController : MonoBehaviour
     public void LoadEnding()
     {
         _ending.SetActive(true);
-        _endingNotice.text = GlobalData.IsWinner ? "VICTORY" : "DEFEAT";
+        _endingNotice.text = GlobalData.isWinner ? "VICTORY" : "DEFEAT";
         _endingScore.text = "FINAL SCORE : " + GlobalData.myScore;
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
         for (int i = 0; i < _players.Length; ++i)
         {
-            Sprite sprite = GetSprite(playerInfos[i].Animal);
+            Sprite sprite = GetSprite((EnumDef.ANIMAL)playerInfos[i].animal);
             _mbtiText[i].text = playerInfos[i].MBTI;
             _mbtiImage[i].sprite = sprite;
             _players[i].sprite = sprite;
