@@ -37,9 +37,23 @@ namespace CommonProtocol
         public List<string> ticketIds = new List<string>();
     }
 
-    public class Reqxxxxx : IngameProcotol
+    public class ReqStartGame : IngameProcotol
     {
-        public Reqxxxxx() : base()
+        public int preRoundNum;
+        public int endRoundNum;
+        public int teamUserCount;
+
+        public ReqStartGame() : base()
+        {
+
+        }
+    }
+
+    public class ReqReStartGame : ReqStartGame
+    {
+        public int currentRoundNum;
+
+        public ReqReStartGame() : base()
         {
 
         }

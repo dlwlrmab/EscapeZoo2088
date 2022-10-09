@@ -24,7 +24,7 @@ public class IngameEndingController : MonoBehaviour
     public void LoadEnding(int score)
     {
         _ending.SetActive(true);
-        _endingNotice.text = IngameScene.Instance.IsWinner ? "VICTORY" : "DEFEAT";
+        _endingNotice.text = GlobalData.IsWinner ? "VICTORY" : "DEFEAT";
         _endingScore.text = "FINAL SCORE : " + score;
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
