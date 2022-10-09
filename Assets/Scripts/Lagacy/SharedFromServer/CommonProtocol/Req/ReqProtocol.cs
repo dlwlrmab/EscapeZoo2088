@@ -11,25 +11,22 @@ namespace CommonProtocol
 {
     public class ReqAccountJoin : CBaseProtocol
     {
-        public string userId;
         public string password;
         public string mbti;
     }
 
     public class ReqLogin : CBaseProtocol
     {
-        public string userId;
         public string password;
     }
 
     public class ReqMyPage : CBaseProtocol
     {
-        public string userId;
+        
     }
 
     public class ReqTryMatch : CBaseProtocol
     {
-        public string userId;
         public int gameMap;
         public int score;
         public int character;
@@ -40,24 +37,17 @@ namespace CommonProtocol
         public List<string> ticketIds = new List<string>();
     }
 
-    [MessagePackObject]
-    public class ReqTryingMatch
+    public class Reqxxxxx : IngameProcotol
     {
-        [Key(0)]
-        public MessageType MessageType;
-        [Key(1)]
-        public string userId;
-        [Key(2)]
-        public int mapIndex;
-        [Key(3)]
-        public int animalIndex;
+        public Reqxxxxx() : base()
+        {
+
+        }
     }
 
     [MessagePackObject]
     public class ProtoBattleEnter : BaseProtocol
     {
-        //[Key(1)]
-        //public string GameSessionId;
         [Key(1)]
         public string GameSessionId;
         [Key(2)]

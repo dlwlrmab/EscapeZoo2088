@@ -149,7 +149,7 @@ public class LoginScene : MonoBehaviour
         if (string.IsNullOrWhiteSpace(id) || string.IsNullOrWhiteSpace(pw))
             return;
 
-        var req = new ReqLogin
+        var req = new ReqLogin()
         {
             userId = id,
             password = pw,
@@ -200,7 +200,7 @@ public class LoginScene : MonoBehaviour
         {
             _textLoginPopupNotice.text = "로그인 성공!";
 
-            GlobalData.id = res.userId;
+            GlobalData.Id = res.userId;
             GlobalData.mbti = _inputLoginPopupPW.text.ToUpper();
             _scenemanager.PlayFadeout(null, "LobbyScene");
         }

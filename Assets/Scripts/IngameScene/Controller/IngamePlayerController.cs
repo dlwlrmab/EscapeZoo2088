@@ -62,7 +62,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     {
         foreach (Player player in _playerList)
         {
-            if (player.Info.Id == GlobalData.id)
+            if (player.Info.Id == GlobalData.Id)
                 return player;
         }
 

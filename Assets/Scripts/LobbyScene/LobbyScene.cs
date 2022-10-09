@@ -48,7 +48,7 @@ public class LobbyScene : MonoBehaviour
     {
         var req = new ReqTryMatch
         {
-            userId = GlobalData.id,
+            userId = GlobalData.Id,
             character = (int)GlobalData.animal,
             gameMap = (int)GlobalData.map,
             MessageType = CommonProtocol.MessageType.TryMatching,
@@ -101,6 +101,10 @@ public class LobbyScene : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
+        GlobalData.GameSessionId = res.GameSessionId;
+        GlobalData.PlayerSessionId = res.PlayerSessionId;
+        GlobalData.TeamName = res.teamName;
+
         SceneLoadManager.Instance.SetLoading(false);
         ShowNotiPopup("매칭 성공");
         ConnectBattleServer(res);
@@ -132,13 +136,12 @@ public class LobbyScene : MonoBehaviour
 
             ShowNotiPopup("배틀서버 연결 성공!");
 
-            //GlobalData.GameSessionId = res.GameSessionId;
             BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
                     MessagePackSerializer.Serialize(new ProtoBattleEnter
                     {
                         Msg = BattleProtocol.MessageType.BattleEnter,
                         UserId = GameManager.Instance.UserId,
-                        //GameSessionId = gameSessionId,
+                        GameSessionId = res.GameSessionId,
                         PlayerSessionId = res.PlayerSessionId,
                     }));
 
@@ -160,7 +163,7 @@ public class LobbyScene : MonoBehaviour
     {
         var req = new ReqMyPage
         {
-            userId = GlobalData.id,
+            userId = GlobalData.Id,
         };
 
         string jsondata = JsonConvert.SerializeObject(req);
