@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Common;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.Linq;
+using EnumDef;
 
 public class P2PLogin : MonoBehaviour
 {
@@ -17,6 +18,15 @@ public class P2PLogin : MonoBehaviour
 
     public async UniTaskVoid PushGameStartBtn(AsyncUnit asyncUnit)
     {
+        if (GlobalData.map == MAP.NONE)
+        {//맵을 선택하지 않았습니다.
+            return;
+        }
+        if (GlobalData.animal == ANIMAL.NONE)
+        {//캐릭터를 선택하지 않았습니다
+            return;
+        }
+
         try
         {
             _gameStartBtn.interactable = false;
