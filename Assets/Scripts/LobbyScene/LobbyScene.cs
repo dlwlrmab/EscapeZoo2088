@@ -152,7 +152,7 @@ public class LobbyScene : MonoBehaviour
         GlobalData.GameSessionId = res.GameSessionId;
         GlobalData.PlayerSessionId = res.PlayerSessionId;
         GlobalData.Port = res.Port;
-        GlobalData.myTeamName = res.teamName;
+        GlobalData.myTeamName = res.TeamName;
         GlobalData.playerInfos = res.playerInfos;
         GlobalData.roundList = res.roundList;
 

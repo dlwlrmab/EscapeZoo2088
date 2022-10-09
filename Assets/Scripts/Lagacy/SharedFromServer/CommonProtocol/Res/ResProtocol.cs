@@ -31,7 +31,7 @@
         public string PlayerSessionId;
         public string GameSessionId; 
         public int Port;
-        public string teamName;
+        public string TeamName;
         public List<PlayerInfo> playerInfos = null;
         public List<int> roundList;
     }
