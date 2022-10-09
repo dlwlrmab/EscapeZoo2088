@@ -25,16 +25,13 @@ public class IngamePacketHandler : MonoBehaviour
     {
         var req = new ReqStartGame
         {
+            preRoundNum = ++GlobalData.roundIndex,
             endRoundNum = GlobalData.roundMax,
             teamUserCount = GlobalData.teamUserCount,
         };
 
-        if (nextround)
-            req.preRoundNum = ++GlobalData.roundIndex;
-        else
-            req.preRoundNum = GlobalData.roundIndex;
 
-
+        
         ResStartGame res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);
