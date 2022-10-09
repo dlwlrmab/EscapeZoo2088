@@ -27,7 +27,7 @@ public class IngamePacketHandler : MonoBehaviour
         {
             var req = new ReqMatchResult
             {
-                //IsWinner =  이전 프로토콜에서 받은 값.
+                isWinner = IngameScene.Instance.IsWinner,
             };
 
             ResMatchResult res = null;            
@@ -87,7 +87,7 @@ public class IngamePacketHandler : MonoBehaviour
         
         if(res.ResponseType == ResponseType.Success)
         {
-            IngameScene.Instance.ClearGame(true);
+            IngameScene.Instance.ClearGame(res.score);
         }
         else
             Debug.LogAssertion($"ResMatchResult.ResponseType != Success");

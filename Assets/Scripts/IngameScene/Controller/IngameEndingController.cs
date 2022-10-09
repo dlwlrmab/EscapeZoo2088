@@ -8,6 +8,7 @@ public class IngameEndingController : MonoBehaviour
 {
     [SerializeField] GameObject _ending;
     [SerializeField] Text _endingNotice;
+    [SerializeField] Text _endingScore;
     [SerializeField] SpriteRenderer[] _players;
 
     private Sprite[] _animalSprites;
@@ -18,10 +19,11 @@ public class IngameEndingController : MonoBehaviour
         _animalSprites = Resources.LoadAll<Sprite>("Sprites/Animal");
     }
 
-    public void LoadEnding(bool win)
+    public void LoadEnding(int score)
     {
         _ending.SetActive(true);
-        _endingNotice.text = win ? "VICTORY" : "DEFEAT";
+        _endingNotice.text = IngameScene.Instance.IsWinner ? "VICTORY" : "DEFEAT";
+        _endingScore.text = $"FINAL SCORE : {score.ToString()}";
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
         for (int i = 0; i < _players.Length; ++i)

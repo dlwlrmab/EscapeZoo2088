@@ -42,6 +42,7 @@ public class IngameScene : MonoBehaviour
     SceneLoadManager _scenemanager = null;
 
     INGAME_STATE _state = INGAME_STATE.LOADING;
+    public bool IsWinner { get; set; } = false;
 
     private void Start()
     {
@@ -106,12 +107,12 @@ public class IngameScene : MonoBehaviour
         _uiController.SetRoundBar();
     }
 
-    public void ClearGame(bool win)
+    public void ClearGame(int score)
     {
         _state = INGAME_STATE.ENDING;
         _playerController.ClearGame();
         _uiController.ClearGame();
-        _endingController.LoadEnding(win);
+        _endingController.LoadEnding(score);
     }
 
     public void MoveLobbyScene()
