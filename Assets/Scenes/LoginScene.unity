@@ -863,10 +863,10 @@ RectTransform:
   m_Father: {fileID: 953675939}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.5, y: -4}
-  m_SizeDelta: {x: -5, y: -1}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 512.5, y: 0}
+  m_SizeDelta: {x: 795, y: 89}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &540799148
 MonoBehaviour:
@@ -901,7 +901,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "    \uC790\uB3D9 \uB85C\uADF8\uC778"
+  m_Text: "\uBC14\uB85C \uAC8C\uC784\uD558\uB7EC \uAC00\uAE30"
 --- !u!222 &540799149
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1567,7 +1567,7 @@ GameObject:
   - component: {fileID: 953675939}
   - component: {fileID: 953675940}
   m_Layer: 5
-  m_Name: autoLogin
+  m_Name: GoGame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1591,7 +1591,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -402, y: -829}
+  m_AnchoredPosition: {x: -501, y: -829}
   m_SizeDelta: {x: 800, y: 90}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &953675940
@@ -1642,7 +1642,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1854324107}
         m_TargetAssemblyTypeName: LoginScene, Assembly-CSharp
-        m_MethodName: ToggleAutoLogin
+        m_MethodName: ToggleGogame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3115,10 +3115,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdc2ca4b9c7f4fa4aaf34db5e859e3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _toggleGogame: {fileID: 953675940}
   _textLoginPopupNotice: {fileID: 1618880771}
   _inputLoginPopupId: {fileID: 751073162}
   _inputLoginPopupPW: {fileID: 1858309439}
-  _toggleAutoLogin: {fileID: 953675940}
   _textJoinPopupNotice: {fileID: 8160458410942761825}
   _inputJoinPopupId: {fileID: 498644350723848107}
   _inputJoinPopupPW: {fileID: 1941890087}

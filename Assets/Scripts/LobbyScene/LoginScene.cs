@@ -6,11 +6,12 @@ using UnityEngine.UI;
 
 public class LoginScene : MonoBehaviour
 {
+    [SerializeField] Toggle _toggleGogame;
+
     [Header("Login Popup")]
     [SerializeField] Text _textLoginPopupNotice;
     [SerializeField] Text _inputLoginPopupId;
     [SerializeField] Text _inputLoginPopupPW;
-    [SerializeField] Toggle _toggleAutoLogin;
 
     [Header("Join Popup")]
     [SerializeField] Text _textJoinPopupNotice;
@@ -20,21 +21,18 @@ public class LoginScene : MonoBehaviour
 
     SceneLoadManager _scenemanager = null;
 
-    private bool _autoLogin = false;
-
     private void Awake()
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 
 #if UNITY_EDITOR
-        _toggleAutoLogin.gameObject.SetActive(true);
-
-        _autoLogin = PlayerPrefs.GetInt("saveAutoLogin") == 1;
-        _toggleAutoLogin.isOn = _autoLogin;
+        _toggleGogame.gameObject.SetActive(true);
+        GlobalData.isGogame = PlayerPrefs.GetInt("saveGogame") == 1;
+        _toggleGogame.isOn = GlobalData.isGogame;
 
 #else
-        _toggleAutoLogin.gameObject.SetActive(false);
+        _toggleGogame.gameObject.SetActive(false);
 
 #endif
     }
@@ -47,7 +45,7 @@ public class LoginScene : MonoBehaviour
         string saveId = PlayerPrefs.GetString("saveId");
         string savePw = PlayerPrefs.GetString("savePw");
 
-        if (_autoLogin && !string.IsNullOrEmpty(saveId) && !string.IsNullOrEmpty(savePw))
+        if (GlobalData.isGogame && !string.IsNullOrEmpty(saveId) && !string.IsNullOrEmpty(savePw))
         {
             ReqLogin(saveId, savePw);
             return;
@@ -112,10 +110,10 @@ public class LoginScene : MonoBehaviour
         ReqJoinAccount(id, pw, mbti);
     }
 
-    public void ToggleAutoLogin()
+    public void ToggleGogame()
     {
-        _autoLogin = _toggleAutoLogin.isOn;
-        PlayerPrefs.SetInt("saveAutoLogin", _autoLogin ? 1 : 0);
+        GlobalData.isGogame = _toggleGogame.isOn;
+        PlayerPrefs.SetInt("saveGogame", GlobalData.isGogame ? 1 : 0);
     }
 
     #endregion

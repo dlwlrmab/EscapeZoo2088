@@ -14,6 +14,8 @@ public class GlobalData : MonoBehaviour
     public static string GameSessionId = string.Empty;
     public static string TargetServer = "Dev";
 
+    public static bool isGogame = false;
+
     public static string id = string.Empty;
     public static string mbti = string.Empty;
 

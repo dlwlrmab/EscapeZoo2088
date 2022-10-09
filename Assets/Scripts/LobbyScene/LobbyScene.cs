@@ -33,8 +33,8 @@ public class LobbyScene : MonoBehaviour
         GlobalData.animal = ANIMAL.NONE;
     }
 
-
     #region reqServer
+
     // 서버로 준비메시지를 보냄(같은팀 인원모으기)
     void ReqTryingMatch()
     {
@@ -172,9 +172,12 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-            Invoke("PlayGame", 1f);
-            return;
+            if (GlobalData.isGogame)
+            {
+                ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
+                Invoke("PlayGame", 1f);
+                return;
+            }
 
             ShowNotiPopup(Strings.WaitOtherUser);
 
@@ -226,7 +229,6 @@ public class LobbyScene : MonoBehaviour
     }
 
     #endregion
-
 
     #region buttonClick
     public void ChoiceMap(GameObject obj)
