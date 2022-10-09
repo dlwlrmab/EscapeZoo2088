@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace EuNet.Client
 {
@@ -29,7 +30,7 @@ namespace EuNet.Client
         /// </summary>
         public bool IsUdpConnected => _isUdpConnected;
 
-        protected readonly ILogger _logger;
+        protected readonly EuNet.Core.ILogger _logger;
 
         private TcpChannel _tcpChannel;
         public TcpChannel TcpChannel => _tcpChannel;
@@ -181,7 +182,7 @@ namespace EuNet.Client
         /// </summary>
         /// <param name="timeout">타임아웃</param>
         /// <returns>성공여부</returns>
-        public async Task<bool> ConnectAsync(TimeSpan? timeout = null)
+        public async Task<bool> ConnectAsync(int port , TimeSpan? timeout = null)
         {
             if (_socket != null || State != SessionState.Closed)
                 return false;
@@ -193,8 +194,8 @@ namespace EuNet.Client
 
                 _cts = new CancellationTokenSource();
 
-                _serverEndPoint = NetUtil.GetEndPoint(_clientOption.TcpServerAddress, _clientOption.TcpServerPort);
-                _serverUdpEndPoint = NetUtil.GetEndPoint(_clientOption.UdpServerAddress, _clientOption.UdpServerPort);
+                _serverEndPoint = NetUtil.GetEndPoint(_clientOption.TcpServerAddress, port);
+                _serverUdpEndPoint = NetUtil.GetEndPoint(_clientOption.UdpServerAddress, port);
 
                 if (_clientOption.IsServiceUdp)
                 {

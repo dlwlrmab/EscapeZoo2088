@@ -2,12 +2,12 @@
 {
     public class ResAccountJoin : CBaseProtocol
     {
-        public string userId;
+
     }
 
     public class ResLogin : CBaseProtocol
     {
-        public string userId;
+        public int score;
     }
 
     public class ResMyPage : CBaseProtocol
@@ -16,7 +16,6 @@
         public int lossCnt;
         public int score;
         public string mbti;
-        public string userId;
     }
 
     public class ResTryMatch : CBaseProtocol

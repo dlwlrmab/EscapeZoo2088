@@ -13,7 +13,7 @@ namespace EuNet.Client
         /// </summary>
         /// <param name="timeout">타임아웃</param>
         /// <returns>성공여부</returns>
-        Task<bool> ConnectAsync(TimeSpan? timeout);
+        Task<bool> ConnectAsync(int port, TimeSpan? timeout);
 
         /// <summary>
         /// 접속을 해제한다

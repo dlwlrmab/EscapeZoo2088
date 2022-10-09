@@ -202,6 +202,7 @@ public class LoginScene : MonoBehaviour
 
             GlobalData.Id = res.userId;
             GlobalData.mbti = _inputLoginPopupPW.text.ToUpper();
+            GlobalData.Score = res.score;
             _scenemanager.PlayFadeout(null, "LobbyScene");
         }
     }

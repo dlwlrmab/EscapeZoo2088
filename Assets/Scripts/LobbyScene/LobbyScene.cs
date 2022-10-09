@@ -60,6 +60,7 @@ public class LobbyScene : MonoBehaviour
             userId = GlobalData.Id,
             character = (int)GlobalData.animal,
             gameMap = (int)GlobalData.map,
+            score = GlobalData.Score,
             MessageType = CommonProtocol.MessageType.TryMatching,
         };
 
@@ -115,8 +116,17 @@ public class LobbyScene : MonoBehaviour
         SceneLoadManager.Instance.SetLoading(false);
         if (!_stopmatching)
         {
-            ShowNotiPopup("매칭 성공");
-            ConnectBattleServer(res);
+            if(res != null && res.ResponseType == ResponseType.Success)
+            {
+                ShowNotiPopup("매칭 성공");
+                ConnectBattleServer(res);
+                _readyButton.gameObject.SetActive(false);
+                _playButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                ShowNotiPopup(Strings.ServerError);
+            }   
         }
         else
         {
@@ -125,52 +135,45 @@ public class LobbyScene : MonoBehaviour
         
     }
     
-    private void ConnectBattleServer(ResMatchStatus res)
+    public void ConnectBattleServer(ResMatchStatus res)
     {
-        if (res != null && res.ResponseType == ResponseType.Success)
+        if (GameManager.Instance.IsTryMatching)
+            return;
+
+        GlobalData.GameSessionId = res.GameSessionId;
+        GlobalData.PlayerSessionId = res.PlayerSessionId;
+        GlobalData.TeamName = res.teamName;
+        GlobalData.Port = res.Port;
+
+        GameManager.Instance.IsTryMatching = true;
+
+        BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
+
+        while (false == BattleServerConnector.Instance.IsConnected) ;
+        Invoke("ServerTimeOut", 3f);
+        while (false == BattleServerConnector.Instance.IsConnected && !_serverTimeOut) ;
+
+        if (_serverTimeOut)
         {
-            if (GameManager.Instance.IsTryMatching)
-                return;
-
-            GlobalData.GameSessionId = res.GameSessionId;
-            GlobalData.PlayerSessionId = res.PlayerSessionId;
-            GlobalData.TeamName = res.teamName;
-            GlobalData.Port = res.Port;
-
-            GameManager.Instance.IsTryMatching = true;
-
-            BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
-
-            while (false == BattleServerConnector.Instance.IsConnected) ;
-            Invoke("ServerTimeOut", 3f);
-            while (false == BattleServerConnector.Instance.IsConnected && !_serverTimeOut) ;
-
-            if (_serverTimeOut)
-            {
-                ResConnectBattleServer(false);
-                return;
-            }
-
-            CancelInvoke("ServerTimeOut");
-            _serverTimeOut = false;
-
-            ShowNotiPopup("배틀서버 연결 성공!");
-
-            BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
-                    MessagePackSerializer.Serialize(new ProtoBattleEnter
-                    {
-                        Msg = BattleProtocol.MessageType.BattleEnter,
-                        UserId = GameManager.Instance.UserId,
-                        GameSessionId = res.GameSessionId,
-                        PlayerSessionId = res.PlayerSessionId,
-                    }));
-
-            ResConnectBattleServer(true);
+            ResConnectBattleServer(false);
+            return;
         }
-        else
-        {
-            ShowNotiPopup(Strings.ServerError);
-        }
+
+        CancelInvoke("ServerTimeOut");
+        _serverTimeOut = false;
+
+        ShowNotiPopup("배틀서버 연결 성공!");
+
+        BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
+                MessagePackSerializer.Serialize(new ProtoBattleEnter
+                {
+                    Msg = BattleProtocol.MessageType.BattleEnter,
+                    UserId = GameManager.Instance.UserId,
+                    GameSessionId = res.GameSessionId,
+                    PlayerSessionId = res.PlayerSessionId,
+                }));
+
+        ResConnectBattleServer(true);
     }
 
     // 배틀서버연결에 무한정 기다리는 경우가있어, 3초 타임아웃
