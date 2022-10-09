@@ -13,6 +13,7 @@ public class GlobalData : MonoBehaviour
     public static string GatewayAPI = "https://opupgoihqd.execute-api.ap-northeast-2.amazonaws.com/test/";
     public static string GameSessionId = string.Empty;
     public static string PlayerSessionId = string.Empty;
+    public static int Port = 0;
     public static string TargetServer = "Dev";
 
     public static bool isGogame = false;

@@ -21,12 +21,7 @@
 
     public class ResTryMatch : CBaseProtocol
     {
-        public string IpAddress; // battleServerIp
-        public int Port; // battleServerPot
         public string ticketId;
-        
-        //public string IpAddress; // battleServerIp
-        //public int Port; // battleServerPot
     }
 
     public class ResMatchStatus : CBaseProtocol

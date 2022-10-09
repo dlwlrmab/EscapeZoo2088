@@ -101,10 +101,6 @@ public class LobbyScene : MonoBehaviour
             yield return new WaitForSeconds(0.3f);
         }
 
-        GlobalData.GameSessionId = res.GameSessionId;
-        GlobalData.PlayerSessionId = res.PlayerSessionId;
-        GlobalData.TeamName = res.teamName;
-
         SceneLoadManager.Instance.SetLoading(false);
         ShowNotiPopup("매칭 성공");
         ConnectBattleServer(res);
@@ -116,6 +112,11 @@ public class LobbyScene : MonoBehaviour
         {
             if (GameManager.Instance.IsTryMatching)
                 return;
+
+            GlobalData.GameSessionId = res.GameSessionId;
+            GlobalData.PlayerSessionId = res.PlayerSessionId;
+            GlobalData.TeamName = res.teamName;
+            GlobalData.Port = res.Port;
 
             GameManager.Instance.IsTryMatching = true;
 
