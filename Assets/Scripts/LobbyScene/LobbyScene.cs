@@ -24,6 +24,15 @@ public class LobbyScene : MonoBehaviour
     GameObject _exMapButton = null;
     GameObject _exAnimalButton = null;
     bool _serverTimeOut = false;
+    bool _stopmatching = false;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && !_stopmatching)
+        {
+            _stopmatching = true;
+        }
+    }
 
     private void Awake()
     {
@@ -97,12 +106,23 @@ public class LobbyScene : MonoBehaviour
             if (success)
                 break;
 
+            if(_stopmatching)
+                break;
+
             yield return new WaitForSeconds(0.3f);
         }
 
         SceneLoadManager.Instance.SetLoading(false);
-        ShowNotiPopup("매칭 성공");
-        ConnectBattleServer(res);
+        if (!_stopmatching)
+        {
+            ShowNotiPopup("매칭 성공");
+            ConnectBattleServer(res);
+        }
+        else
+        {
+            ShowNotiPopup("매칭을 취소하였습니다.");
+        }
+        
     }
     
     private void ConnectBattleServer(ResMatchStatus res)
