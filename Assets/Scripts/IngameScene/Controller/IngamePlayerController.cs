@@ -25,7 +25,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         for (int i = 0; i < _playerList.Count; ++i)
         {
             _playerList[i].LoadRound(startPos, transform);
-            startPos.x += 0.8f;
+            startPos.x += 2f;
         }
         Invoke("PlayerResetPostStep", 0.15f);
     }
