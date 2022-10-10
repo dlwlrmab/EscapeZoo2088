@@ -155,33 +155,33 @@ public class LobbyScene : MonoBehaviour
         GlobalData.myTeamName = res.TeamName;
         GlobalData.roundList = res.roundList;
 
-        GameManager.Instance.IsTryMatching = true;
+        //GameManager.Instance.IsTryMatching = true;
 
-        BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
+        //BattleServerConnector.Instance.Connect(res.IpAddress, res.Port, "0");
 
-        while (false == BattleServerConnector.Instance.IsConnected) ;
-        Invoke("ServerTimeOut", 3f);
-        while (false == BattleServerConnector.Instance.IsConnected && !_serverTimeOut) ;
+        //while (false == BattleServerConnector.Instance.IsConnected) ;
+        //Invoke("ServerTimeOut", 3f);
+        //while (false == BattleServerConnector.Instance.IsConnected && !_serverTimeOut) ;
 
-        if (_serverTimeOut)
-        {
-            ResConnectBattleServer(false);
-            return;
-        }
+        //if (_serverTimeOut)
+        //{
+        //    ResConnectBattleServer(false);
+        //    return;
+        //}
 
-        CancelInvoke("ServerTimeOut");
-        _serverTimeOut = false;
+        //CancelInvoke("ServerTimeOut");
+        //_serverTimeOut = false;
 
-        ShowNotiPopup("배틀서버 연결 성공!");
+        //ShowNotiPopup("배틀서버 연결 성공!");
 
-        BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
-                MessagePackSerializer.Serialize(new ProtoBattleEnter
-                {
-                    Msg = BattleProtocol.MessageType.BattleEnter,
-                    UserId = GameManager.Instance.UserId,
-                    GameSessionId = res.GameSessionId,
-                    PlayerSessionId = res.PlayerSessionId,
-                }));
+        //BattleServerConnector.Instance.Send(BattleProtocol.MessageType.BattleEnter,
+        //        MessagePackSerializer.Serialize(new ProtoBattleEnter
+        //        {
+        //            Msg = BattleProtocol.MessageType.BattleEnter,
+        //            UserId = GameManager.Instance.UserId,
+        //            GameSessionId = res.GameSessionId,
+        //            PlayerSessionId = res.PlayerSessionId,
+        //        }));
 
         ResConnectBattleServer(true);
     }
