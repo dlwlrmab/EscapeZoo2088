@@ -24,7 +24,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         for (int i = 0; i < _playerList.Count; ++i)
         {
             _playerList[i].LoadRound(startPos, transform);
-            startPos.x += 0.5f;
+            startPos.x += 0.8f;
         }
     }
 
