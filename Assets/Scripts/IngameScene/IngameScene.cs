@@ -80,6 +80,7 @@ public class IngameScene : MonoBehaviour
             yield return null;
         }
 
+        _loadingController.HideStartLoading();
         _packetHandler.SendStartRound();
     }
 
