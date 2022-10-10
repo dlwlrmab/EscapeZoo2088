@@ -23,5 +23,6 @@ public class RuntimeDebugText : MonoBehaviour
         {
             debugText.text += player.name + " " + player.gameObject.GetComponent<Rigidbody2D>().position + "\n";
         }
+        Debug.Log(debugText.text);
     }
 }
