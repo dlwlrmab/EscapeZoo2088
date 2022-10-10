@@ -30,7 +30,7 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendStartRound()
     {
-        if (GlobalData.roundIndex == GlobalData.roundMax)
+        if (GlobalData.roundIndex + 1 == GlobalData.roundMax)
         {
             SendLastRound();
             return;
@@ -105,8 +105,8 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.roundIndex = res.currentRoundNum;
-            GlobalData.enemyRoundIndex = res.enemyRoundNum;
+            GlobalData.roundIndex = res.currentRoundNum - 1;
+            GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
             _ingameScene.LoadRound();
         }
@@ -118,8 +118,8 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.roundIndex = res.currentRoundNum;
-            GlobalData.enemyRoundIndex = res.enemyRoundNum;
+            GlobalData.roundIndex = res.currentRoundNum - 1;
+            GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
             _ingameScene.StartRound();
         }
