@@ -19,7 +19,6 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void LoadRound()
     {
-        _playerList.Sort();
         PlayerResetPreStep();
         Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
         for (int i = 0; i < _playerList.Count; ++i)
@@ -43,8 +42,9 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public void AddPlayer(Player p)
     {
         _playerList.Add(p);
+        _playerList.Sort();
 
-        if(_playerList.Count == 5)
+        if (_playerList.Count == 2)
             _isCreateComplete = true;
 
     }

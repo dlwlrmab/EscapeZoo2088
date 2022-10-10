@@ -42,8 +42,8 @@ public class RoundObjMovingwork : MonoBehaviour
         
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            list<playerInfos> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
-            Player player  = other.GetComponent<player>();
+            List<Player> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
+            Player player  = other.GetComponent<Player>();
 
             if(player == playerInfos[4])
                 other.transform.parent = _autoMove; 
@@ -55,10 +55,10 @@ public class RoundObjMovingwork : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            list<playerInfos> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
-            Player player  = other.GetComponent<player>();
+            List<Player> playerInfos = IngameScene.Instance.PlayerController.GetPlayerList();
+            Player player = other.GetComponent<Player>();
 
-            if(player == playerInfos[4])
+            if (player == playerInfos[4])
                 other.transform.parent = _playerPerent;
         }
     }
