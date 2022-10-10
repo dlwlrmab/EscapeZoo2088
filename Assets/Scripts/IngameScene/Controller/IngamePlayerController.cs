@@ -19,12 +19,15 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void LoadRound()
     {
+        _playerList.Sort();
+        PlayerResetPreStep();
         Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
         for (int i = 0; i < _playerList.Count; ++i)
         {
             _playerList[i].LoadRound(startPos, transform);
-            startPos.x += 0.5f;
+            startPos.x += 2f;
         }
+        Invoke("PlayerResetPostStep", 0.15f);
     }
 
     public void StartRound()
@@ -55,5 +58,21 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public List<Player> GetPlayerList()
     {
         return _playerList;
+    }
+
+    void PlayerResetPreStep()
+    {
+        foreach(var p in _playerList)
+        {
+            p.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Static;
+        }
+    }
+
+    void PlayerResetPostStep()
+    {
+        foreach (var p in _playerList)
+        {
+            p.GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Dynamic;
+        }
     }
 }
