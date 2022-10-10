@@ -23,6 +23,8 @@ public class LoginScene : MonoBehaviour
 
     private void Awake()
     {
+        Screen.SetResolution(1280, 720, false);
+
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 
