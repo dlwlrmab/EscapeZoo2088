@@ -52,7 +52,7 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void RecvEnterGame(IngameProcotol res)
     {
-        GlobalData.roundList = new List<int>() { 1};
+        GlobalData.roundList = new List<int>() { 2};
         GlobalData.roundIndex = -1;
 
         GlobalData.playerInfos = new List<PlayerInfo>() { 
