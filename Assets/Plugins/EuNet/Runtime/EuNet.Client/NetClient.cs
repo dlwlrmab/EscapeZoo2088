@@ -195,7 +195,7 @@ namespace EuNet.Client
                 _cts = new CancellationTokenSource();
 
                 _serverEndPoint = NetUtil.GetEndPoint(_clientOption.TcpServerAddress, port);
-                _serverUdpEndPoint = NetUtil.GetEndPoint(_clientOption.UdpServerAddress, port);
+                _serverUdpEndPoint = NetUtil.GetEndPoint(_clientOption.UdpServerAddress, port+10);
 
                 if (_clientOption.IsServiceUdp)
                 {
