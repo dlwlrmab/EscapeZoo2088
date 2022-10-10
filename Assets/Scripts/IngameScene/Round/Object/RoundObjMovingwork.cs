@@ -39,9 +39,14 @@ public class RoundObjMovingwork : MonoBehaviour
     private void OnTriggerStay2D(Collider2D other)
     {
         int layer = other.gameObject.layer;
+        
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            other.transform.parent = _autoMove;
+            list<playerInfos> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
+            Player player  = other.GetComponent<player>();
+
+            if(player == playerInfos[4])
+                other.transform.parent = _autoMove; 
         }
     }
 
@@ -50,7 +55,11 @@ public class RoundObjMovingwork : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            other.transform.parent = _playerPerent;
+            list<playerInfos> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
+            Player player  = other.GetComponent<player>();
+
+            if(player == playerInfos[4])
+                other.transform.parent = _playerPerent;
         }
     }
 }

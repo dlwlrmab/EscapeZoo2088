@@ -82,6 +82,7 @@ public class RoundObj : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D other)
     {
+        return;
         if (_isPlayerTake == false)
             return;
 
@@ -100,6 +101,7 @@ public class RoundObj : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        return;
         if (_isPlayerTake == false)
             return;
 
