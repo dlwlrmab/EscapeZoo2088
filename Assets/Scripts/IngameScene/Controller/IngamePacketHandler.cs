@@ -21,7 +21,7 @@ public class IngamePacketHandler : MonoBehaviour
         IngameProcotol res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "EnterGame", (responseString) =>
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "EnterIngame", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
             RecvEnterGame(res);
