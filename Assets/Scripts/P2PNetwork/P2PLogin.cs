@@ -33,7 +33,7 @@ public class P2PLogin : MonoBehaviour
 
             var client = NetClientGlobal.Instance.Client;
 
-            var result = await client.ConnectAsync(GlobalData.Port ,TimeSpan.FromSeconds(10));
+            var result = await client.ConnectAsync(12000 ,TimeSpan.FromSeconds(10));
 
             if (result == true)
             {

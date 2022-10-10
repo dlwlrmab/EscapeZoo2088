@@ -8,7 +8,6 @@ public class Player : MonoBehaviour
     private PlayerInfo _info;
     public PlayerInfo Info { get; }
 
-    public bool IsMine { get { return _info.Id == GlobalData.myId; } }
     public bool HasKey { get { return transform.Find("Key") != null; } }
 
     void Start()

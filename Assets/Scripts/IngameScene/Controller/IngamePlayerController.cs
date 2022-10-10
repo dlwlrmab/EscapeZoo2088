@@ -15,7 +15,6 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     {
         P2PInGameManager.Instance.CreateMyPlayer();
 
-        _isCreateComplete = true;
     }
 
     public void LoadRound()
@@ -41,20 +40,16 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public void AddPlayer(Player p)
     {
         _playerList.Add(p);
+
+        if(_playerList.Count == 5)
+            _isCreateComplete = true;
+
     }
 
     public void RemovePlayer(Player p)
     {
         if (_playerList.Contains(p))
             _playerList.Remove(p);
-    }
-
-    public Player GetMyPlayer()
-    {
-        foreach (Player player in _playerList)
-            if (player.IsMine)
-                return player;
-        return null;
     }
 
     public List<Player> GetPlayerList()

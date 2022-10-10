@@ -17,10 +17,7 @@ public class RoundObjClear : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Player"))
         {
             other.gameObject.SetActive(false);
-
-            Player player = other.GetComponent<Player>();
-            if (player.IsMine)
-                _round.SendClearRound();
+            _round.SendClearRound();
         }
     }
 }

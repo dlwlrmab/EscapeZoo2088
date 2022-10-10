@@ -6,13 +6,6 @@ using UnityEngine;
 
 public class IngamePacketHandler : MonoBehaviour
 {
-    private IngameScene _ingameScene;
-
-    private void Start()
-    {
-        _ingameScene = IngameScene.Instance;
-    }
-
     #region Send
 
     public void SendEnterGame()
@@ -20,12 +13,7 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
-        string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "EnterIngame", (responseString) =>
-        {
-            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
-            RecvEnterGame(res);
-        }));
+        RecvEnterGame(res);
     }
 
     public void SendStartRound()
@@ -39,12 +27,7 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
-        string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
-        {
-            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
-            RecvStartRound(res);
-        }));
+        RecvStartRound(res);
     }
 
     public void SendRestartRound()
@@ -52,12 +35,7 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
-        string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "RestartGame", (responseString) =>
-        {
-            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
-            RecvRestartRound(res);
-        }));
+        RecvRestartRound(res);
     }
 
     public void SendLastRound()
@@ -65,25 +43,7 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
-        string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "LastRound", (responseString) =>
-        {
-            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
-            RecvLastRound(res);
-        }));
-    }
-
-    public void SendMatchResult()
-    {
-        var req = new IngameProcotol();
-        IngameProcotol res = null;
-
-        string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
-        {
-            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
-            RecvMatchResult(res);
-        }));
+        RecvLastRound(res);
     }
 
     #endregion
@@ -92,61 +52,37 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void RecvEnterGame(IngameProcotol res)
     {
-        if (res.ResponseType == ResponseType.Success)
-        {
-            GlobalData.playerInfos = res.playerInfos;
-            _ingameScene.EnterGame();
-        }
-        else
-            Debug.LogAssertion($"ResEnterGame.ResponseType != Success");
+        GlobalData.roundList = new List<int>() { 2, 4, 5, 1, 0, 3 };
+        GlobalData.roundIndex = -1;
+
+        GlobalData.playerInfos = new List<PlayerInfo>() { 
+            new PlayerInfo {  Id = "1", animal = 2, MBTI="ISFJ"},
+            new PlayerInfo { Id = "2", animal = 5, MBTI = "ISTJ" }, 
+            new PlayerInfo { Id = "3", animal = 7, MBTI = "ENFP" },
+            new PlayerInfo { Id = "4", animal = 9, MBTI = "INFJ" }, 
+            new PlayerInfo { Id = "5", animal = 11, MBTI = "INFJ" } };
+
+        IngameScene.Instance.EnterGame();
     }
 
     public void RecvStartRound(IngameProcotol res)
     {
-        if (res.ResponseType == ResponseType.Success)
-        {
-            GlobalData.roundIndex = res.currentRoundNum - 1;
-            GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
-            GlobalData.sunriseTime = res.sunriseTime;
-            _ingameScene.LoadRound();
-        }
-        else
-            Debug.LogAssertion($"ResStartGame.ResponseType != Success");
+        GlobalData.roundIndex += 1;
+        GlobalData.enemyRoundIndex += Mathf.Min(Random.Range(0,1), GlobalData.roundMax);
+        GlobalData.sunriseTime = 5;
+        IngameScene.Instance.LoadRound();
     }
 
     public void RecvRestartRound(IngameProcotol res)
     {
-        if (res.ResponseType == ResponseType.Success)
-        {
-            GlobalData.roundIndex = res.currentRoundNum - 1;
-            GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
-            GlobalData.sunriseTime = res.sunriseTime;
-            _ingameScene.StartRound();
-        }
-        else
-            Debug.LogAssertion($"ResReStartGame.ResponseType != Success");
+        GlobalData.enemyRoundIndex += Mathf.Min(Random.Range(0, 1), GlobalData.roundMax);
+        IngameScene.Instance.StartRound();
     }
 
     public void RecvLastRound(IngameProcotol res)
     {
-        if (res.ResponseType == ResponseType.Success)
-        {
-            GlobalData.isWinner = res.isWinner;
-            _ingameScene.ClearGame();
-            SendMatchResult();
-        }
-        else
-            Debug.LogAssertion($"ResLastRound.ResponseType != Success");
-    }
-
-    public void RecvMatchResult(IngameProcotol res)
-    {
-        if (res.ResponseType == ResponseType.Success)
-        {
-            GlobalData.myScore = res.score;
-        }
-        else
-            Debug.LogAssertion($"ResMatchResult.ResponseType != Success");
+        GlobalData.isWinner = GlobalData.roundIndex >= GlobalData.enemyRoundIndex;
+        IngameScene.Instance.ClearGame();
     }
 
     #endregion

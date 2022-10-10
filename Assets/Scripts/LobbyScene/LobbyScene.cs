@@ -138,7 +138,8 @@ public class LobbyScene : MonoBehaviour
         }
         else
         {
-            ShowNotiPopup("매칭을 취소하였습니다.");
+            PlayGame();
+            //ShowNotiPopup("매칭을 취소하였습니다.");
             _stopmatching = false; 
         }
         

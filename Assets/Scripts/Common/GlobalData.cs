@@ -31,7 +31,7 @@ public class GlobalData : MonoBehaviour
     public static List<PlayerInfo> playerInfos = null;
     public static List<int> roundList = null;
     public static int roundIndex = -1;
-    public static int enemyRoundIndex = 1;
+    public static int enemyRoundIndex = 0;
     public static bool isWinner = false;
     public static int sunriseTime = 0;
     public static int roundMax = 7;  // 클라 결정 : 총 라운드 수

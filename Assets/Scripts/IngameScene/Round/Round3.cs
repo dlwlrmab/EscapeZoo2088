@@ -28,8 +28,7 @@ public class Round3 : Round
 
     public override void SendClearRound()
     {
-        if (_playerController.GetMyPlayer().HasKey)
-            base.SendClearRound();
+        base.SendClearRound();
     }
 
     #endregion

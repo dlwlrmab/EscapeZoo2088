@@ -53,11 +53,15 @@ public class Round : MonoBehaviour
         SetPlayerJumpHeight(0);
     }
 
+    public int clearPlayerCount = 0;
+
     public virtual void SendClearRound()
     {
         Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 
-        IngameScene.Instance.PacketHandler.SendStartRound();
+        clearPlayerCount++;
+        if (clearPlayerCount == 5)
+            IngameScene.Instance.PacketHandler.SendStartRound();
     }
 
     public void SendReStartRound()
