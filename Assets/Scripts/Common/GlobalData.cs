@@ -34,7 +34,7 @@ public class GlobalData : MonoBehaviour
     public static int enemyRoundIndex = 0;
     public static bool isWinner = false;
     public static int sunriseTime = 0;
-    public static int roundMax = 7;  // 클라 결정 : 총 라운드 수
+    public static int roundMax = 2;  // 클라 결정 : 총 라운드 수
     public static int teamUserCount = 2; // 클라 결정 : 팀당 인원 수
 }
 

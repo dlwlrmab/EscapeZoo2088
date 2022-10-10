@@ -45,7 +45,7 @@ public class RoundObjMovingwork : MonoBehaviour
             List<Player> playerInfos =  IngameScene.Instance.PlayerController.GetPlayerList();
             Player player  = other.GetComponent<Player>();
 
-            if(player == playerInfos[4])
+            if(player == playerInfos[1])
                 other.transform.parent = _autoMove; 
         }
     }
@@ -58,7 +58,7 @@ public class RoundObjMovingwork : MonoBehaviour
             List<Player> playerInfos = IngameScene.Instance.PlayerController.GetPlayerList();
             Player player = other.GetComponent<Player>();
 
-            if (player == playerInfos[4])
+            if (player == playerInfos[1])
                 other.transform.parent = _playerPerent;
         }
     }
