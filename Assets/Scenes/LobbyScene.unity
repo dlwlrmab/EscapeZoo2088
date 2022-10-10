@@ -5460,7 +5460,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDontDestroyOnLoad: 1
   LogLevel: 3
-  ServerAddress: 127.0.0.1
+  ServerAddress: 220.94.171.122
   TcpServerPort: 12000
   IsCheckAlive: 0
   CheckAliveInterval: 30000
