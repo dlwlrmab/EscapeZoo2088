@@ -528,7 +528,7 @@ MonoBehaviour:
   _explanation: "\uD574\uAC00 \uB730 \uB54C\uB9CC \uC6C0\uC9C1\uC5EC \uC131\uC5D0
     \uB3C4\uCC29\uD558\uB77C!"
   _roundType: 0
-  _appearObj: {fileID: 0}
+  clearPlayerCount: 0
   _sun: {fileID: 2669841475697747966}
   _deads: {fileID: 9032202889373917158}
   _clear: {fileID: 5498283885775159447}
@@ -2568,7 +2568,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4597295416021074015}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.64, y: -4.27, z: 0}
+  m_LocalPosition: {x: -5.92, y: -4.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 123002712415643995}
