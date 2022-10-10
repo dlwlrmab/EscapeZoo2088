@@ -11,27 +11,28 @@ using EnumDef;
 public class GlobalData : MonoBehaviour
 {
     public static string GatewayAPI = "https://opupgoihqd.execute-api.ap-northeast-2.amazonaws.com/test/";
+    public static string TargetServer = "Dev";
+
     public static string GameSessionId = string.Empty;
     public static string PlayerSessionId = string.Empty;
     public static int Port = 0;
-    public static string TargetServer = "Dev";
 
     public static bool isGogame = false;
 
     // 내 정보
     public static string myId = string.Empty;
     public static string myMBTI = string.Empty;
-    public static string myTeamName = string.Empty;
-    public static int myScore = 0;
     public static ANIMAL myAnimal = ANIMAL.NONE;
+    public static int myScore = 0;
+    public static string myTeamName = string.Empty;
 
     // 인게임
     public static MAP map = MAP.NONE;
     public static List<PlayerInfo> playerInfos = null;
     public static List<int> roundList = null;
     public static int roundIndex = -1;
-    public static bool isWinner = false;
     public static int enemyRoundIndex = 1;
+    public static bool isWinner = false;
     public static int sunriseTime = 0;
     public static int roundMax = 7;  // 클라 결정 : 총 라운드 수
     public static int teamUserCount = 5; // 클라 결정 : 팀당 인원 수

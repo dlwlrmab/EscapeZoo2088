@@ -46,7 +46,7 @@ namespace CommonProtocol
             teamName = GlobalData.myTeamName;
             teamUserCount = GlobalData.teamUserCount;
 
-            preRoundNum = GlobalData.roundIndex + 1;
+            preRoundNum = GlobalData.roundIndex;
             endRoundNum = GlobalData.roundMax;
             currentRoundNum = GlobalData.roundIndex + 1;
             isWinner = GlobalData.isWinner;
