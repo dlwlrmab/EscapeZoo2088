@@ -314,7 +314,7 @@ public class LobbyScene : MonoBehaviour
         CancelInvoke("InvokeClosePopupNoti");
         _popupNoti.SetActive(true);
         _popupNotiText.text = msg;
-        Debug.LogAssertion(msg);
+        Debug.Log(msg);
 
         if (close)
             Invoke("InvokeClosePopupNoti", 3f);
