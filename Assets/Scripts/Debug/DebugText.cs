@@ -16,12 +16,12 @@ public class DebugText : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        debugText.text = "";
-        foreach(var p in players)
-        {
-            debugText.text += p.name + ": " + p.gameObject.transform.localPosition+ "\n";
-        }
-    }
+    //void Update()
+    //{
+    //    debugText.text = "";
+    //    foreach(var p in players)
+    //    {
+    //        debugText.text += p.name + ": " + p.gameObject.transform.localPosition+ "\n";
+    //    }
+    //}
 }
