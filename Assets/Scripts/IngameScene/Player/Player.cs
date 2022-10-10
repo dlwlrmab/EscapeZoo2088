@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using EnumDef;
+using System;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IComparable
 {
     private PlayerInfo _info;
     public PlayerInfo Info { get; }
@@ -29,5 +30,12 @@ public class Player : MonoBehaviour
     void OnDestroy()
     {
         IngamePlayerController.Instance?.RemovePlayer(this);
+    }
+
+    public int CompareTo(object obj)
+    {
+        var player = obj as Player;
+        // 플레이어 이름순으로 정렬
+        return String.Compare(this.name, player.name);
     }
 }

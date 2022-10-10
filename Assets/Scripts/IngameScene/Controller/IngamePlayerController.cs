@@ -27,6 +27,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void LoadRound()
     {
+        _playerList.Sort();
         Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
         for (int i = 0; i < _playerList.Count; ++i)
         {
