@@ -60,7 +60,7 @@ public class Round : MonoBehaviour
         Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 
         clearPlayerCount++;
-        if (clearPlayerCount == 5)
+        if (clearPlayerCount == 2)
             IngameScene.Instance.PacketHandler.SendStartRound();
     }
 

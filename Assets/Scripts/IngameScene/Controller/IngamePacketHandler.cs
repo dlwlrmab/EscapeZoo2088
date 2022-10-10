@@ -56,11 +56,8 @@ public class IngamePacketHandler : MonoBehaviour
         GlobalData.roundIndex = -1;
 
         GlobalData.playerInfos = new List<PlayerInfo>() { 
-            new PlayerInfo {  Id = "1", animal = 2, MBTI="ISFJ"},
-            new PlayerInfo { Id = "2", animal = 5, MBTI = "ISTJ" }, 
-            new PlayerInfo { Id = "3", animal = 7, MBTI = "ENFP" },
-            new PlayerInfo { Id = "4", animal = 9, MBTI = "INFJ" }, 
-            new PlayerInfo { Id = "5", animal = 11, MBTI = "INFJ" } };
+            new PlayerInfo {  Id = "1", animal = 7, MBTI="ISFJ"},
+            new PlayerInfo { Id = "2", animal = 9, MBTI = "ISTJ" }};
 
         IngameScene.Instance.EnterGame();
     }
