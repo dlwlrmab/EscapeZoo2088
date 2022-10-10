@@ -35,7 +35,7 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
-        RecvRestartRound(res);
+        Invoke("RecvRestartRound", 0.1f);
     }
 
     public void SendLastRound()
@@ -73,7 +73,7 @@ public class IngamePacketHandler : MonoBehaviour
         IngameScene.Instance.LoadRound();
     }
 
-    public void RecvRestartRound(IngameProcotol res)
+    public void RecvRestartRound()
     {
         GlobalData.enemyRoundIndex += Mathf.Min(Random.Range(0, 1), GlobalData.roundMax);
         IngameScene.Instance.StartRound();
