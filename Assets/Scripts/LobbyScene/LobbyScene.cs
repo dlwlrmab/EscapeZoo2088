@@ -153,7 +153,6 @@ public class LobbyScene : MonoBehaviour
         GlobalData.PlayerSessionId = res.PlayerSessionId;
         GlobalData.Port = res.Port;
         GlobalData.myTeamName = res.TeamName;
-        GlobalData.playerInfos = res.playerInfos;
         GlobalData.roundList = res.roundList;
 
         GameManager.Instance.IsTryMatching = true;

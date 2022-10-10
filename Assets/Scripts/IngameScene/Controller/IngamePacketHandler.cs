@@ -89,8 +89,6 @@ public class IngamePacketHandler : MonoBehaviour
             res = JsonConvert.DeserializeObject<ResLastRound>(responseString);
             RecvLastRound(res);
         }));
-
-        SendMatchResult();
     }
 
     public void SendMatchResult()
@@ -156,6 +154,7 @@ public class IngamePacketHandler : MonoBehaviour
         {
             GlobalData.isWinner = true;
             _ingameScene.ClearGame();
+            SendMatchResult();
         }
         else
             Debug.LogAssertion($"ResLastRound.ResponseType != Success");
