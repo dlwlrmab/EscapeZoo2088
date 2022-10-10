@@ -25,12 +25,22 @@ public class IngameEndingController : MonoBehaviour
         _ending.SetActive(true);
         _endingNotice.text = GlobalData.isWinner ? "VICTORY" : "DEFEAT";
 
-        List<PlayerInfo> playerInfos = GlobalData.playerInfos;
         for (int i = 0; i < _players.Length; ++i)
         {
-            Sprite sprite = GetSprite((EnumDef.ANIMAL)playerInfos[i].animal);
+            _mbtiImage[i].gameObject.SetActive(false);
+            _players[i].gameObject.SetActive(false);
+        }
+
+        List<PlayerInfo> playerInfos = GlobalData.playerInfos;
+        for (int i = 0; i < playerInfos.Count; ++i)
+        {
+            Sprite sprite = GetSprite((ANIMAL)playerInfos[i].animal);
+
             _mbtiText[i].text = playerInfos[i].MBTI;
+            _mbtiImage[i].gameObject.SetActive(true);
             _mbtiImage[i].sprite = sprite;
+
+            _players[i].gameObject.SetActive(true);
             _players[i].sprite = sprite;
         }
     }
