@@ -152,7 +152,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.isWinner = true;
+            GlobalData.isWinner = res.isWinner;
             _ingameScene.ClearGame();
             SendMatchResult();
         }
