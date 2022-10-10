@@ -37,6 +37,14 @@ namespace CommonProtocol
         public List<string> ticketIds = new List<string>();
     }
 
+    public class ReqEnterGame : IngameProcotol
+    {
+        public ReqEnterGame() : base()
+        {
+
+        }
+    }
+
     public class ReqStartGame : IngameProcotol
     {
         public int preRoundNum;
@@ -57,6 +65,10 @@ namespace CommonProtocol
         {
 
         }
+    }
+
+    public class ReqLastRound : IngameProcotol
+    {
     }
 
     public class ReqMatchResult : CBaseProtocol

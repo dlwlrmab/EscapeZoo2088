@@ -56,9 +56,14 @@ public class IngameScene : MonoBehaviour
     private void InitGame()
     {
         _state = INGAME_STATE.LOADING;
+        _packetHandler.SendEnterGame();
         _mapController.CreateMapAndRound();
-        _playerController.CreatePlayer();
         _loadingController.LoadStartLoading();
+    }
+
+    public void EnterGame()
+    {
+        _playerController.CreatePlayer();
     }
 
     public void CompleteStartLoading()
@@ -75,7 +80,7 @@ public class IngameScene : MonoBehaviour
             yield return null;
         }
 
-        _packetHandler.SendInitGameComplete();
+        _packetHandler.SendStartRound();
     }
 
     #endregion

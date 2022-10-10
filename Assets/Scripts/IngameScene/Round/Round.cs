@@ -57,7 +57,7 @@ public class Round : MonoBehaviour
     {
         Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 
-        IngameScene.Instance.PacketHandler.SendClearRound();
+        IngameScene.Instance.PacketHandler.SendStartRound();
     }
 
     public void SendReStartRound()

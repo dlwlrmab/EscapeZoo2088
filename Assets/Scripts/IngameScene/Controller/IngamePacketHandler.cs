@@ -15,8 +15,30 @@ public class IngamePacketHandler : MonoBehaviour
 
     #region Send
 
-    public void SendInitGameComplete()
+    public void SendEnterGame()
     {
+        var req = new ReqEnterGame
+        {
+        };
+
+        ResEnterGame res = null;
+
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "EnterGame", (responseString) =>
+        {
+            res = JsonConvert.DeserializeObject<ResEnterGame>(responseString);
+            RecvEnterGame(res);
+        }));
+    }
+
+    public void SendStartRound()
+    {
+        if(GlobalData.roundIndex == GlobalData.roundMax)
+        {
+            SendLastRound();
+            return;
+        }
+
         var req = new ReqStartGame
         {
             preRoundNum = ++GlobalData.roundIndex,
@@ -53,7 +75,25 @@ public class IngamePacketHandler : MonoBehaviour
         }));
     }
 
-    public void SendClearRound()
+    public void SendLastRound()
+    {
+        var req = new ReqLastRound
+        {
+        };
+
+        ResLastRound res = null;
+
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "LastRound", (responseString) =>
+        {
+            res = JsonConvert.DeserializeObject<ResLastRound>(responseString);
+            RecvLastRound(res);
+        }));
+
+        SendMatchResult();
+    }
+
+    public void SendMatchResult()
     {
         var req = new ReqMatchResult
         {
@@ -66,13 +106,24 @@ public class IngamePacketHandler : MonoBehaviour
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchRequest", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<ResMatchResult>(responseString);
-            RecvClearGame(res);
+            RecvMatchResult(res);
         }));
     }
 
     #endregion
 
     #region Recv
+
+    public void RecvEnterGame(ResEnterGame res)
+    {
+        if (res.ResponseType == ResponseType.Success)
+        {
+            GlobalData.playerInfos = res.playerInfos;
+            _ingameScene.EnterGame();
+        }
+        else
+            Debug.LogAssertion($"ResEnterGame.ResponseType != Success");
+    }
 
     public void RecvStartRound(ResStartGame res)
     {
@@ -97,16 +148,24 @@ public class IngamePacketHandler : MonoBehaviour
         }
         else
             Debug.LogAssertion($"ResReStartGame.ResponseType != Success");
-
     }
 
-    public void RecvClearGame(ResMatchResult res)
+    public void RecvLastRound(ResLastRound res)
     {
         if (res.ResponseType == ResponseType.Success)
         {
             GlobalData.isWinner = true;
-            GlobalData.myScore = res.score;
             _ingameScene.ClearGame();
+        }
+        else
+            Debug.LogAssertion($"ResLastRound.ResponseType != Success");
+    }
+
+    public void RecvMatchResult(ResMatchResult res)
+    {
+        if (res.ResponseType == ResponseType.Success)
+        {
+            GlobalData.myScore = res.score;
         }
         else
             Debug.LogAssertion($"ResMatchResult.ResponseType != Success");

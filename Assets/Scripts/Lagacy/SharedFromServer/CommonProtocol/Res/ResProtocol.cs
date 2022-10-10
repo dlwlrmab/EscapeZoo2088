@@ -32,8 +32,12 @@
         public string GameSessionId; 
         public int Port;
         public string TeamName;
-        public List<PlayerInfo> playerInfos = null;
         public List<int> roundList;
+    }
+
+    public class ResEnterGame : IngameProcotol
+    {
+        public List<PlayerInfo> playerInfos = null;
     }
 
     public class ResStartGame : IngameProcotol
@@ -48,9 +52,13 @@
 
     }
 
-    public class ResMatchResult : CBaseProtocol
+    public class ResLastRound : IngameProcotol
     {
         public bool isWinner;
+    }
+
+    public class ResMatchResult : CBaseProtocol
+    {
         public int score;
     }
 }

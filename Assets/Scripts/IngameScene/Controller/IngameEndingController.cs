@@ -10,7 +10,6 @@ public class IngameEndingController : MonoBehaviour
     [SerializeField] Text _endingNotice;
     [SerializeField] Text[] _mbtiText;
     [SerializeField] Image[] _mbtiImage;
-    [SerializeField] Text _endingScore;
     [SerializeField] SpriteRenderer[] _players;
 
     private Sprite[] _animalSprites;
@@ -25,7 +24,6 @@ public class IngameEndingController : MonoBehaviour
     {
         _ending.SetActive(true);
         _endingNotice.text = GlobalData.isWinner ? "VICTORY" : "DEFEAT";
-        _endingScore.text = "FINAL SCORE : " + GlobalData.myScore;
 
         List<PlayerInfo> playerInfos = GlobalData.playerInfos;
         for (int i = 0; i < _players.Length; ++i)
