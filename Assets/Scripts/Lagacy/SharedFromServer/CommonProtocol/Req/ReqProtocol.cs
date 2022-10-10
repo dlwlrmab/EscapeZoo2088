@@ -37,45 +37,6 @@ namespace CommonProtocol
         public List<string> ticketIds = new List<string>();
     }
 
-    public class ReqEnterGame : IngameProcotol
-    {
-        public ReqEnterGame() : base()
-        {
-
-        }
-    }
-
-    public class ReqStartGame : IngameProcotol
-    {
-        public int preRoundNum;
-        public int endRoundNum;
-        public int teamUserCount;
-
-        public ReqStartGame() : base()
-        {
-
-        }
-    }
-
-    public class ReqReStartGame : ReqStartGame
-    {
-        public int currentRoundNum;
-
-        public ReqReStartGame() : base()
-        {
-
-        }
-    }
-
-    public class ReqLastRound : IngameProcotol
-    {
-    }
-
-    public class ReqMatchResult : CBaseProtocol
-    {
-        public bool isWinner;
-    }
-
     [MessagePackObject]
     public class ProtoBattleEnter : BaseProtocol
     {

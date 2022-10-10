@@ -34,31 +34,4 @@
         public string TeamName;
         public List<int> roundList;
     }
-
-    public class ResEnterGame : IngameProcotol
-    {
-        public List<PlayerInfo> playerInfos = null;
-    }
-
-    public class ResStartGame : IngameProcotol
-    {
-        public int currentRoundNum;
-        public int enemyRoundIndex;
-        public int sunriseTime;
-    }
-
-    public class ResReStartGame : ResStartGame
-    {
-
-    }
-
-    public class ResLastRound : IngameProcotol
-    {
-        public bool isWinner;
-    }
-
-    public class ResMatchResult : CBaseProtocol
-    {
-        public int score;
-    }
 }
