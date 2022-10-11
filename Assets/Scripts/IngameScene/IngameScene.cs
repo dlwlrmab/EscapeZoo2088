@@ -116,19 +116,15 @@ public class IngameScene : MonoBehaviour
         _endingController.LoadEnding();
     }
 
-    public void MoveLobbyScene()
-    {
-        State = INGAME_STATE.LOADING;
-        _scenemanager.PlayFadeout(null, "LobbyScene");
-    }
-
-    public void DisConnectServer()
+    public void DisConnectP2PServer()
     {
         // disconnect 콜백
         NetClientGlobal.Instance.Client.OnClosed = () =>
         {
             Debug.LogWarning("P2P Server Disconnect");
-            MoveLobbyScene();
+
+            State = INGAME_STATE.LOADING;
+            _scenemanager.PlayFadeout(null, "LobbyScene");
         };
 
         NetClientGlobal.Instance.Client.Disconnect(); // p2p 서버 disconnect   

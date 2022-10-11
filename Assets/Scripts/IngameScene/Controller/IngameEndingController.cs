@@ -55,6 +55,6 @@ public class IngameEndingController : MonoBehaviour
 
     public void OnClickLobby()
     {
-        IngameScene.Instance.MoveLobbyScene();
+        IngameScene.Instance.PacketHandler.SendExitGame();
     }
 }

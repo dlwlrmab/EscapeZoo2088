@@ -60,4 +60,9 @@ public class IngameUIController : MonoBehaviour
 
         _retryText.text = _retryCount + "번째 도전 중...";
     }
+
+    public void OnClickLobby()
+    {
+        IngameScene.Instance.PacketHandler.SendExitGame();
+    }
 }

@@ -31,7 +31,7 @@ public class TestManager : Singleton<TestManager>
         {
             if (IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
             {
-                IngameScene.Instance.DisConnectServer();
+                IngameScene.Instance.DisConnectP2PServer();
             }
         }
     }

@@ -60,10 +60,19 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
     async void SendLambdaReqAsync(string str, string type)
     {
-        responseString = await webClient.UploadStringTaskAsync(new Uri(GlobalData.GatewayAPI + type), "POST", str);
+        try
+        {
+            responseString = await webClient.UploadStringTaskAsync(new Uri(GlobalData.GatewayAPI + type), "POST", str);
+        }
+        catch(WebException e)
+        {
+        }
+        finally
+        {
 
-        Debug.Log($"[Res] json {type} : {responseString}");
-        _callback?.Invoke(responseString);
+            Debug.Log($"[Res] json {type} : {responseString}");
+            _callback?.Invoke(responseString);
+        }
 
         if (_loadingMark)
             SceneLoadManager.Instance.SetLoading(false);

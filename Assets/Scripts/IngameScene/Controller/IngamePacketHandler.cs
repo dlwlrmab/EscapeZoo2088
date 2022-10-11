@@ -85,6 +85,18 @@ public class IngamePacketHandler : MonoBehaviour
             RecvMatchResult(res);
         }));
     }
+    public void SendExitGame()
+    {
+        var req = new IngameProcotol();
+        IngameProcotol res = null;
+
+        string jsondata = JsonConvert.SerializeObject(req);
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "ExitGame", (responseString) =>
+        {
+            res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
+            RecvExitGame(res);
+        }));
+    }
 
     #endregion
 
@@ -149,5 +161,18 @@ public class IngamePacketHandler : MonoBehaviour
             Debug.LogAssertion($"ResMatchResult.ResponseType != Success");
     }
 
+    public void RecvExitGame(IngameProcotol res)
+    {
+        if (res.ResponseType == ResponseType.Success)
+        {
+            Debug.LogWarning("Lambda Server Disconnect");
+            _ingameScene.DisConnectP2PServer();
+        }
+        else
+            Debug.LogAssertion($"ResExitGame.ResponseType != Success");
+    }
+
     #endregion
+
+
 }
