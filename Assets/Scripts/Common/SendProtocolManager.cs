@@ -4,6 +4,7 @@ using System.Net;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class SendProtocolManager : Singleton<SendProtocolManager>
 {
@@ -12,6 +13,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
     byte[] responseBytes;
 
     bool _loadingMark = false;
+    Action<string> _callback = null;
 
     protected override void Awake()
     {
@@ -31,19 +33,35 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         if (_loadingMark)
             SceneLoadManager.Instance.SetLoading(true);
 
-        yield return StartCoroutine(CoWaitLambdaRes(str,type));
+        _callback = a;
 
-        a?.Invoke(responseString);
+        SendLambdaReqAsync(str,type);
+        //yield return StartCoroutine(CoWaitLambdaRes(str,type));
 
-        if(_loadingMark)
-            SceneLoadManager.Instance.SetLoading(false);
+        //a?.Invoke(responseString);
+
+        //if(_loadingMark)
+        //    SceneLoadManager.Instance.SetLoading(false);
 
         yield return null;
+    }
+
+    async void SendLambdaReqAsync(string str, string type)
+    {
+        responseString = await webClient.UploadStringTaskAsync(new Uri(GlobalData.GatewayAPI + type), "POST", str);
+
+        Debug.Log($"[Res] json {type} : {responseString}");
+        _callback?.Invoke(responseString);
+
+        if (_loadingMark)
+            SceneLoadManager.Instance.SetLoading(false);
     }
 
     IEnumerator CoWaitLambdaRes(string str, string type)
     {
         responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
+        //webClient.UploadStringAsync(new Uri(GlobalData.GatewayAPI + type), "POST", str);
+        //webClient.UploadStringCompleted += new UploadStringCompletedEventHandler(UploadStringCallback2);
         Debug.Log($"[Res] json {type} : {responseString}");
 
         yield return null;

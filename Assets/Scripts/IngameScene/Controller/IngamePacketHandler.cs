@@ -28,7 +28,7 @@ public class IngamePacketHandler : MonoBehaviour
         }));
     }
 
-    public void SendStartRound()
+    public void SendStartRound(bool clearRound = false)
     {
         if (GlobalData.roundIndex + 1 == GlobalData.roundMax)
         {
@@ -44,7 +44,7 @@ public class IngamePacketHandler : MonoBehaviour
         {
             res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
             RecvStartRound(res);
-        }));
+        }, !clearRound));
     }
 
     public void SendRestartRound()
