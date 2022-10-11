@@ -6,34 +6,31 @@ using System;
 
 public class RoundObjButton : MonoBehaviour
 {
-    [SerializeField] protected RoundObjDead _linkeDeadObj; // 버튼을 눌렀을때 영향을 받는 obj
-    [SerializeField] protected GameObject _linkedAppearObj; // 버튼을 눌렀을때 나타나는 obj
+    [SerializeField] protected RoundObjDead _linkeDeadObj; // 버튼을 눌렀을 때 없어지는 죽음 오브젝트
+    [SerializeField] protected GameObject _linkedAppearObj; // 버튼을 눌렀을 때 나타나는 오브젝트
 
-    protected Action _action; // 버튼을 눌렀을때 진행될 동작 
+    protected Action _action;
 
     public virtual void StartRound()
     {
         gameObject.SetActive(true);
         if (_linkeDeadObj != null)
             _linkeDeadObj.gameObject.SetActive(true);
+        if (_linkedAppearObj != null)
+            _linkedAppearObj.gameObject.SetActive(false);
 
         SetAction();
-    }
-
-    public void LoadRound(Round round)
-    {
-        if (_linkeDeadObj != null)
-            _linkeDeadObj.LoadRound(round);
     }
 
     protected virtual void SetAction()
     {
         _action = () =>
         {
-            if (_linkedAppearObj != null)
-                _linkedAppearObj.SetActive(true);
-
             gameObject.SetActive(false);
+            if (_linkeDeadObj != null)
+                _linkeDeadObj.gameObject.SetActive(false);
+            if (_linkedAppearObj != null)
+                _linkedAppearObj.gameObject.SetActive(true);
         };
     }
 
@@ -42,10 +39,7 @@ public class RoundObjButton : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            if ((_linkeDeadObj != null || _linkedAppearObj != null) && gameObject.activeSelf)
-            {
-                _action?.Invoke();
-            }
+            _action?.Invoke();
         }
     }
 }

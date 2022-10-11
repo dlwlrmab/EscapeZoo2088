@@ -6,13 +6,11 @@ public class Round3 : Round
 {
     [Header("Round 3")]
     [Space(10)]
-    [SerializeField] RoundObjButton[] _fireButtons;
-    [SerializeField] RoundObjButton[] _ballButtons;
-    [SerializeField] Transform _balls;
+    [SerializeField] RoundObjButton[] _buttons;
     [SerializeField] Transform _deads;
     [SerializeField] RoundObjClear _clear;
 
-    RoundObjDead[] _roundDeads;
+    RoundObj[] _roundObjs;
 
     #region Base Round
 
@@ -20,13 +18,10 @@ public class Round3 : Round
     {
         base.LoadRound();
 
-        for (int i = 0; i < _fireButtons.Length; i++)
-            _fireButtons[i].LoadRound(this);
-        for (int i = 0; i < _ballButtons.Length; i++)
-            _ballButtons[i].LoadRound(this);
+        _roundObjs = GetComponentsInChildren<RoundObj>();
 
-        _roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
-        foreach (RoundObjDead child in _roundDeads)
+        RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in roundDeads)
             child.LoadRound(this);
         _clear.LoadRound(this);
     }
@@ -35,18 +30,11 @@ public class Round3 : Round
     {
         base.StartRound();
 
-        for (int i = 0; i < _fireButtons.Length; i++)
-            _fireButtons[i].StartRound();
-        for (int i = 0; i < _ballButtons.Length; i++)
-            _ballButtons[i].StartRound();
-
-        foreach (RoundObjDead child in _roundDeads)
-        {
-            var objCon = child.GetComponent<RoundObj>();
-            if (objCon != null)
-                objCon.StartRound();
-        }
-
-        #endregion
+        for (int i = 0; i < _buttons.Length; i++)
+            _buttons[i].StartRound();
+        for (int i = 0; i < _roundObjs.Length; i++)
+            _roundObjs[i].StartRound();
     }
+
+    #endregion
 }
