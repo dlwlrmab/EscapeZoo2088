@@ -51,6 +51,7 @@ public class Round : MonoBehaviour
 
         PlayerInput._type = _roundType;
         SetPlayerJumpHeight(0);
+        TestManager.Instance.ClearRoundNum = -1;
     }
 
     public virtual void SendClearRound()

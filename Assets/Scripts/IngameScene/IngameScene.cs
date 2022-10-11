@@ -41,7 +41,7 @@ public class IngameScene : MonoBehaviour
 
     SceneLoadManager _scenemanager = null;
 
-    INGAME_STATE _state = INGAME_STATE.LOADING;
+    public INGAME_STATE State { get; private set; } = INGAME_STATE.LOADING;
 
     private void Start()
     {
@@ -55,7 +55,7 @@ public class IngameScene : MonoBehaviour
 
     private void InitGame()
     {
-        _state = INGAME_STATE.LOADING;
+        State = INGAME_STATE.LOADING;
         _packetHandler.SendEnterGame();
         _mapController.CreateMapAndRound();
         _loadingController.LoadStartLoading();
@@ -87,7 +87,7 @@ public class IngameScene : MonoBehaviour
 
     public void LoadRound()
     {
-        _state = INGAME_STATE.PLAYING;
+        State = INGAME_STATE.PLAYING;
         _mapController.LoadRound(); // 라운드 셋팅 먼저
         _playerController.LoadRound();
         _uiController.LoadRound();
@@ -108,7 +108,7 @@ public class IngameScene : MonoBehaviour
 
     public void ClearGame()
     {
-        _state = INGAME_STATE.ENDING;
+        State = INGAME_STATE.ENDING;
         _playerController.ClearGame();
         _uiController.ClearGame();
         _endingController.LoadEnding();

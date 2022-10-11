@@ -25,6 +25,11 @@ namespace CommonProtocol
         
     }
 
+    public class ReqRanking: CBaseProtocol
+    {
+
+    }
+
     public class ReqTryMatch : CBaseProtocol
     {
         public int gameMap;

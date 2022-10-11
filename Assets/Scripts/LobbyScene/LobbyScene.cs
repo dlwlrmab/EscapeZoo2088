@@ -26,6 +26,21 @@ public class LobbyScene : MonoBehaviour
     bool _serverTimeOut = false;
     bool _stopmatching = false;
 
+    #region test
+
+    [SerializeField] Text _userCnt;
+
+    public void SetUsercnt(string usercnt)
+    {
+        if (!string.IsNullOrEmpty(usercnt))
+        {
+            GlobalData.teamUserCount = int.Parse(usercnt);
+            Debug.Log($"user cnt : {GlobalData.teamUserCount}");
+        }
+    }
+
+    #endregion
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !_stopmatching)
@@ -50,7 +65,7 @@ public class LobbyScene : MonoBehaviour
         }
     }
 
-    #region reqServer
+#region reqServer
 
     // 서버로 준비메시지를 보냄(같은팀 인원모으기)
     void ReqTryingMatch()
@@ -209,17 +224,17 @@ public class LobbyScene : MonoBehaviour
 
     }
 
-    #endregion
+#endregion
 
-    #region resServer
+#region resServer
 
     // 배틀서버 연결
     public void ResConnectBattleServer(bool success)
     {
         if (success)
         {
-            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-            Invoke("PlayGame", 1f);
+            //ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
+            //Invoke("PlayGame", 1f);
             return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
@@ -257,9 +272,9 @@ public class LobbyScene : MonoBehaviour
         }
     }
 
-    #endregion
+#endregion
 
-    #region buttonClick
+#region buttonClick
     public void ChoiceMap(GameObject obj)
     {
         if (_exMapButton != null)
@@ -295,7 +310,6 @@ public class LobbyScene : MonoBehaviour
             return;
         }
 
-        // 서버 작업완료이후 수정되어야할 코드들
         ReqTryingMatch();
     }
 
@@ -306,10 +320,9 @@ public class LobbyScene : MonoBehaviour
             ReqMyInfo();
     }
 
+#endregion
 
-    #endregion
-
-    #region popup
+#region popup
 
     void ShowNotiPopup(string msg, bool close = true)
     {
@@ -326,7 +339,7 @@ public class LobbyScene : MonoBehaviour
     {
         _popupNoti.SetActive(false);
     }
-    #endregion
+#endregion
 
     // 플레이어튼 사용하지않고 매칭 성공시 자동시작
     public void PlayGame()
@@ -334,7 +347,7 @@ public class LobbyScene : MonoBehaviour
         _scenemanager.PlayFadeout(null, "IngameScene");
     }
 
-    #region 구현필요?
+#region 구현필요?
 
     public void OnClickExit()
     {
@@ -343,14 +356,14 @@ public class LobbyScene : MonoBehaviour
         _scenemanager.PlayFadeout(null, "LoginScene");
     }
 
-    #region otherPlayer
+#region otherPlayer
     // 다른유저가 로비에서 나간경우
     public void ExitUser()
     {
         // 해당플레이어 프리팹 제거
         // 유저리스트에서 제거
 
-        if (GlobalData.playerInfos.Count < 5)
+        if (GlobalData.playerInfos.Count < GlobalData.teamUserCount)
         {
             _playButton.SetActive(false);
         }
@@ -361,11 +374,52 @@ public class LobbyScene : MonoBehaviour
     {
         // 해당플레이어 프리팹 생성
         // 유저리스트에 추가
-        if (GlobalData.playerInfos.Count == 5)
+        if (GlobalData.playerInfos.Count == GlobalData.teamUserCount)
         {
             _playButton.SetActive(true);
         }
     }
-    #endregion
+#endregion
+#endregion
+
+#region 구현 예정
+
+    [SerializeField] PopupRanking _popupRanking;
+
+    public void OnClickRanking()
+    {
+        if (!_popupRanking.gameObject.activeSelf)
+            ReqRanking();
+    }
+
+    public void ReqRanking()
+    {
+        var req = new ReqRanking
+        {
+            userId = GlobalData.myId,
+        };
+
+        string jsondata = JsonConvert.SerializeObject(req);
+
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "??", (responseString) => {
+            ResMyPageData(responseString);
+        }));
+
+    }
+
+    public void ResRankingData(string responseString)
+    {
+        _popupMyInfo.gameObject.SetActive(true);
+        ResRanking res = JsonConvert.DeserializeObject<ResRanking>(responseString);
+        if (res != null && res.ResponseType == ResponseType.Success)
+        {
+            _popupRanking.SetData(res, true);
+        }
+        else
+        {
+            _popupRanking.SetData(null, false);
+        }
+    }
+
     #endregion
 }

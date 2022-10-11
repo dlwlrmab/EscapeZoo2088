@@ -15,7 +15,7 @@ public class GlobalData : MonoBehaviour
 
     public static string GameSessionId = string.Empty;
     public static string PlayerSessionId = string.Empty;
-    public static int Port = 0;
+    public static int Port = 12000;
 
     public static bool isGogame = false;
 
@@ -28,13 +28,13 @@ public class GlobalData : MonoBehaviour
 
     // 인게임
     public static MAP map = MAP.NONE;
-    public static List<PlayerInfo> playerInfos = null;
-    public static List<int> roundList = null;
+    public static List<PlayerInfo> playerInfos = new List<PlayerInfo>();
+    public static List<int> roundList = new List<int>();
     public static int roundIndex = -1;
     public static int enemyRoundIndex = 1;
     public static bool isWinner = false;
     public static int sunriseTime = 0;
-    public static int roundMax = 7;  // 클라 결정 : 총 라운드 수
+    public static int roundMax = 1;  // 클라 결정 : 총 라운드 수
     public static int teamUserCount = 2; // 클라 결정 : 팀당 인원 수
 }
 

@@ -20,6 +20,13 @@
         public string mbti;
     }
 
+    public class ResRanking : CBaseProtocol
+    {
+        public List<string> teamNameList = new List<string>();
+        public List<List<string>> memberList = new List<List<string>>();
+        public List<int> scoreList = new List<int>();
+    }
+
     public class ResTryMatch : CBaseProtocol
     {
         public string ticketId;
