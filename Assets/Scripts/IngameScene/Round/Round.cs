@@ -49,7 +49,7 @@ public class Round : MonoBehaviour
         Transform[] playerSpawn = _playerSpawn.GetComponentsInChildren<Transform>();
         _playerSpawnPos = new List<Vector3>();
         for (int i = 0; i < GlobalData.teamUserCount; ++i)
-            _playerSpawnPos.Add(playerSpawn[i].position);
+            _playerSpawnPos.Add(playerSpawn[i + 1].position);
     }
 
     public virtual void StartRound()
