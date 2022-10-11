@@ -10,12 +10,6 @@ public class PlayerInput : MonoBehaviour
 
     public static ROUNDTYPE _type;
 
-    // 랜덤 움직임으로 자동 테스트 수행
-    const float DIRCHANGE = 0.5f;
-    float dirChangeTimer = 0.0f;
-    float selectedX = 0f;
-    bool selectedJump = false;
-
     private void Update()
     {
         var actor = P2PInGameManager.Instance.ControlActor;
@@ -31,14 +25,7 @@ public class PlayerInput : MonoBehaviour
                 if (actor.IsGrounded)
                     jump = true;
             }
-            dirChangeTimer += Time.deltaTime;
-            if (dirChangeTimer > DIRCHANGE)
-            {
-                selectedX = Random.Range(-2f, 2f);
-                selectedJump = Random.Range(0, 1) == 1 ? true : false;
-                dirChangeTimer = 0f;
-            }
-            actor.SetMoveVelocity(selectedX, selectedJump);
+            actor.SetMoveVelocity(x, jump);
         }
         else
         {
