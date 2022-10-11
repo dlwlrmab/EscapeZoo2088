@@ -48,12 +48,6 @@ public class Round0 : Round
         StartSun();
     }
 
-    public override void SendClearRound()
-    {
-        if (_playerController.GetMyPlayer().HasKey)
-            base.SendClearRound();
-    }
-
     #endregion
 
     public void StartSun()

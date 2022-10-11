@@ -61,7 +61,7 @@ public class Round : MonoBehaviour
         TestManager.Instance.ClearRoundNum = -1;
     }
 
-    public virtual void SendClearRound()
+    public void SendClearRound()
     {
         Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
 

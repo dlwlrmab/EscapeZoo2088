@@ -26,11 +26,5 @@ public class Round4 : Round
             key.StartRound();
     }
 
-    public override void SendClearRound()
-    {
-        if (_playerController.GetMyPlayer().HasKey)
-            base.SendClearRound();
-    }
-
     #endregion
 }
