@@ -102,21 +102,29 @@ public class LobbyScene : MonoBehaviour
         ShowNotiPopup(Strings.WaitOtherUser, false);
         SceneLoadManager.Instance.SetLoading(true);
 
+        bool recv = true;
+
         while (true)
         {
-            StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchStatus", (responseString) =>
+            if (recv)
             {
-                res = JsonConvert.DeserializeObject<ResMatchStatus>(responseString);
-                // 팀원이 다차면 ResponseType.Success 
-                if (res.ResponseType == ResponseType.Success)
-                    success = true;
-            }, false));
+                recv = false;
+                StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchStatus", (responseString) =>
+                {
+                    res = JsonConvert.DeserializeObject<ResMatchStatus>(responseString);
+                    // 팀원이 다차면 ResponseType.Success 
+                    if (res.ResponseType == ResponseType.Success)
+                        success = true;
 
-            if (success)
-                break;
+                    recv = true;
+                }, false, true));
 
-            if(_stopmatching)
-                break;
+                if (success)
+                    break;
+
+                if (_stopmatching)
+                    break;
+            }
 
             yield return new WaitForSeconds(0.3f);
         }

@@ -23,7 +23,7 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
     #region Lambda
 
-    public IEnumerator CoSendLambdaReq(string str, string type, Action<string> a, bool loadingMark = true)
+    public IEnumerator CoSendLambdaReq(string str, string type, Action<string> a,bool loadingMark = true, bool useCoroutne = false)
     {
         _loadingMark = loadingMark;
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
@@ -35,13 +35,19 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         _callback = a;
 
-        SendLambdaReqAsync(str,type);
-        //yield return StartCoroutine(CoWaitLambdaRes(str,type));
+        if (!useCoroutne)
+        {
+            SendLambdaReqAsync(str, type);
+        }
+        else
+        {
+            yield return StartCoroutine(CoWaitLambdaRes(str, type));
 
-        //a?.Invoke(responseString);
+            a?.Invoke(responseString);
 
-        //if(_loadingMark)
-        //    SceneLoadManager.Instance.SetLoading(false);
+            if (_loadingMark)
+                SceneLoadManager.Instance.SetLoading(false);
+        }
 
         yield return null;
     }
@@ -57,6 +63,8 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
             SceneLoadManager.Instance.SetLoading(false);
     }
 
+    // 연속으로 프로토콜을 많이 전송하는경우 이전응답을 받기전 동일한 프토토콜을 전송해 오류가 발생하는경우가있어,
+    // 코루틴을 사용하여 전송
     IEnumerator CoWaitLambdaRes(string str, string type)
     {
         responseString = webClient.UploadString(new Uri(GlobalData.GatewayAPI) + type, "POST", str);
