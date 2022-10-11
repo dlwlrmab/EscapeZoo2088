@@ -20,12 +20,9 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void LoadRound()
     {
-        Vector3 startPos = IngameScene.Instance.MapController.GetPlayerSpawn();
-        for (int i = 0; i < _playerList.Count; ++i)
-        {
-            _playerList[i].LoadRound(startPos, transform);
-            startPos.x += 0.5f;
-        }
+        List<Vector3> spawn = IngameScene.Instance.MapController.GetPlayerSpawn();
+        for (int i = 0; i < spawn.Count; ++i)
+            _playerList[i].LoadRound(spawn[i], transform);
     }
 
     public void StartRound()

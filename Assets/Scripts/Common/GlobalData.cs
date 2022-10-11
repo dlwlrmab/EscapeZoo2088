@@ -36,6 +36,7 @@ public class GlobalData : MonoBehaviour
     public static int sunriseTime = 0;
     public static int roundMax = 7;  // 클라 결정 : 총 라운드 수
     public static int teamUserCount = 2; // 클라 결정 : 팀당 인원 수
+    public static int teamUserMaxCount = 5; // 고정된 값이며 참조용
 }
 
 public class PlayerInfo
