@@ -8,6 +8,11 @@ public class TestManager : Singleton<TestManager>
 {
     public int ClearRoundNum { get; set; } = -1; // 한라운드당 한번만 클리어 입력받음, 라운드 시작 or 재시작시 초기화(-1)
 
+    public void Init()
+    {
+        ClearRoundNum = -1;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -18,6 +23,15 @@ public class TestManager : Singleton<TestManager>
             {
                 IngameScene.Instance.PacketHandler.SendStartRound(true);
                 ClearRoundNum = GlobalData.roundIndex;
+            }
+        }
+
+        // e키 누르는 경우 로비로 이동
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            //if (IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
+            {
+                IngameScene.Instance.DisConnectServer();
             }
         }
     }

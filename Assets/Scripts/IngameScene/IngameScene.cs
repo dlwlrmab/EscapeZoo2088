@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using EnumDef;
+using EuNet.Unity;
 
 public class IngameScene : MonoBehaviour
 {
@@ -116,6 +117,19 @@ public class IngameScene : MonoBehaviour
 
     public void MoveLobbyScene()
     {
+        State = INGAME_STATE.LOADING;
         _scenemanager.PlayFadeout(null, "LobbyScene");
+    }
+
+    public void DisConnectServer()
+    {
+        // disconnect 콜백
+        NetClientGlobal.Instance.Client.OnClosed = () =>
+        {
+            Debug.LogWarning("P2P Server Disconnect");
+            MoveLobbyScene();
+        };
+
+        NetClientGlobal.Instance.Client.Disconnect(); // p2p 서버 disconnect   
     }
 }

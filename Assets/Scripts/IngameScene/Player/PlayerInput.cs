@@ -8,9 +8,19 @@ public class PlayerInput : MonoBehaviour
     float _jumpHeight = 0f;
     bool _pressJump = false;
 
+    IngameScene _ingameScene;
+
+    private void Awake()
+    {
+        _ingameScene = IngameScene.Instance;
+    }
+
     public static ROUNDTYPE _type;
     private void Update()
     {
+        if (_ingameScene.State == INGAME_STATE.LOADING)
+            return;
+
         var actor = P2PInGameManager.Instance.ControlActor;
 
         if (actor == null)

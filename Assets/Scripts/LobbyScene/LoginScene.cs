@@ -25,6 +25,8 @@ public class LoginScene : MonoBehaviour
     {
         Screen.SetResolution(1280, 720, false);
 
+        TestManager.Instance.Init();
+
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 

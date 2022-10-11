@@ -40,7 +40,7 @@ public class Singleton<T> : MonoBehaviourWrapper where T : MonoBehaviourWrapper
                     {
                         GameObject singleton = new GameObject();
                         _instance = singleton.AddComponent<T>();
-                        //singleton.name = GameManager.Instance.GetStringAppend("(singleton) ", typeof(T).ToString());
+                        singleton.name = typeof(T).ToString();
 
                         if (Application.isPlaying)
                             DontDestroyOnLoad(singleton);
