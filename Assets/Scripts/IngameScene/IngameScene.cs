@@ -49,6 +49,12 @@ public class IngameScene : MonoBehaviour
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
 
+        if (IngamePacketHandler.isTest)
+        {
+            GlobalData.roundList = new List<int>() { 0, 1, 2, 3 };
+            GlobalData.roundMax = GlobalData.roundList.Count;
+        }
+
         InitGame();
     }
 
