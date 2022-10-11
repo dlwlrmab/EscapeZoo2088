@@ -92,6 +92,7 @@ public class IngameScene : MonoBehaviour
         _mapController.LoadRound(); // 라운드 셋팅 먼저
         _playerController.LoadRound();
         _uiController.LoadRound();
+        _loadingController.HideStartLoading();
         _loadingController.LoadRoundLoading();
     }
 

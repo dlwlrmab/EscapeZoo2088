@@ -13,6 +13,8 @@ public class Round : MonoBehaviour
 
     protected IngamePlayerController _playerController = null;
 
+    private List<Vector3> _playerSpawnPos;
+
     public void CreateRound()
     {
         gameObject.SetActive(false);
@@ -43,6 +45,11 @@ public class Round : MonoBehaviour
         Debug.Log($"Round {GlobalData.roundIndex} : Load");
 
         gameObject.SetActive(true);
+
+        Transform[] playerSpawn = _playerSpawn.GetComponentsInChildren<Transform>();
+        _playerSpawnPos = new List<Vector3>();
+        for (int i = 0; i < GlobalData.teamUserCount; ++i)
+            _playerSpawnPos.Add(playerSpawn[i].position);
     }
 
     public virtual void StartRound()
@@ -79,8 +86,8 @@ public class Round : MonoBehaviour
         return _explanation;
     }
 
-    public Vector3 GetPlayerSpawn()
+    public List<Vector3> GetPlayerSpawn()
     {
-        return _playerSpawn.position;
+        return _playerSpawnPos;
     }
 }

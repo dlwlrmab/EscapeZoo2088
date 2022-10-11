@@ -53,7 +53,7 @@ public class IngameMapController : MonoBehaviour
         return GetCurrentRound().GetExplanation();
     }
 
-    public Vector3 GetPlayerSpawn()
+    public List<Vector3> GetPlayerSpawn()
     {
         return GetCurrentRound().GetPlayerSpawn();
     }

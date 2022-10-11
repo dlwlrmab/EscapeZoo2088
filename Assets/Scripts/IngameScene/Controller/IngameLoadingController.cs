@@ -47,9 +47,13 @@ public class IngameLoadingController : MonoBehaviour
             yield return null;
         }
 
+        IngameScene.Instance.CompleteStartLoading();
+    }
+
+    public void HideStartLoading()
+    {
         _startLoading.SetActive(false);
         _loadingBar.transform.parent.gameObject.SetActive(false);
-        IngameScene.Instance.CompleteStartLoading();
     }
 
     #endregion

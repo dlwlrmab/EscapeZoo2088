@@ -6,8 +6,11 @@ public class Round3 : Round
 {
     [Header("Round 3")]
     [Space(10)]
-    [SerializeField] RoundObjKey[] _key;
+    [SerializeField] RoundObjButton[] _buttons;
+    [SerializeField] Transform _deads;
     [SerializeField] RoundObjClear _clear;
+
+    RoundObj[] _roundObjs;
 
     #region Base Round
 
@@ -15,6 +18,11 @@ public class Round3 : Round
     {
         base.LoadRound();
 
+        _roundObjs = GetComponentsInChildren<RoundObj>();
+
+        RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
+        foreach (RoundObjDead child in roundDeads)
+            child.LoadRound(this);
         _clear.LoadRound(this);
     }
 
@@ -22,14 +30,10 @@ public class Round3 : Round
     {
         base.StartRound();
 
-        foreach(var key in _key)
-            key.StartRound();
-    }
-
-    public override void SendClearRound()
-    {
-        if (_playerController.GetMyPlayer().HasKey)
-            base.SendClearRound();
+        for (int i = 0; i < _buttons.Length; i++)
+            _buttons[i].StartRound();
+        for (int i = 0; i < _roundObjs.Length; i++)
+            _roundObjs[i].StartRound();
     }
 
     #endregion
