@@ -14,8 +14,6 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
     private ActorViewRpc _actorRpc;
 
     private Vector2? _netSyncPosition;
-    private Vector2? _netSyncVelocity;
-    private long? _netSyncTime;
 
     public Rigidbody2D _rb;
     public bool IsGrounded = false;
@@ -24,7 +22,9 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
     public float defualtJumpHeight = 0;
     public float moveSpeed = 2f;
     Vector2 velocity = Vector2.zero;
-    Vector2 diff = Vector2.zero;   // 위치 동기화 차이
+    
+    float timer = 0f;
+    const float SYNCTIME = 0.3f;
 
     private void Awake()
     {
@@ -48,26 +48,18 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     private void Update()
     {
-        Vector2 toMove = Vector2.zero;
-        if (_netSyncPosition.HasValue && _netSyncVelocity.HasValue && _netSyncTime.HasValue)
+        if (_netSyncPosition.HasValue)
         {   // 네트워크 위치와 동기화를 하자
-
-            // 송수신에 걸린 시간
-            long elapsedTicks = DateTime.UtcNow.Ticks - _netSyncTime.Value;
-            TimeSpan elapsedSpan = new TimeSpan(elapsedTicks);
-
-            _netSyncPosition += _netSyncVelocity * (float)elapsedSpan.TotalSeconds;
-            diff = _netSyncPosition.Value - _rb.position;
-            toMove = _netSyncPosition.Value;
-            // 다음 프레임에 적용 될 수 있으므로 비움
-            _netSyncPosition = null;
-            _netSyncVelocity = null;
-            _netSyncTime = null;
+            timer = 0.1f;
+            Vector2 diff = _netSyncPosition.Value - _rb.position;
+            if (Mathf.Abs(diff.x) > 5f || Mathf.Abs(diff.y) > 5f)
+            {   // 모종의 이유로 노이즈 값을 받음
+                 _netSyncPosition = null;
+                return;
+            }
+            Vector2.Lerp(_rb.position, _netSyncPosition.Value, timer/SYNCTIME);
         }
-        // 위치 차이 많이나면 반영 (간혹 노이즈 값으로 엄청큰 값 들어오므로 쳐낼 것)
-        if (diff.magnitude > 0.2f && diff.magnitude < 5f)
-              transform.localPosition = (toMove);  // 물리효과로 움직이지 않으면 충돌 무시
-        diff = Vector2.zero;
+        timer += Time.deltaTime;
     }
 
     public void SetMoveVelocity(float x, bool jump)
@@ -115,17 +107,13 @@ public class Actor : MonoBehaviour, INetViewHandler, INetSerializable, INetViewP
 
     public bool OnViewPeriodicSyncSerialize(NetDataWriter writer)
     {
-        writer.Write(_rb.velocity);
         writer.Write(_rb.position);
-        writer.Write(DateTime.UtcNow.Ticks);
         return true;
     }
 
     public void OnViewPeriodicSyncDeserialize(NetDataReader reader)
     {
-        _netSyncVelocity = reader.ReadVector2();
         _netSyncPosition = reader.ReadVector2();
-        _netSyncTime = reader.ReadInt32();
     }
 
     public void Serialize(NetDataWriter writer)
