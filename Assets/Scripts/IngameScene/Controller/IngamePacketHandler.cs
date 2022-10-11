@@ -84,13 +84,16 @@ public class IngamePacketHandler : MonoBehaviour
     // 모든 라운드 종료 응답
     public void RecvClearGame(ResMatchResult res)
     {
-        
-        if(res.ResponseType == ResponseType.Success)
+        IngameScene.Instance.ClearGame(res.score);
+        GameClient.Instance.Client.Disconnect();
+        /*
+        if (res.ResponseType == ResponseType.Success)
         {
             IngameScene.Instance.ClearGame(res.score);
         }
         else
             Debug.LogAssertion($"ResMatchResult.ResponseType != Success");
+        */
     }
 
     #endregion
@@ -103,7 +106,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 임시로 여기서 설정
 
         GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new int[1] { 1};
+        GlobalData.roundList = new int[1] { 2};
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
