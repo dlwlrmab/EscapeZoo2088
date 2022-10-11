@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     public PlayerInfo Info { get; }
 
     public bool IsMine { get { return _info.Id == GlobalData.myId; } }
-    public bool HasKey { get { return transform.Find("Key") != null; } }
+    public bool HasKey { get { return GetComponentInChildren<RoundObjKey>() != null; } }
 
     void Start()
     {

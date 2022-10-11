@@ -526,8 +526,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSpawn: {fileID: 1908528380771646224}
-  _explanation: "\uD574\uAC00 \uB730 \uB54C\uB9CC \uC6C0\uC9C1\uC5EC \uC131\uC5D0
-    \uB3C4\uB2EC\uD558\uB77C!"
+  _explanation: "\uB2F9\uADFC \uC5F4\uC1E0\uB97C \uD68D\uB4DD\uD558\uC5EC \uD574\uAC00
+    \uB730 \uB54C\uB9CC \uC6C0\uC9C1\uC5EC \uC131\uC5D0 \uB3C4\uB2EC\uD558\uB77C!"
   _roundType: 0
   _sun: {fileID: 2669841475697747966}
   _keySpawn: {fileID: 4635400002258580408}
