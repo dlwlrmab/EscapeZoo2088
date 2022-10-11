@@ -90,4 +90,9 @@ public class Round : MonoBehaviour
     {
         return _playerSpawnPos;
     }
+
+    public ROUNDTYPE GetRoundType()
+    {
+        return _roundType;
+    }
 }

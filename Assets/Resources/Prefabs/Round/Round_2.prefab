@@ -53,7 +53,7 @@ MonoBehaviour:
   _playerSpawn: {fileID: 9059601432854829029}
   _explanation: "\uB2F9\uADFC \uC5F4\uC1E0\uB97C \uD68D\uB4DD\uD558\uC5EC \uC7A5\uC560\uBB3C\uC744
     \uD53C\uD574 \uC131\uC5D0 \uB3C4\uB2EC\uD558\uB77C!"
-  _roundType: 0
+  _roundType: 2
   _keySpawn: {fileID: 7146111529150660528}
   _deads: {fileID: 4168902468429961528}
   _clear: {fileID: 1709945940774990358}

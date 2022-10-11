@@ -37,6 +37,7 @@
     {
         NONE,
         LONGJUMP,
+        KEY
     }
 
     public enum BLOCKTYPE

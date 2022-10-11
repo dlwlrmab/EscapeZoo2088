@@ -16,9 +16,12 @@ public class RoundObjClear : MonoBehaviour
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            other.gameObject.SetActive(false);
-
             Player player = other.GetComponent<Player>();
+
+            if (_round.GetRoundType() == EnumDef.ROUNDTYPE.KEY && player.HasKey == false)
+                return;
+
+            other.gameObject.SetActive(false);
             if (player.IsMine)
                 _round.SendClearRound();
         }
