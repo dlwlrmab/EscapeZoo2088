@@ -29,7 +29,7 @@ public class TestManager : Singleton<TestManager>
         // e키 누르는 경우 로비로 이동
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //if (IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
+            if (IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
             {
                 IngameScene.Instance.DisConnectServer();
             }
