@@ -42,6 +42,9 @@ public class Round0 : Round
     {
         base.StartRound();
 
+        foreach (var key in _keys)
+            key.StartRound();
+
         StartSun();
     }
 
