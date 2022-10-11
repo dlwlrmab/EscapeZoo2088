@@ -103,7 +103,7 @@ public class IngamePacketHandler : MonoBehaviour
         // 임시로 여기서 설정
 
         GlobalData.map = MAP.SNOW;
-        GlobalData.roundList = new int[1] { 0};
+        GlobalData.roundList = new int[1] { 1};
         GlobalData.playerInfos = new List<PlayerInfo>() {
             new PlayerInfo { Id = "121", Animal = ANIMAL.CHICKEN, MBTI = "isfj" },
             new PlayerInfo { Id = "123", Animal = ANIMAL.COW, MBTI = "isfj" },
