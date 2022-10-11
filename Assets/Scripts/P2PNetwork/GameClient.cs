@@ -66,6 +66,7 @@ public class GameClient : Singleton<GameClient>
             {
                 if (actor.View.OwnerSessionId == sessionId)
                 {
+                    GlobalData.playingUserCount--;
                     NetClientGlobal.Instance.Destroy(actor.View.ViewId);
                 }
             });

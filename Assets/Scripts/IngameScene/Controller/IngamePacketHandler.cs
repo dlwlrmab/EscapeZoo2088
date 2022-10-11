@@ -113,6 +113,9 @@ public class IngamePacketHandler : MonoBehaviour
     public void SendExitGame()
     {
         var req = new IngameProcotol();
+
+        req.teamUserCount = GlobalData.playingUserCount;
+
         IngameProcotol res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);
@@ -132,6 +135,7 @@ public class IngamePacketHandler : MonoBehaviour
         if (res.ResponseType == ResponseType.Success)
         {
             GlobalData.playerInfos = res.playerInfos;
+            GlobalData.playingUserCount = GlobalData.playerInfos.Count;
             IngameScene.Instance.EnterGame();
         }
         else
