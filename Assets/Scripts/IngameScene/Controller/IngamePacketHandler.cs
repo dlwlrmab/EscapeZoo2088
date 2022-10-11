@@ -6,17 +6,19 @@ using UnityEngine;
 
 public class IngamePacketHandler : MonoBehaviour
 {
-    private IngameScene _ingameScene;
-
-    private void Start()
-    {
-        _ingameScene = IngameScene.Instance;
-    }
+    public static bool isTest = true;
 
     #region Send
 
     public void SendEnterGame()
     {
+        if (isTest)
+        {
+            GlobalData.playerInfos = new List<PlayerInfo>() { new PlayerInfo() { animal = 1, Id = "1", MBTI = "isfj" } };
+            IngameScene.Instance.EnterGame();
+            return;
+        }
+
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
@@ -36,6 +38,15 @@ public class IngamePacketHandler : MonoBehaviour
             return;
         }
 
+        if (isTest)
+        {
+            GlobalData.roundIndex = GlobalData.roundIndex + 1;
+            GlobalData.enemyRoundIndex = 1;
+            GlobalData.sunriseTime = 3;
+            IngameScene.Instance.LoadRound();
+            return;
+        }
+
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
@@ -49,6 +60,12 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendRestartRound()
     {
+        if (isTest)
+        {
+            IngameScene.Instance.StartRound();
+            return;
+        }
+
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
@@ -62,6 +79,13 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendLastRound()
     {
+        if (isTest)
+        {
+            GlobalData.isWinner = true;
+            IngameScene.Instance.ClearGame();
+            return;
+        }
+
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
@@ -85,6 +109,7 @@ public class IngamePacketHandler : MonoBehaviour
             RecvMatchResult(res);
         }));
     }
+
     public void SendExitGame()
     {
         var req = new IngameProcotol();
@@ -111,7 +136,7 @@ public class IngamePacketHandler : MonoBehaviour
         {
             GlobalData.playerInfos = res.playerInfos;
             GlobalData.playingUserCount = GlobalData.playerInfos.Count;
-            _ingameScene.EnterGame();
+            IngameScene.Instance.EnterGame();
         }
         else
             Debug.LogAssertion($"ResEnterGame.ResponseType != Success");
@@ -124,7 +149,7 @@ public class IngamePacketHandler : MonoBehaviour
             GlobalData.roundIndex = res.currentRoundNum - 1;
             GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
-            _ingameScene.LoadRound();
+            IngameScene.Instance.LoadRound();
         }
         else
             Debug.LogAssertion($"ResStartGame.ResponseType != Success");
@@ -137,7 +162,7 @@ public class IngamePacketHandler : MonoBehaviour
             GlobalData.roundIndex = res.currentRoundNum - 1;
             GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
-            _ingameScene.StartRound();
+            IngameScene.Instance.StartRound();
         }
         else
             Debug.LogAssertion($"ResReStartGame.ResponseType != Success");
@@ -148,7 +173,7 @@ public class IngamePacketHandler : MonoBehaviour
         if (res.ResponseType == ResponseType.Success)
         {
             GlobalData.isWinner = res.isWinner;
-            _ingameScene.ClearGame();
+            IngameScene.Instance.ClearGame();
             SendMatchResult();
         }
         else
@@ -170,13 +195,11 @@ public class IngamePacketHandler : MonoBehaviour
         if (res.ResponseType == ResponseType.Success)
         {
             Debug.LogWarning("Lambda Server Disconnect");
-            _ingameScene.DisConnectP2PServer();
+            IngameScene.Instance.DisConnectP2PServer();
         }
         else
             Debug.LogAssertion($"ResExitGame.ResponseType != Success");
     }
 
     #endregion
-
-
 }
