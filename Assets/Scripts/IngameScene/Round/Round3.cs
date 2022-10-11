@@ -6,11 +6,11 @@ public class Round3 : Round
 {
     [Header("Round 3")]
     [Space(10)]
-    [SerializeField] RoundObjButton[] _buttons;
     [SerializeField] Transform _deads;
     [SerializeField] RoundObjClear _clear;
 
-    RoundObj[] _roundObjs;
+    private RoundObj[] _roundObjs;
+    private RoundObjButton[] _buttons;
 
     #region Base Round
 
@@ -19,6 +19,7 @@ public class Round3 : Round
         base.LoadRound();
 
         _roundObjs = GetComponentsInChildren<RoundObj>();
+        _buttons = GetComponentsInChildren<RoundObjButton>();
 
         RoundObjDead[] roundDeads = _deads.GetComponentsInChildren<RoundObjDead>();
         foreach (RoundObjDead child in roundDeads)
@@ -30,10 +31,10 @@ public class Round3 : Round
     {
         base.StartRound();
 
-        for (int i = 0; i < _buttons.Length; i++)
-            _buttons[i].StartRound();
         for (int i = 0; i < _roundObjs.Length; i++)
             _roundObjs[i].StartRound();
+        for (int i = 0; i < _buttons.Length; i++)
+            _buttons[i].StartRound();
     }
 
     #endregion

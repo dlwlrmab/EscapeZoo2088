@@ -13,10 +13,17 @@ public class RoundObj : MonoBehaviour
     [SerializeField] float _destPosY;
     [SerializeField] bool _isReverse = true;  // true = 왼쪽에서 오른쪽
 
+    private Vector3 _startPos;
+
+    private void Awake()
+    {
+        _startPos = transform.position;
+    }
+
     public void StartRound()
     {
         gameObject.SetActive(true);
-        transform.localPosition = new Vector3(_startPosX, _startPosY, 0);
+        transform.position = _startPos;
     }
 
     private void FixedUpdate()
