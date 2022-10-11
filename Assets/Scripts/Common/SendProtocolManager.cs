@@ -15,6 +15,8 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
     bool _loadingMark = false;
     Action<string> _callback = null;
 
+    public bool _sendProtocol = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -25,7 +27,11 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
     public IEnumerator CoSendLambdaReq(string str, string type, Action<string> a,bool loadingMark = true, bool useCoroutne = false)
     {
+        if (_sendProtocol)
+            yield break;
+
         _loadingMark = loadingMark;
+        _sendProtocol = true;
         webClient.Headers[HttpRequestHeader.ContentType] = "application/json";
 
         Debug.Log($"[Send] json {type} : {str}");
@@ -61,6 +67,8 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
 
         if (_loadingMark)
             SceneLoadManager.Instance.SetLoading(false);
+
+        _sendProtocol = false;
     }
 
     // 연속으로 프로토콜을 많이 전송하는경우 이전응답을 받기전 동일한 프토토콜을 전송해 오류가 발생하는경우가있어,
@@ -71,8 +79,10 @@ public class SendProtocolManager : Singleton<SendProtocolManager>
         //webClient.UploadStringAsync(new Uri(GlobalData.GatewayAPI + type), "POST", str);
         //webClient.UploadStringCompleted += new UploadStringCompletedEventHandler(UploadStringCallback2);
         Debug.Log($"[Res] json {type} : {responseString}");
+        _sendProtocol = false;
 
         yield return null;
+
     }
 
     #endregion
