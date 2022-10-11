@@ -21,7 +21,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public void LoadRound()
     {
         List<Vector3> spawn = IngameScene.Instance.MapController.GetPlayerSpawn();
-        for (int i = 0; i < spawn.Count; ++i)
+        for (int i = 0; i < _playerList.Count; ++i)
             _playerList[i].LoadRound(spawn[i], transform);
     }
 
