@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -13,7 +13,7 @@ public class GlobalData : MonoBehaviour
     public static string GatewayAPI = "https://opupgoihqd.execute-api.ap-northeast-2.amazonaws.com/test/";
     public static string TargetServer = "Dev";
 
-    public static string GameSessionId = string.Empty;
+    public static string GameSessionId = "ksh_001";
     public static string PlayerSessionId = string.Empty;
     public static int Port = 12000;
 

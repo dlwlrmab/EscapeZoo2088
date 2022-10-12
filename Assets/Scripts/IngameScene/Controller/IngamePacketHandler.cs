@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class IngamePacketHandler : MonoBehaviour
 {
-    public static bool isTest = true;
+    public static bool isTest = false;
 
     #region Send
 
