@@ -55,4 +55,9 @@ public class Player : MonoBehaviour, IComparable
         // 플레이어 이름순으로 정렬
         return String.Compare(this.name, player.name);
     }
+
+    public ANIMAL GetAnimal()
+    {
+        return (ANIMAL)int.Parse(name.Replace("Player", "").Replace("(Clone)", ""));
+    }
 }

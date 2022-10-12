@@ -11,7 +11,7 @@ public class RoundObjClear : MonoBehaviour
         _round = round;
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))

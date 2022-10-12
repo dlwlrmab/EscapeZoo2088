@@ -68,11 +68,11 @@ public class Round : MonoBehaviour
         IngameScene.Instance.PacketHandler.SendStartRound(true);
     }
 
-    public void SendReStartRound()
+    public void ReStartRound(Player deadPlayer)
     {
-        Debug.Log($"Round {GlobalData.roundIndex} : Send ReStart");
+        Debug.Log($"Round {GlobalData.roundIndex} : ReStart");
 
-        IngameScene.Instance.PacketHandler.SendRestartRound();
+        IngameScene.Instance.ReStartRound(deadPlayer);
     }
 
     public virtual void SetPlayerJumpHeight(float height)

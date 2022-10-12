@@ -59,11 +59,16 @@ public class IngamePacketHandler : MonoBehaviour
         }, !clearRound));
     }
 
+    private void StartRound()
+    {
+        IngameScene.Instance.StartRound();
+    }
+
     public void SendRestartRound()
     {
         if (isTest)
         {
-            IngameScene.Instance.StartRound();
+            Invoke("StartRound", 1);
             return;
         }
 

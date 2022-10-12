@@ -118,7 +118,7 @@ public class Round0 : Round
             for (int i = 0; i < players.Count; ++i)
                 if (players[i].transform.localPosition != _prePlayerPos[i])
                 {
-                    SendReStartRound();
+                    ReStartRound(players[i]);
                     break;
                 }
 

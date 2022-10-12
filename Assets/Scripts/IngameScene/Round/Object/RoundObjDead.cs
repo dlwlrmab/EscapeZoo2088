@@ -11,14 +11,15 @@ public class RoundObjDead : MonoBehaviour
         _round = round;
     }
 
-    private void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         int layer = other.gameObject.layer;
         if (layer == LayerMask.NameToLayer("Player"))
         {
-            Player player = other.GetComponent<Player>();
-            if (player.IsMine)
-                _round.SendReStartRound();
+            _round.ReStartRound(other.GetComponent<Player>());
+
+            if (_round.name.Contains("1"))
+                _round.GetComponent<Round1>().StopDrop();
         }
     }
 }

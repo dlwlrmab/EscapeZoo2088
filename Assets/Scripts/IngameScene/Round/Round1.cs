@@ -33,6 +33,11 @@ public class Round1 : Round
 
     #endregion
 
+    public void StopDrop()
+    {
+        StopAllCoroutines();
+    }
+
     private IEnumerator Drop()
     {
         _emptyGound.SetActive(true);

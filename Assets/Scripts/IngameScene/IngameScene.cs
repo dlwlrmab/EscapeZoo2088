@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -113,6 +113,15 @@ public class IngameScene : MonoBehaviour
         _mapController.StartRound();
         _playerController.StartRound();
         _uiController.StartRound();
+    }
+
+    public void ReStartRound(Player deadPlayer)
+    {
+        _playerController.PlayerResetPreStep();
+        _uiController.ShowDeadAnimal(deadPlayer.GetAnimal());
+
+        if (deadPlayer.IsMine)
+            IngameScene.Instance.PacketHandler.SendRestartRound();
     }
 
     public void ClearGame()

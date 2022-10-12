@@ -22,17 +22,15 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void LoadRound()
     {
-        _playerList.Sort();
         PlayerResetPreStep();
-        List<Vector3> spawn = IngameScene.Instance.MapController.GetPlayerSpawn();
-        for (int i = 0; i < _playerList.Count; ++i)
-            _playerList[i].LoadRound(spawn[i], transform);
-        Invoke("PlayerResetPostStep", 0.15f);
     }
 
     public void StartRound()
     {
-        LoadRound();
+        List<Vector3> spawn = IngameScene.Instance.MapController.GetPlayerSpawn();
+        for (int i = 0; i < _playerList.Count; ++i)
+            _playerList[i].LoadRound(spawn[i], transform);
+        PlayerResetPostStep();
     }
 
     public void ClearGame()
@@ -43,6 +41,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public void AddPlayer(Player p)
     {
         _playerList.Add(p);
+        _playerList.Sort();
     }
 
     public void RemovePlayer(Player p)
@@ -69,7 +68,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
         return _clearPlayer.position;
     }
 
-    void PlayerResetPreStep()
+    public void PlayerResetPreStep()
     {
         foreach(var p in _playerList)
         {
