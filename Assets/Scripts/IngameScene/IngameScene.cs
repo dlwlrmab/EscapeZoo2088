@@ -139,6 +139,7 @@ public class IngameScene : MonoBehaviour
         {
             Debug.LogWarning("P2P Server Disconnect");
 
+            StopAllCoroutines();
             State = INGAME_STATE.LOADING;
             _scenemanager.PlayFadeout(null, "LobbyScene");
         };
