@@ -26,8 +26,8 @@ public class RoundObjKey : MonoBehaviour
         if (layer == LayerMask.NameToLayer("Player"))
         {
             Player player = other.GetComponent<Player>();
-            if (player != null && player.HasKey)
-                return;                
+            if (player != null && player.HasKey != null)
+                return;
 
             transform.parent = other.transform;
             transform.localPosition = new Vector3(0.5f, 0.7f, 0);

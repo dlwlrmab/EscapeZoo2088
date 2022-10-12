@@ -18,7 +18,7 @@ public class RoundObjClear : MonoBehaviour
         {
             Player player = other.GetComponent<Player>();
 
-            if (_round.GetRoundType() == EnumDef.ROUNDTYPE.KEY && player.HasKey == false)
+            if (_round.GetRoundType() == EnumDef.ROUNDTYPE.KEY && player.HasKey == null)
                 return;
 
             other.transform.position = IngameScene.Instance.PlayerController.GetClearPlayerPos();

@@ -17,13 +17,8 @@ public class Player : MonoBehaviour, IComparable
             return false;
         }
     }
-    public bool HasKey
-    {
-        get
-        {
-            return GetComponentInChildren<RoundObjKey>() != null;
-        }
-    }
+
+    public RoundObjKey HasKey { get { return GetComponentInChildren<RoundObjKey>(); } }
 
     void Start()
     {
@@ -44,6 +39,9 @@ public class Player : MonoBehaviour, IComparable
     {
         transform.position = startPos;
         transform.parent = parent;
+
+        if (HasKey != null)
+            Destroy(HasKey.gameObject);
     }
 
     void OnDestroy()
