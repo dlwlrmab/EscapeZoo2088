@@ -51,7 +51,7 @@ public class IngameScene : MonoBehaviour
 
         if (IngamePacketHandler.isTest)
         {
-            GlobalData.roundList = new List<int>() { 1, 3 };
+            GlobalData.roundList = new List<int>() { 0, 1, 2, 3 };
             GlobalData.roundIndex = -1;
             GlobalData.roundMax = GlobalData.roundList.Count;
         }
