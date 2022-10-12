@@ -42,7 +42,7 @@ public class Player : MonoBehaviour, IComparable
 
     public void LoadRound(Vector3 startPos, Transform parent)
     {
-        gameObject.SetActive(true);
+        transform.GetChild(1).gameObject.SetActive(false);
 
         transform.position = startPos;
         transform.parent = parent;
