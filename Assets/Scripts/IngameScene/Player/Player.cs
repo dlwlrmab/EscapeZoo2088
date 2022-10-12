@@ -6,10 +6,23 @@ using EnumDef;
 public class Player : MonoBehaviour
 {
     private PlayerInfo _info;
-    public PlayerInfo Info { get; }
 
-    public bool IsMine { get { return _info.Id == GlobalData.myId; } }
-    public bool HasKey { get { return GetComponentInChildren<RoundObjKey>() != null; } }
+    public bool IsMine
+    {
+        get
+        {
+            if (_info != null)
+                return _info.Id == GlobalData.myId;
+            return false;
+        }
+    }
+    public bool HasKey
+    {
+        get
+        {
+            return GetComponentInChildren<RoundObjKey>() != null;
+        }
+    }
 
     void Start()
     {
