@@ -6,6 +6,8 @@ using EuNet.Unity;
 
 public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 {
+    [SerializeField] Transform _clearPlayer;
+
     private List<Player> _playerList = new List<Player>();
 
     private bool _isCreateComplete = false;
@@ -60,6 +62,11 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     public List<Player> GetPlayerList()
     {
         return _playerList;
+    }
+
+    public Vector3 GetClearPlayerPos()
+    {
+        return _clearPlayer.position;
     }
 
     void PlayerResetPreStep()

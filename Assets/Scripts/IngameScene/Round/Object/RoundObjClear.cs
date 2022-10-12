@@ -21,7 +21,7 @@ public class RoundObjClear : MonoBehaviour
             if (_round.GetRoundType() == EnumDef.ROUNDTYPE.KEY && player.HasKey == false)
                 return;
 
-            other.transform.GetChild(1).gameObject.SetActive(false);
+            other.transform.position = IngameScene.Instance.PlayerController.GetClearPlayerPos();
             if (player.IsMine)
                 _round.SendClearRound();
         }
