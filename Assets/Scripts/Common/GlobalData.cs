@@ -35,7 +35,7 @@ public class GlobalData : MonoBehaviour
     public static bool isWinner = false;
     public static int sunriseTime = 0;
     public static int roundMax = 1;  // 클라 결정 : 총 라운드 수
-    public static int teamUserCount = 2; // 클라 결정 : 팀당 인원 수
+    public static int teamUserCount = 5; // 클라 결정 : 팀당 인원 수
     public static int teamUserMaxCount = 5; // 고정된 값이며 참조용
     public static int playingUserCount = 0; // 현재 같이 게임진행하는 유저수 , reqexitgame에 현재 플레이어수가 필요, RecvEnterGame 에서 초기화
 }
