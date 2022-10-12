@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 // 테스트를 위한 키입력 등 처리
@@ -29,7 +30,7 @@ public class TestManager : Singleton<TestManager>
         // e키 누르는 경우 로비로 이동
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
+            if (SceneManager.GetActiveScene().buildIndex == 2)
             {
                 IngameScene.Instance.DisConnectP2PServer();
             }
