@@ -53,6 +53,10 @@ public class LobbyScene : MonoBehaviour
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
+        
+        GlobalData.teamUserCount = int.Parse(_userCnt.text);
+        Debug.Log($"user cnt : {GlobalData.teamUserCount}");
+
         GlobalData.map = MAP.NONE;
         GlobalData.myAnimal = ANIMAL.NONE;
 
