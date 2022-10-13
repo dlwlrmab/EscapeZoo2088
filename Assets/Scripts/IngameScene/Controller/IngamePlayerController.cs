@@ -29,7 +29,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     {
         List<Vector3> spawn = IngameScene.Instance.MapController.GetPlayerSpawn();
         for (int i = 0; i < _playerList.Count; ++i)
-            _playerList[i].LoadRound(spawn[i], transform);
+            _playerList[i].StartRound(spawn[i], transform);
         PlayerResetPostStep();
     }
 

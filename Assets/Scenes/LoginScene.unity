@@ -1664,6 +1664,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameClient
       objectReference: {fileID: 0}
+    - target: {fileID: 361431672742374588, guid: e3001ed97e7141f4dbce7b163b84256b, type: 3}
+      propertyPath: ServerAddress
+      value: 52.79.197.96
+      objectReference: {fileID: 0}
     - target: {fileID: 361431672742374589, guid: e3001ed97e7141f4dbce7b163b84256b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

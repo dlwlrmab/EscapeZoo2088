@@ -13,7 +13,7 @@ public class GlobalData : MonoBehaviour
     public static string GatewayAPI = "https://opupgoihqd.execute-api.ap-northeast-2.amazonaws.com/test/";
     public static string TargetServer = "Dev";
 
-    public static string GameSessionId = "ksh_001";
+    public static string GameSessionId = "ksh-001";
     public static string PlayerSessionId = string.Empty;
     public static int Port = 12000;
 
@@ -24,17 +24,17 @@ public class GlobalData : MonoBehaviour
     public static string myMBTI = string.Empty;
     public static ANIMAL myAnimal = ANIMAL.NONE;
     public static int myScore = 0;
-    public static string myTeamName = string.Empty;
+    public static string myTeamName = "blue";
 
     // 인게임
     public static MAP map = MAP.NONE;
     public static List<PlayerInfo> playerInfos = new List<PlayerInfo>();
     public static List<int> roundList = new List<int>();
-    public static int roundIndex = -1;
+    public static int roundIndex = 0;
     public static int enemyRoundIndex = 1;
     public static bool isWinner = false;
     public static int sunriseTime = 0;
-    public static int roundMax = 1;  // 클라 결정 : 총 라운드 수
+    public static int roundMax = 4;  // 클라 결정 : 총 라운드 수
     public static int teamUserCount = 5; // 클라 결정 : 팀당 인원 수
     public static int teamUserMaxCount = 5; // 고정된 값이며 참조용
     public static int playingUserCount = 0; // 현재 같이 게임진행하는 유저수 , reqexitgame에 현재 플레이어수가 필요, RecvEnterGame 에서 초기화

@@ -65,12 +65,12 @@ public class IngameScene : MonoBehaviour
     {
         State = INGAME_STATE.LOADING;
         _packetHandler.SendEnterGame();
-        _mapController.CreateMapAndRound();
         _loadingController.LoadStartLoading();
     }
 
     public void EnterGame()
     {
+        _mapController.CreateMapAndRound();
         _playerController.CreatePlayer();
     }
 
