@@ -51,6 +51,9 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
+        req.preRoundNum = 0;
+        req.endRoundNum = 3;
+
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
         {
@@ -152,6 +155,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
+            GlobalData.roundList = res.roundList;
             GlobalData.roundIndex = res.currentRoundNum - 1;
             GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
