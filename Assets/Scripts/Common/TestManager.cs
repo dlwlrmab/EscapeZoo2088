@@ -20,7 +20,7 @@ public class TestManager : Singleton<TestManager>
         // p키 누르는경우 클리어
         if (Input.GetKeyDown(KeyCode.P) )
         {  
-            if(ClearRoundNum != GlobalData.roundIndex && IngameScene.Instance.State == EnumDef.INGAME_STATE.PLAYING)
+            if(ClearRoundNum != GlobalData.roundIndex && SceneManager.GetActiveScene().buildIndex == 2)
             {
                 IngameScene.Instance.PacketHandler.SendStartRound(true);
                 ClearRoundNum = GlobalData.roundIndex;
