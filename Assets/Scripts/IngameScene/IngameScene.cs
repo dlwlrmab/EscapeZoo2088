@@ -49,7 +49,6 @@ public class IngameScene : MonoBehaviour
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
-        ConnectP2PServer();
 
         if (IngamePacketHandler.isTest)
         {
@@ -132,29 +131,6 @@ public class IngameScene : MonoBehaviour
         _playerController.ClearGame();
         _uiController.ClearGame();
         _endingController.LoadEnding();
-    }
-
-    public async void ConnectP2PServer()
-    {
-        var client = NetClientGlobal.Instance.Client;
-        // port: 서버 매칭 구현시 GlobalData.port 적용하도록
-        var result = await client.ConnectAsync(12000, System.TimeSpan.FromSeconds(10));
-        if (result == true)
-        {
-            LoginRpc loginRpc = new LoginRpc(client);
-            var loginResult = await loginRpc.Login(SystemInfo.deviceUniqueIdentifier);
-
-            Debug.Log($"Login Result : {loginResult}");
-            if (loginResult != 0)
-                return;
-
-            var joinResult = await loginRpc.Join();
-            Debug.Log($"Join : {joinResult}");
-        }
-        else
-        {
-            Debug.LogError("Fail to connect server");
-        }
     }
 
     public void DisConnectP2PServer()

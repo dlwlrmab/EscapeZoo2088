@@ -242,7 +242,7 @@ public class LobbyScene : MonoBehaviour
         if (success)
         {
             ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-            PlayGame();
+            //PlayGame();
             return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
