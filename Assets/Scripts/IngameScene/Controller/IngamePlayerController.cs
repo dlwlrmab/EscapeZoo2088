@@ -15,7 +15,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void CreatePlayer()
     {
-        Invoke("Test", 3);
+        Invoke("Test", 11);
     }
 
     private void Test()
