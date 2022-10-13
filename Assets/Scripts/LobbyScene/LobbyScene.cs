@@ -26,21 +26,6 @@ public class LobbyScene : MonoBehaviour
     bool _serverTimeOut = false;
     bool _stopmatching = false;
 
-    #region test
-
-    [SerializeField] Text _userCnt;
-
-    public void SetUsercnt(string usercnt)
-    {
-        if (!string.IsNullOrEmpty(usercnt))
-        {
-            GlobalData.teamUserCount = int.Parse(usercnt);
-            Debug.Log($"user cnt : {GlobalData.teamUserCount}");
-        }
-    }
-
-    #endregion
-
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && !_stopmatching)
@@ -53,9 +38,6 @@ public class LobbyScene : MonoBehaviour
     {
         _scenemanager = SceneLoadManager.Instance;
         _scenemanager.PlayFadeIn();
-        
-        GlobalData.teamUserCount = int.Parse(_userCnt.text);
-        Debug.Log($"user cnt : {GlobalData.teamUserCount}");
 
         GlobalData.map = MAP.NONE;
         GlobalData.myAnimal = ANIMAL.NONE;
