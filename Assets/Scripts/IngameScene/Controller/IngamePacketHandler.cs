@@ -109,7 +109,7 @@ public class IngamePacketHandler : MonoBehaviour
         IngameProcotol res = null;
 
         string jsondata = JsonConvert.SerializeObject(req);
-        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "LastRound", (responseString) =>
+        StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "LastGame", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
             RecvLastRound(res);
