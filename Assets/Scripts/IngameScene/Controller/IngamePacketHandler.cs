@@ -14,7 +14,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (isTest)
         {
-            GlobalData.playerInfos = new List<PlayerInfo>() { new PlayerInfo() { animal = 1, Id = "1", MBTI = "isfj" } };
+            GlobalData.playerInfos = new List<PlayerInfos>() { new PlayerInfos() { animal = 1, userId = "1", mbti = "isfj" } };
             GlobalData.myId = "1";
             IngameScene.Instance.EnterGame();
             return;

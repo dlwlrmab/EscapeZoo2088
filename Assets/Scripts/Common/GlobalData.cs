@@ -28,7 +28,7 @@ public class GlobalData : MonoBehaviour
 
     // 인게임
     public static MAP map = MAP.NONE;
-    public static List<PlayerInfo> playerInfos = new List<PlayerInfo>();
+    public static List<PlayerInfos> playerInfos = new List<PlayerInfos>();
     public static List<int> roundList = new List<int>() { 0, 1, 2, 3 };
     public static int roundIndex = 0;
     public static int enemyRoundIndex = 1;
@@ -40,10 +40,10 @@ public class GlobalData : MonoBehaviour
     public static int playingUserCount = 0; // 현재 같이 게임진행하는 유저수 , reqexitgame에 현재 플레이어수가 필요, RecvEnterGame 에서 초기화
 }
 
-public class PlayerInfo
+public class PlayerInfos
 {
-    public string Id;
-    public string MBTI;
+    public string userId;
+    public string mbti;
     public int animal;
 }
 

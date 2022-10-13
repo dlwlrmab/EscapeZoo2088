@@ -241,7 +241,7 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            ShowNotiPopup("매치 메이킹 성공! 시작 버튼을 눌러주세요.");
+            ShowNotiPopup("매치 메이킹 성공! 시작 버튼을 눌러주세요.", false);
             _readyButton.SetActive(false);
             _playButton.gameObject.SetActive(true);
             return;

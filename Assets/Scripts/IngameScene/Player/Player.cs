@@ -6,7 +6,7 @@ using System;
 
 public class Player : MonoBehaviour, IComparable
 {
-    private PlayerInfo _info;
+    private PlayerInfos _info;
 
     public bool IsMine
     {
@@ -14,10 +14,10 @@ public class Player : MonoBehaviour, IComparable
         {
             if (_info == null)
             {
-                List<PlayerInfo> playerInfos = GlobalData.playerInfos;
-                foreach (PlayerInfo info in playerInfos)
+                List<PlayerInfos> playerInfos = GlobalData.playerInfos;
+                foreach (PlayerInfos info in playerInfos)
                 {
-                    if (info.Id == GlobalData.myId)
+                    if (info.userId == GlobalData.myId)
                         _info = info;
                 }
             }
