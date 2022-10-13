@@ -241,17 +241,15 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-            PlayGame();
-            _playButton.onClick.Invoke();
+            ShowNotiPopup("매치 메이킹 성공! 시작 버튼을 눌러주세요.");
+            _readyButton.SetActive(false);
+            _playButton.gameObject.SetActive(true);
             return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
 
-            _readyButton.SetActive(false);
 
             // 서버연결이후 제거
-            _playButton.gameObject.SetActive(true);
 
             // 이때 배경에서 캐릭터 움직이기가능.
             // 매칭된 사람의 캐릭터도 나와야함.
