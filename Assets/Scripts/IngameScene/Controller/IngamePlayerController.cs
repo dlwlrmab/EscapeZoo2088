@@ -21,7 +21,6 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     private void DelayCreatePlayer()
     {
         P2PInGameManager.Instance.CreateMyPlayer();
-        _isCreateComplete = true;
     }
 
     public void LoadRound()
@@ -46,6 +45,9 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
     {
         _playerList.Add(p);
         _playerList.Sort();
+
+        if (_playerList.Count == GlobalData.teamUserCount)
+            _isCreateComplete = true;
     }
 
     public void RemovePlayer(Player p)
