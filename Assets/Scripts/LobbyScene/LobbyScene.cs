@@ -120,6 +120,8 @@ public class LobbyScene : MonoBehaviour
 
         while (true)
         {
+            yield return new WaitForSeconds(10f);
+
             StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "MatchStatus", (responseString) =>
             {
                 res = JsonConvert.DeserializeObject<ResMatchStatus>(responseString);
@@ -134,8 +136,7 @@ public class LobbyScene : MonoBehaviour
 
             if (_stopmatching)
                 break;
-
-            yield return new WaitForSeconds(0.3f);
+            
         }
 
         SceneLoadManager.Instance.SetLoading(false);
@@ -233,8 +234,8 @@ public class LobbyScene : MonoBehaviour
     {
         if (success)
         {
-            //ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
-            //Invoke("PlayGame", 1f);
+            ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
+            PlayGame();
             return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
