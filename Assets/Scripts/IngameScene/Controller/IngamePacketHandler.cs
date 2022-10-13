@@ -68,7 +68,7 @@ public class IngamePacketHandler : MonoBehaviour
 
     public void SendRestartRound()
     {
-        if (isSendRestart == false)
+        if (isSendRestart)
             return;
 
         if (isTest)
