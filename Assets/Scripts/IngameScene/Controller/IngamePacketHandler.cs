@@ -64,8 +64,13 @@ public class IngamePacketHandler : MonoBehaviour
         IngameScene.Instance.StartRound();
     }
 
+    private bool isSendRestart = false;
+
     public void SendRestartRound()
     {
+        if (isSendRestart == false)
+            return;
+
         if (isTest)
         {
             Invoke("StartRound", 1);
@@ -74,12 +79,14 @@ public class IngamePacketHandler : MonoBehaviour
 
         var req = new IngameProcotol();
         IngameProcotol res = null;
+        isSendRestart = true;
 
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "RestartGame", (responseString) =>
         {
             res = JsonConvert.DeserializeObject<IngameProcotol>(responseString);
             RecvRestartRound(res);
+            isSendRestart = false;
         }));
     }
 
@@ -166,7 +173,6 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.roundIndex = res.currentRoundNum - 1;
             GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
             IngameScene.Instance.StartRound();
