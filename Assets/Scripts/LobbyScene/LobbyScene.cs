@@ -107,7 +107,7 @@ public class LobbyScene : MonoBehaviour
         req.ticketIds.Add(ticketId);
 
         req.userId = GlobalData.myId;
-        req.character = (int)GlobalData.myAnimal;
+        req.animal = (int)GlobalData.myAnimal;
 
         string jsondata = JsonConvert.SerializeObject(req);
 

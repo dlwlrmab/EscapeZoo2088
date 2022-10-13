@@ -41,7 +41,7 @@ namespace CommonProtocol
     {
         public List<string> ticketIds = new List<string>();
         public string userId;
-        public int character;
+        public int animal;
     }
 
     [MessagePackObject]
