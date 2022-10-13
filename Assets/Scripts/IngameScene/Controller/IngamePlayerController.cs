@@ -15,14 +15,8 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void CreatePlayer()
     {
-        Invoke("Test", 11);
-    }
-
-    private void Test()
-    {
         P2PInGameManager.Instance.CreateMyPlayer();
         _isCreateComplete = true;
-
     }
 
     public void LoadRound()
