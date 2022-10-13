@@ -14,7 +14,7 @@ using EnumDef;
 
 public class LobbyScene : MonoBehaviour
 {
-    [SerializeField] GameObject _playButton;
+    [SerializeField] Button _playButton;
     [SerializeField] GameObject _readyButton;
     [SerializeField] PopupMyInfo _popupMyInfo;
     [SerializeField] GameObject _popupNoti;
@@ -243,6 +243,7 @@ public class LobbyScene : MonoBehaviour
         {
             ShowNotiPopup("매치 메이킹 성공, 게임을 시작합니다.");
             PlayGame();
+            _playButton.onClick.Invoke();
             return;
 
             ShowNotiPopup(Strings.WaitOtherUser);
@@ -250,7 +251,7 @@ public class LobbyScene : MonoBehaviour
             _readyButton.SetActive(false);
 
             // 서버연결이후 제거
-            _playButton.SetActive(true);
+            _playButton.gameObject.SetActive(true);
 
             // 이때 배경에서 캐릭터 움직이기가능.
             // 매칭된 사람의 캐릭터도 나와야함.
@@ -373,7 +374,7 @@ public class LobbyScene : MonoBehaviour
 
         if (GlobalData.playerInfos.Count < GlobalData.teamUserCount)
         {
-            _playButton.SetActive(false);
+            _playButton.gameObject.SetActive(false);
         }
     }
 
@@ -384,7 +385,7 @@ public class LobbyScene : MonoBehaviour
         // 유저리스트에 추가
         if (GlobalData.playerInfos.Count == GlobalData.teamUserCount)
         {
-            _playButton.SetActive(true);
+            _playButton.gameObject.SetActive(true);
         }
     }
 #endregion
