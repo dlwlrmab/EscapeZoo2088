@@ -31,6 +31,7 @@ public class GlobalData : MonoBehaviour
     public static List<PlayerInfos> playerInfos = new List<PlayerInfos>();
     public static List<int> roundList = new List<int>() { 0, 1, 2, 3 };
     public static int roundIndex = 0;
+    public static int roundRetryCount = 0;
     public static int enemyRoundIndex = 1;
     public static bool isWinner = false;
     public static int sunriseTime = 0;

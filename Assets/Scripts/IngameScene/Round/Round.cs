@@ -59,13 +59,19 @@ public class Round : MonoBehaviour
         PlayerInput._type = _roundType;
         SetPlayerJumpHeight(0);
         TestManager.Instance.ClearRoundNum = -1;
+
+        PlayerClearCount = 0;
     }
 
-    public void SendClearRound()
-    {
-        Debug.Log($"Round {GlobalData.roundIndex} : Send Clear");
+    private int PlayerClearCount = 0;
 
-        IngameScene.Instance.PacketHandler.SendStartRound(true);
+    public void ClearRound()
+    {
+        Debug.Log($"Round {GlobalData.roundIndex} : Clear");
+
+        PlayerClearCount++;
+        if (PlayerClearCount == GlobalData.teamUserCount)
+            IngameScene.Instance.PacketHandler.SendStartRound(true);
     }
 
     public void ReStartRound(Player deadPlayer)

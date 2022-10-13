@@ -51,6 +51,10 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
 
+        if (clearRound)
+            GlobalData.roundIndex++;
+        req.preRoundNum = GlobalData.roundIndex;
+
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "StartGame", (responseString) =>
         {
@@ -80,6 +84,8 @@ public class IngamePacketHandler : MonoBehaviour
         var req = new IngameProcotol();
         IngameProcotol res = null;
         isSendRestart = true;
+
+        req.currentRoundNum = GlobalData.roundRetryCount + GlobalData.roundIndex + 1;
 
         string jsondata = JsonConvert.SerializeObject(req);
         StartCoroutine(SendProtocolManager.Instance.CoSendLambdaReq(jsondata, "RestartGame", (responseString) =>
@@ -173,6 +179,7 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
+            GlobalData.roundRetryCount = res.currentRoundNum - (GlobalData.roundIndex + 1);
             GlobalData.enemyRoundIndex = res.enemyRoundNum - 1;
             GlobalData.sunriseTime = res.sunriseTime;
             IngameScene.Instance.StartRound();

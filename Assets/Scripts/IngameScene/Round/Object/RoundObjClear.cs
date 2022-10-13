@@ -22,8 +22,7 @@ public class RoundObjClear : MonoBehaviour
                 return;
 
             other.transform.position = IngameScene.Instance.PlayerController.GetClearPlayerPos();
-            if (player.IsMine)
-                _round.SendClearRound();
+            _round.ClearRound();
         }
     }
 }
