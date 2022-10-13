@@ -77,7 +77,7 @@ public class LobbyScene : MonoBehaviour
         var req = new ReqTryMatch
         {
             userId = GlobalData.myId,
-            character = (int)GlobalData.myAnimal,
+            animal = (int)GlobalData.myAnimal,
             gameMap = (int)GlobalData.map,
             score = GlobalData.myScore,
             MessageType = CommonProtocol.MessageType.TryMatching,
@@ -105,6 +105,9 @@ public class LobbyScene : MonoBehaviour
     {
         var req = new ReqMatchStatus();
         req.ticketIds.Add(ticketId);
+
+        req.userId = GlobalData.myId;
+        req.character = (int)GlobalData.myAnimal;
 
         string jsondata = JsonConvert.SerializeObject(req);
 

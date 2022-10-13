@@ -34,12 +34,14 @@ namespace CommonProtocol
     {
         public int gameMap;
         public int score;
-        public int character;
+        public int animal;
     }
 
     public class ReqMatchStatus
     {
         public List<string> ticketIds = new List<string>();
+        public string userId;
+        public int character;
     }
 
     [MessagePackObject]
