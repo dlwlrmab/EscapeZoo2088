@@ -15,6 +15,11 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void CreatePlayer()
     {
+        Invoke("DelayCreatePlayer", 15);
+    }
+
+    private void DelayCreatePlayer()
+    {
         P2PInGameManager.Instance.CreateMyPlayer();
         _isCreateComplete = true;
     }
