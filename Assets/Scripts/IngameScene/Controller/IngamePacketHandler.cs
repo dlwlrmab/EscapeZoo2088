@@ -140,7 +140,6 @@ public class IngamePacketHandler : MonoBehaviour
     {
         if (res.ResponseType == ResponseType.Success)
         {
-            GlobalData.roundList = res.roundList;
             GlobalData.playerInfos = res.playerInfos;
             GlobalData.playingUserCount = GlobalData.playerInfos.Count;
             IngameScene.Instance.EnterGame();

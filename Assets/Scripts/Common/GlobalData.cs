@@ -29,7 +29,7 @@ public class GlobalData : MonoBehaviour
     // 인게임
     public static MAP map = MAP.NONE;
     public static List<PlayerInfo> playerInfos = new List<PlayerInfo>();
-    public static List<int> roundList = new List<int>();
+    public static List<int> roundList = new List<int>() { 0, 1, 2, 3 };
     public static int roundIndex = 0;
     public static int enemyRoundIndex = 1;
     public static bool isWinner = false;
