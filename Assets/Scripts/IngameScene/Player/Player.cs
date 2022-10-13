@@ -12,9 +12,17 @@ public class Player : MonoBehaviour, IComparable
     {
         get
         {
-            if (_info != null)
-                return _info.Id == GlobalData.myId;
-            return false;
+            if (_info == null)
+            {
+                List<PlayerInfo> playerInfos = GlobalData.playerInfos;
+                foreach (PlayerInfo info in playerInfos)
+                {
+                    if (info.Id == GlobalData.myId)
+                        _info = info;
+                }
+            }
+
+            return _info != null;
         }
     }
 
@@ -23,19 +31,9 @@ public class Player : MonoBehaviour, IComparable
     void Start()
     {
         IngamePlayerController.Instance.AddPlayer(this);
-
-        List<PlayerInfo> playerInfos = GlobalData.playerInfos;
-        foreach (PlayerInfo info in playerInfos)
-        {
-            if (info.Id == GlobalData.myId)
-            {
-                _info = info;
-                return;
-            }
-        }
     }
 
-    public void LoadRound(Vector3 startPos, Transform parent)
+    public void StartRound(Vector3 startPos, Transform parent)
     {
         transform.position = startPos;
         transform.parent = parent;
