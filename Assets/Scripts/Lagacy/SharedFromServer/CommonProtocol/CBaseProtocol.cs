@@ -30,6 +30,7 @@ namespace CommonProtocol
         public int enemyRoundNum; // res 만
 
         public List<PlayerInfo> playerInfos = null; // res 만
+        public List<int> roundList = new List<int>(); // startround res.
 
         public int sunriseTime; // res 만
         public bool isWinner;
