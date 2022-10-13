@@ -15,7 +15,7 @@ public class IngamePlayerController : SceneSingleton<IngamePlayerController>
 
     public void CreatePlayer()
     {
-        Invoke("DelayCreatePlayer", 3f);
+        Invoke("DelayCreatePlayer", 7);
     }
 
     private void DelayCreatePlayer()
