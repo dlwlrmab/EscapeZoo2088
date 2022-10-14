@@ -4,16 +4,17 @@ using EuNet.Core;
 using EuNet.Unity;
 using System;
 using System.Threading.Tasks;
+using EuNet.Client;
 
 public class GameClient : Singleton<GameClient>
 {
-    private NetClientP2pBehaviour _client;
+    private NetClientBehaviour _client;
 
     // Rpcs
     public LoginRpc LoginRpc { get; private set; }
     public ShopRpc ShopRpc { get; private set; }
 
-    public NetClientP2p Client => _client.ClientP2p;
+    public NetClient Client => _client.Client;
 
     protected override void Awake()
     {
@@ -21,7 +22,7 @@ public class GameClient : Singleton<GameClient>
 
         CustomResolver.Register(GeneratedResolver.Instance);
 
-        _client = GetComponent<NetClientP2pBehaviour>();
+        _client = GetComponent<NetClientBehaviour>();
         _client.SetClientOptionFunc = (clientOption) =>
         {
 
