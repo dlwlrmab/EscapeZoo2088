@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 361431672742374589}
+  - component: {fileID: 361431672742374588}
   - component: {fileID: 361431672742374587}
-  - component: {fileID: 2218017818762201444}
   m_Layer: 0
   m_Name: GameClient
   m_TagString: Untagged
@@ -32,6 +32,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361431672742374588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361431672742374586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c0f1e501972a0459c63335d0b2ac67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isDontDestroyOnLoad: 1
+  LogLevel: 3
+  ServerAddress: 127.0.0.1
+  TcpServerPort: 12000
+  IsCheckAlive: 0
+  CheckAliveInterval: 30000
+  CheckAliveTimeout: 50000
+  UdpServerPort: 12010
+  PingInterval: 1000
+  MtuInterval: 1100
+  RudpDisconnectTimeout: 5000
+  SyncType: 1
+  SyncInterval: 0.05
 --- !u!114 &361431672742374587
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,22 +71,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CachedGameObject: {fileID: 361431672742374586}
   CachedTransform: {fileID: 361431672742374589}
---- !u!114 &2218017818762201444
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361431672742374586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be20bc2ffeb992b4db042034d4675a09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isDontDestroyOnLoad: 1
-  LogLevel: 3
-  ServerAddress: 121.169.178.223
-  TcpServerPort: 12000
-  IsCheckAlive: 0
-  CheckAliveInterval: 30000
-  CheckAliveTimeout: 50000
