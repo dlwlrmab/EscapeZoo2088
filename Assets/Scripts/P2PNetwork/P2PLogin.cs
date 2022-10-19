@@ -38,7 +38,7 @@ public class P2PLogin : MonoBehaviour
             if (result == true)
             {
                 LoginRpc loginRpc = new LoginRpc(client);
-                var loginResult = await loginRpc.Login(SystemInfo.deviceUniqueIdentifier);
+                var loginResult = await loginRpc.Login("1");
 
                 Debug.Log($"Login Result : {loginResult}");
                 if (loginResult != 0)
